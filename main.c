@@ -6,20 +6,20 @@
 /*   By: arina <arina@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 22:01:55 by arina             #+#    #+#             */
-/*   Updated: 2025/11/07 21:25:46 by arina            ###   ########.fr       */
+/*   Updated: 2025/11/09 18:59:22 by arina            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	print_error(char *error, char **str)
+
+int	is_white_space(char c)
 {
-	(void)str;
-	// free_matrix(str);
-	write(1, "Error\n", 6);
-	write(1, error, ft_strlen(error));
-	exit(1);
+	if ((c >= 9 && c <= 13) || (c == 32))
+		return (1);
+	return (0);
 }
+
 
 int	ft_strcmp(char *s1, char *s2)
 {
@@ -35,7 +35,6 @@ int	ft_strcmp(char *s1, char *s2)
 	}
 	return (s1[i] - s2[i]);
 }
-
 
 void	check_file(char *file)
 {
@@ -58,37 +57,25 @@ void	check_file(char *file)
 	}
 }
 
-int	check_symbols(char *str)
+
+void check_map(char **str)
 {
 	int	i;
+	int j;
+	char **split;
+	int count;
 
 	i = 0;
+	count = 0;
 	while (str[i])
 	{
-		// if ((str[i] != 'N' || str[i] != 'W' || 
-		// 	str[i] != 'E' || str[i] != 'S' || 
-		// 	str[i] != 0 || str[i] != 1) || 
-		// 	(str[i] <= 9 || str[i] >= 12))
-		// 	return (-1);
-		if (str[i] <= 9 || str[i] >= 12)
-			return (-2);
-		i++;
-	}
-	return (0);
-}
-
-char **remove_spaces_and_tabs_line_from_map(char **split)
-{
-	int	i;
-	int	j;
-	int	flag;
-
-	i = 0;
-	flag = 0;
-	while (split[i])
-	{
-		if (check_symbols(split[i]) == 0)
-			
+		j = 0;
+		while (is_white_space(str[i][j] == 1))
+			j++;
+		split = ft_split(str[i], ' ');
+		while (split[count])
+			count++;
+		printf("count->%d\ntoxs->%d\n\n", count, i+1);
 		i++;
 	}
 }
@@ -96,15 +83,15 @@ char **remove_spaces_and_tabs_line_from_map(char **split)
 
 char	**start_validation(char *file)
 {
-	int		fd;
-	char	*line;
-	char	*res;
-	char	**split;
+	int			fd;
+	char		*line;
+	char		*res;
+	char		**split;
+	t_config	data;
 
-	// res = NULL;
 	fd = open(file, O_RDONLY);
 	if (fd == -1)
-		print_error("Can not open file\n", NULL);
+		print_error("Cannot open file\n", NULL);
 	line = get_next_line(fd);
 	res = ft_strdup("");
 	while (line != NULL)
@@ -114,13 +101,14 @@ char	**start_validation(char *file)
 		line = get_next_line(fd);
 	}
 	free(line);
+	close(fd);
+	res = ft_strtrim(res, "\n\t\v\r\f ");
 	split = ft_split(res, '\n');
-	remove_spaces_and_tabs_line_from_map(split);
-	int i = 0;
-	while (split[i])
-		printf("%s->>>\n", split[i++]);
-	return (NULL);
+	free(res);
+	parse_elements(&data, split);
+	return (split);
 }
+
 
 int	main(int argc, char **argv)
 {

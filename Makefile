@@ -6,7 +6,7 @@
 #    By: arina <arina@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/09/30 20:26:46 by arina             #+#    #+#              #
-#    Updated: 2025/10/01 20:48:54 by arina            ###   ########.fr        #
+#    Updated: 2025/11/09 18:23:15 by arina            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,8 @@ MLX_DIR = ./minilibx-linux
 
 SRCS = \
 	main.c get_next_line/get_next_line.c ft_split.c \
-	get_next_line/get_next_line_utils.c functions.c
+	get_next_line/get_next_line_utils.c functions.c \
+	functions_for_trim.c parse.c
 
 OBJS = $(SRCS:.c=.o)
 
