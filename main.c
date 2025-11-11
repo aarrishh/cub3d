@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: arina <arina@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mabaghda <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 22:01:55 by arina             #+#    #+#             */
-/*   Updated: 2025/11/09 19:11:44 by arina            ###   ########.fr       */
+/*   Updated: 2025/11/11 19:45:09 by mabaghda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-
 
 int	is_white_space(char c)
 {
@@ -19,7 +18,6 @@ int	is_white_space(char c)
 		return (1);
 	return (0);
 }
-
 
 int	ft_strcmp(char *s1, char *s2)
 {
@@ -49,7 +47,7 @@ void	check_file(char *file)
 		res = ft_strcmp((file + i), ".cub");
 		if (res != 0)
 		{
-			write (1, "Invalid map's name!\n", 20);
+			write(1, "Invalid map's name!\n", 20);
 			exit(1);
 		}
 		else
@@ -57,13 +55,12 @@ void	check_file(char *file)
 	}
 }
 
-
-void check_map(char **str)
+void	check_map(char **str)
 {
-	int	i;
-	int j;
-	char **split;
-	int count;
+	int		i;
+	int		j;
+	char	**split;
+	int		count;
 
 	i = 0;
 	count = 0;
@@ -75,11 +72,10 @@ void check_map(char **str)
 		split = ft_split(str[i], ' ');
 		while (split[count])
 			count++;
-		printf("count->%d\ntoxs->%d\n\n", count, i+1);
+		printf("count->%d\ntoxs->%d\n\n", count, i + 1);
 		i++;
 	}
 }
-
 
 char	**start_validation(char *file)
 {
@@ -109,10 +105,9 @@ char	**start_validation(char *file)
 	return (split);
 }
 
-
 int	main(int argc, char **argv)
 {
-	char		**res;
+	char	**res;
 
 	res = NULL;
 	if (argc == 2)
@@ -125,6 +120,6 @@ int	main(int argc, char **argv)
 		// free_matrix(res);
 	}
 	else
-		return (write (2, "Error\n", 6), 1);
+		return (write(2, "Error\n", 6), 1);
 	return (0);
 }
