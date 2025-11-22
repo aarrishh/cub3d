@@ -6,7 +6,7 @@
 /*   By: mabaghda <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 22:01:55 by arina             #+#    #+#             */
-/*   Updated: 2025/11/11 19:45:09 by mabaghda         ###   ########.fr       */
+/*   Updated: 2025/11/22 17:18:12 by mabaghda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,7 @@ char	**start_validation(char *file)
 int	main(int argc, char **argv)
 {
 	char	**res;
+	t_game	game;
 
 	res = NULL;
 	if (argc == 2)
@@ -121,5 +122,6 @@ int	main(int argc, char **argv)
 	}
 	else
 		return (write(2, "Error\n", 6), 1);
+	start_game(&game);
 	return (0);
 }

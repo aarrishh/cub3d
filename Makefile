@@ -6,7 +6,7 @@
 #    By: mabaghda <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/09/30 20:26:46 by arina             #+#    #+#              #
-#    Updated: 2025/11/11 19:45:45 by mabaghda         ###   ########.fr        #
+#    Updated: 2025/11/22 15:34:15 by mabaghda         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,8 +17,8 @@ CC = cc
 CFLAGS = -Wall -Wextra -Werror  #-g3 -fsanitize=address
 
 MLX_DIR = ./minilibx-linux
+MLX = $(MLX_DIR)/libmlx.a
 MLX_FLAGS = -L$(MLX_DIR) -lmlx -lX11 -lXext -lGL -lGLU
-
 SRCS = \
 	main.c get_next_line/get_next_line.c ft_split.c \
 	get_next_line/get_next_line_utils.c functions.c \
@@ -29,7 +29,7 @@ OBJS = $(SRCS:.c=.o)
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) -o $(NAME) -lm
+	$(CC) $(CFLAGS) $(OBJS) $(MLX_FLAGS) -o $(NAME) -lm
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@

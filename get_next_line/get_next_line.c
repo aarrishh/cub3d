@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: arina <arina@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mabaghda <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 21:01:13 by arimanuk          #+#    #+#             */
-/*   Updated: 2025/03/27 20:05:21 by arina            ###   ########.fr       */
+/*   Updated: 2025/11/22 15:30:48 by mabaghda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,27 +115,4 @@ char	*get_next_line(int fd)
 	return_str = cur_line(str_join);
 	free(str_join);
 	return (return_str);
-}
-
-int main()
-{
-	int a = open("file.txt", O_RDONLY);
-	// int fd2 = open("example.txt",O_RDONLY);
-    char *res = get_next_line(a);
-    char *res1 = get_next_line(a);
-    char *res2 = get_next_line(a);
-    char *res3 = get_next_line(a);
-    char *res4 = get_next_line(a);
-    printf("file->%s", res);
-    printf("example->%s", res1);
-    printf("fole->%s", res2);
-    printf("exampe->%s", res3);
-    printf("file->%s", res4);
-    free(res);
-    free(res1);
-    free(res2);
-    free(res3);
-    free(res4);
-    close(a);
-    return 0;
 }
