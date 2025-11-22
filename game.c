@@ -6,7 +6,7 @@
 /*   By: mabaghda <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/22 20:54:28 by mabaghda          #+#    #+#             */
-/*   Updated: 2025/11/22 22:54:16 by mabaghda         ###   ########.fr       */
+/*   Updated: 2025/11/22 23:26:15 by mabaghda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,8 @@ void	put_img_with_pixels(t_game *game)
 		x = 0;
 		while (x < WIDTH)
 		{
-			put_pixels(&game->img, x, y, 0x7F00FF);//stex piti lini mapi meji guyny
+			put_pixels(&game->img, x, y, 0x7F00FF);
+				// stex piti lini mapi meji guyny
 			x++;
 		}
 		y++;
@@ -60,7 +61,8 @@ void	put_img_with_pixels(t_game *game)
 		x = 0;
 		while (x < WIDTH)
 		{
-			put_pixels(&game->img, x, y, 0x00FF00);//stex piti lini mapi meji guyny
+			put_pixels(&game->img, x, y, 0x00FF00);
+				// stex piti lini mapi meji guyny
 			x++;
 		}
 		y++;
@@ -68,8 +70,17 @@ void	put_img_with_pixels(t_game *game)
 	mlx_put_image_to_window(game->mlx, game->window, game->img.img, 0, 0);
 }
 
+void	pordznakan(t_game *game)
+{
+	game->config.map.grid = (char *[]){"1111111", "1000001", "100N001",
+		"1000001", "1111111", NULL};
+	game->config.map.width = 7;
+	game->config.map.height = 5;
+}
+
 void	start_game(t_game *game)
 {
+	pordznakan(game);
 	game->mlx = mlx_init();
 	game->window = mlx_new_window(game->mlx, WIDTH, HEIGHT, "Cub3D");
 	game->img.img = mlx_new_image(game->mlx, WIDTH, HEIGHT);
