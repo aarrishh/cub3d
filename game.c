@@ -6,7 +6,7 @@
 /*   By: mabaghda <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/22 20:54:28 by mabaghda          #+#    #+#             */
-/*   Updated: 2025/11/22 23:26:15 by mabaghda         ###   ########.fr       */
+/*   Updated: 2025/11/23 22:57:25 by mabaghda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	put_img_with_pixels(t_game *game)
 		while (x < WIDTH)
 		{
 			put_pixels(&game->img, x, y, 0x7F00FF);
-				// stex piti lini mapi meji guyny
+			// stex piti lini mapi meji guyny
 			x++;
 		}
 		y++;
@@ -62,12 +62,12 @@ void	put_img_with_pixels(t_game *game)
 		while (x < WIDTH)
 		{
 			put_pixels(&game->img, x, y, 0x00FF00);
-				// stex piti lini mapi meji guyny
+			// stex piti lini mapi meji guyny
 			x++;
 		}
 		y++;
 	}
-	mlx_put_image_to_window(game->mlx, game->window, game->img.img, 0, 0);
+	// mlx_put_image_to_window(game->mlx, game->window, game->img.img, 0, 0);
 }
 
 void	pordznakan(t_game *game)
@@ -78,17 +78,86 @@ void	pordznakan(t_game *game)
 	game->config.map.height = 5;
 }
 
+#include "cub3d.h"
+
+void	set_dir_plane(t_config *config, char p)
+{
+	if (p == 'N')
+	{
+		config->dir_x = 0;
+		config->dir_y = -1;
+		config->plane_x = 0.66;
+		config->plane_y = 0;
+	}
+	else if (p == 'S')
+	{
+		config->dir_x = 0;
+		config->dir_y = 1;
+		config->plane_x = -0.66;
+		config->plane_y = 0;
+	}
+	else if (p == 'E')
+	{
+		config->dir_x = 1;
+		config->dir_y = 0;
+		config->plane_x = 0;
+		config->plane_y = 0.66;
+	}
+	else if (p == 'W')
+	{
+		config->dir_x = -1;
+		config->dir_y = 0;
+		config->plane_x = 0;
+		config->plane_y = -0.66;
+	}
+}
+
+void	init_player(t_config *config)
+{
+	char	p;
+	int		x;
+	int		y;
+
+	y = 0;
+	while (config->map.grid[y])
+	{
+		x = 0;
+		while (config->map.grid[y][x])
+		{
+			p = config->map.grid[y][x];
+			if (p == 'N' || p == 'S' || p == 'E' || p == 'W')
+			{
+				config->player_x = x + 0.5;
+				config->player_y = y + 0.5;
+				set_dir_plane(config, p);
+				config->map.grid[y][x] = '0';
+				return ;
+			}
+			x++;
+		}
+		y++;
+	}
+}
+
+int	render(t_game *game)
+{
+	put_img_with_pixels(game);
+	// raycasting(game);   grelll
+	mlx_put_image_to_window(game->mlx, game->window, game->img.img, 0, 0);
+	return (0);
+}
+
 void	start_game(t_game *game)
 {
 	pordznakan(game);
+	// init_player(game);
 	game->mlx = mlx_init();
 	game->window = mlx_new_window(game->mlx, WIDTH, HEIGHT, "Cub3D");
 	game->img.img = mlx_new_image(game->mlx, WIDTH, HEIGHT);
 	game->img.address = mlx_get_data_addr(game->img.img,
 			&game->img.bits_per_pixel, &game->img.line_length,
 			&game->img.endian);
-	put_img_with_pixels(game);
-	mlx_key_hook(game->window, key_handler, game);
 	mlx_hook(game->window, 17, 1L << 0, close_window, game);
+	mlx_loop_hook(game->mlx, render, game);
 	mlx_loop(game->mlx);
 }

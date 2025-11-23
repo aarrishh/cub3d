@@ -6,7 +6,7 @@
 /*   By: mabaghda <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 20:15:12 by arina             #+#    #+#             */
-/*   Updated: 2025/11/22 23:27:45 by mabaghda         ###   ########.fr       */
+/*   Updated: 2025/11/23 21:02:16 by mabaghda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,13 @@ typedef struct s_config
 	t_texture	textures;
 	t_color		colors;
 	t_map		map;
-	int			player_x;
-	int			player_y;
+	double		player_x;
+	double		player_y;
+	double		dir_x;
+	double		dir_y;
+	double		plane_x;
+	double		plane_y;
+
 }				t_config;
 
 typedef struct s_img
