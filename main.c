@@ -6,7 +6,7 @@
 /*   By: arina <arina@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 22:01:55 by arina             #+#    #+#             */
-/*   Updated: 2025/11/09 19:11:44 by arina            ###   ########.fr       */
+/*   Updated: 2025/11/24 18:11:23 by arina            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,27 +57,81 @@ void	check_file(char *file)
 	}
 }
 
+void init_colflag(t_colflag *flag)
+{
+	flag->ea_flag = 0;
+	flag->we_flag = 0;
+	flag->so_flag = 0;
+	flag->no_flag = 0;
+	flag->f_flag = 0;
+	flag->c_flag = 0;
+	flag->map_flag = 0;
+}
 
-void check_map(char **str)
+int check_tex_f(t_colflag *flag)
+{
+	if (flag->ea_flag == 1 && flag->no_flag == 1
+		&& flag->so_flag == 1 && flag->we_flag == 1
+		&& flag->c_flag == 1 && flag->f_flag == 1 
+		&& flag->map_flag == 1)
+		return (2);
+	if (flag->ea_flag == 1 && flag->no_flag == 1
+		&& flag->so_flag == 1 && flag->we_flag == 1
+		&& flag->c_flag == 1 && flag->f_flag == 1)
+		return (1);
+	if (flag->ea_flag == 1 && flag->no_flag == 1
+		&& flag->so_flag == 1 && flag->we_flag == 1)
+		return (0);
+	return (-1);
+}
+
+int check_sequence(char **str)
 {
 	int	i;
-	int j;
-	char **split;
-	int count;
+	t_colflag flag;
 
 	i = 0;
-	count = 0;
+	init_colflag(&flag);
 	while (str[i])
 	{
-		j = 0;
-		while (is_white_space(str[i][j] == 1))
-			j++;
-		split = ft_split(str[i], ' ');
-		while (split[count])
-			count++;
-		printf("count->%d\ntoxs->%d\n\n", count, i+1);
+		if (flag.c_flag != 1 && flag.f_flag != 1)
+			str[i] = ft_strtrim(str[i], "\n\t\v\r\f ");
+		if (ft_strncmp(str[i], "NO", 2) == 0)
+			flag.no_flag = 1;
+		else if (ft_strncmp(str[i], "SO", 2) == 0)
+			flag.so_flag = 1;
+		else if (ft_strncmp(str[i], "WE", 2) == 0)
+			flag.we_flag = 1;
+		else if (ft_strncmp(str[i], "EA", 2) == 0)
+			flag.ea_flag = 1;
+		else if (ft_strncmp(str[i], "F", 1) == 0 && check_tex_f(&flag) == 0)
+			flag.f_flag = 1;
+		else if (ft_strncmp(str[i], "C", 1) == 0 && check_tex_f(&flag) == 0)
+			flag.c_flag = 1;
+		else if (is_map_line(str[i]) == 1 && check_tex_f(&flag) == 1)
+		{
+			flag.map_flag = 1;
+			break ;
+		}
+		else
+			print_error("Invalid line in configuration\n", str);
 		i++;
 	}
+	if (check_tex_f(&flag) != 2)
+		return (-1);
+	return (0);
+}
+
+int check_map(char **str, t_config *data)
+{
+	(void)data;
+	int aaa;
+	aaa = 0;
+	aaa = check_sequence(str);
+	printf ("tiv>>> %d\n", aaa);
+	if (aaa == -1)
+		return (-1);
+	return (0);
 }
 
 
@@ -103,9 +157,14 @@ char	**start_validation(char *file)
 	free(line);
 	close(fd);
 	res = ft_strtrim(res, "\n\t\v\r\f ");
-	split = ft_split(res, '\n');
+	split = ft_split(res, '\n', MAX_SPLIT_CNT);
 	free(res);
-	parse_elements(&data, split);
+	if (parse_elements(&data, split) == -1)
+		return(NULL);
+	if (check_map(split, &data) == -1)
+		return (NULL);
+		// free_matrix(split);
+	// *split = NULL;
 	return (split);
 }
 

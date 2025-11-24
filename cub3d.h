@@ -6,7 +6,7 @@
 /*   By: arina <arina@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 20:15:12 by arina             #+#    #+#             */
-/*   Updated: 2025/11/09 18:53:33 by arina            ###   ########.fr       */
+/*   Updated: 2025/11/24 18:10:32 by arina            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,17 +45,30 @@ typedef struct s_config
     t_color     colors;
     t_map       map;
 }   t_config;
-   
+
+typedef struct s_colflag
+{
+    int no_flag;
+    int so_flag;
+    int we_flag;
+    int ea_flag;
+    int f_flag;
+    int c_flag;
+    int map_flag;
+}   t_colflag;
+
+#define MAX_SPLIT_CNT 0
 
 char	*ft_strjoin_(char *s1, char *s2);
-char	**ft_split(char const *s, char c);
+char	**ft_split(char const *s, char c, int split_count);
 char	*ft_strdup(const char *s);
 char	*ft_strtrim(char const *s1, char const *set);
 void	print_error(char *error, char **str);
-void	parse_elements(t_config *data, char **file);
+int 	parse_elements(t_config *data, char **file);
 int 	ft_strcmp(char *s1, char *s2);
 int	    ft_strncmp(const char *s1, const char *s2, size_t n);
 int 	is_white_space(char c);
-
+void	free_matrix(char **buffer);
+int	    is_map_line(char *str);
 
 #endif
