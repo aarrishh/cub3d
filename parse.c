@@ -6,7 +6,7 @@
 /*   By: arina <arina@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/09 18:18:49 by arina             #+#    #+#             */
-/*   Updated: 2025/11/24 21:09:35 by arina            ###   ########.fr       */
+/*   Updated: 2025/11/26 21:19:01 by arina            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,13 +123,16 @@ int	is_map_line(char *str)
 }
 
 
-int	parse_elements(t_config *data, char **file)
+int	parse_elements(t_config *data)
 {
 	int	i;
-	int flag;
+	char **file;
 
+	file = data->splited_hyusisharav;
+	i = -1;
+	while (file[++i])
+		file[i] = ft_strtrim(file[i], "\n\t\v\r\f ");
 	i = 0;
-	flag = 0;
 	while (file[i])
 	{
 		if (!file[i][0] || !file[i])
@@ -137,29 +140,25 @@ int	parse_elements(t_config *data, char **file)
 			i++;
 			continue ;
 		}
-		if (flag == 0 && file[i])
-			file[i] = ft_strtrim(file[i], "\n\t\v\r\f ");
-		// printf("%s\naaaa\n", file[i]);
 		if (ft_strncmp(file[i], "NO", 2) == 0 || ft_strncmp(file[i], "SO", 2) == 0 || ft_strncmp(file[i], "WE", 2) == 0 || ft_strncmp(file[i], "EA", 2) == 0)
 		{
+			printf("----%s\n", file[i]);
 			if (parse_texture(data, file[i]) == -1)
 				return (-1);
 		}
 		else if (ft_strncmp(file[i], "F", 1) == 0 || ft_strncmp(file[i], "C", 1) == 0)
 		{
+			printf("++++%s\n", file[i]);
 			parse_color(data, file[i]);
-			if (ft_strncmp(file[i], "C", 1) == 0)
-				flag = 1;
 		}
-		else if (is_map_line(file[i]) == -1)
-			return (-1);
-		else if (is_map_line(file[i]) != -1)
-			break ;
 		else
-			print_error("Invalid line in configuration\n", file);
+		{
+			printf("***%s\n", file[i]);
+			print_error("Invalid line in configuratio\n", file);
+		}
 		i++;
 	}
-	data->map.grid = &file[i];
+	// data->map.grid = &file[i];
 	// printf("%s\n", data->textures.no);
 	// printf("%s\n", data->textures.ea);
 	// printf("%s\n", data->textures.so);

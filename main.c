@@ -6,7 +6,7 @@
 /*   By: arina <arina@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 22:01:55 by arina             #+#    #+#             */
-/*   Updated: 2025/11/24 18:11:23 by arina            ###   ########.fr       */
+/*   Updated: 2025/11/26 21:30:21 by arina            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ int check_sequence(char **str)
 			break ;
 		}
 		else
-			print_error("Invalid line in configuration\n", str);
+			print_error("Invalid line in configurationnn\n", str);
 		i++;
 	}
 	if (check_tex_f(&flag) != 2)
@@ -122,16 +122,47 @@ int check_sequence(char **str)
 	return (0);
 }
 
-int check_map(char **str, t_config *data)
+int check_map(char **splitted_map, char **sr)
 {
-	(void)data;
-	int aaa;
-	aaa = 0;
-	aaa = check_sequence(str);
-	printf ("tiv>>> %d\n", aaa);
-	if (aaa == -1)
+	int	i;
+
+	i = 0;
+	while(sr[i])
+	{
+		if (is_map_line(sr[i]) == -1){
+			printf("stuc\n");
+			return (-1);
+		}
+		i++;
+	}
+	if (check_sequence(splitted_map) == -1)
+	{
+			printf("aaystuc\n");
 		return (-1);
+	}
+	
 	return (0);
+}
+
+void find_index_after_colors(char *res, t_config *data)
+{
+	int i = 0;
+	int finish = 0;
+	
+	while (res[i])
+		i++;
+	while (i >= 0 && res[i] != 'F' && res[i] != 'C')
+		i--;
+	while (i >=0 && res[i] && res[i] != '\n')
+		i++;
+	finish = i;
+	printf("finish...%d\n", finish);
+	while (i >=0 && res[finish])
+		finish++;
+	data->hyusisharav = ft_substr(res, 0, i);
+	data->map_before_split = ft_substr(res, i + 1, finish);
+	printf("*****%s\n", data->hyusisharav);
+	printf("*****%s\n", data->map_before_split);
 }
 
 
@@ -157,15 +188,20 @@ char	**start_validation(char *file)
 	free(line);
 	close(fd);
 	res = ft_strtrim(res, "\n\t\v\r\f ");
+	find_index_after_colors(res, &data);
+	data.splited_hyusisharav = ft_split(data.hyusisharav, '\n', MAX_SPLIT_CNT);
 	split = ft_split(res, '\n', MAX_SPLIT_CNT);
+	// print_matri/x(split);
 	free(res);
-	if (parse_elements(&data, split) == -1)
+	if (parse_elements(&data) == -1)
 		return(NULL);
-	if (check_map(split, &data) == -1)
+	//vrdoi mtacac checky anel
+	data.splited_map = ft_split(data.map_before_split, '\n', MAX_SPLIT_CNT);
+	if (check_map(split, data.splited_map) == -1)
 		return (NULL);
 		// free_matrix(split);
 	// *split = NULL;
-	return (split);
+	return (data.splited_map);//chshtel inch return anel
 }
 
 
