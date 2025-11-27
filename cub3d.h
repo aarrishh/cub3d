@@ -6,7 +6,7 @@
 /*   By: mabaghda <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 20:15:12 by arina             #+#    #+#             */
-/*   Updated: 2025/11/27 15:43:18 by mabaghda         ###   ########.fr       */
+/*   Updated: 2025/11/27 15:59:19 by mabaghda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,16 +85,30 @@ typedef struct s_game
 	t_img		img;
 }				t_game;
 
+typedef struct s_colflag
+{
+	int			no_flag;
+	int			so_flag;
+	int			we_flag;
+	int			ea_flag;
+	int			f_flag;
+	int			c_flag;
+	int			map_flag;
+}				t_colflag;
+
+# define MAX_SPLIT_CNT 0
+
 char			*ft_strjoin_(char *s1, char *s2);
-char			**ft_split(char const *s, char c);
+char			**ft_split(char const *s, char c, int split_count);
 char			*ft_strdup(const char *s);
 char			*ft_strtrim(char const *s1, char const *set);
 void			print_error(char *error, char **str);
-void			parse_elements(t_config *data, char **file);
+int				parse_elements(t_config *data, char **file);
 int				ft_strcmp(char *s1, char *s2);
 int				ft_strncmp(const char *s1, const char *s2, size_t n);
 int				is_white_space(char c);
-
+void			free_matrix(char **buffer);
+int				is_map_line(char *str);
 void			start_game(t_game *game);
 int				close_window(t_game *game);
 void			put_pixels(t_img *img, int x, int y, int color);

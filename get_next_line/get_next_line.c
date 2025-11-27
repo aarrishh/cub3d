@@ -6,7 +6,7 @@
 /*   By: mabaghda <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 21:01:13 by arimanuk          #+#    #+#             */
-/*   Updated: 2025/11/22 15:30:48 by mabaghda         ###   ########.fr       */
+/*   Updated: 2025/11/27 15:52:19 by mabaghda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ char	*simulation(int fd, char **result, char *buffer, ssize_t *count_bytes)
 		str_join = ft_strjoin(*result, buffer);
 		if (*result)
 		{
-			free (*result);
+			free(*result);
 			*result = NULL;
 		}
 		*result = str_join;
@@ -95,11 +95,11 @@ char	*cur_line(char *str_join)
 
 char	*get_next_line(int fd)
 {
-	static char			*result;
-	ssize_t				count_bytes;
-	char				*return_str;
-	char				*str_join;
-	char				*buffer;
+	static char	*result;
+	ssize_t		count_bytes;
+	char		*return_str;
+	char		*str_join;
+	char		*buffer;
 
 	str_join = NULL;
 	buffer = NULL;
