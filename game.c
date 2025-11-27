@@ -6,7 +6,7 @@
 /*   By: mabaghda <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/22 20:54:28 by mabaghda          #+#    #+#             */
-/*   Updated: 2025/11/23 22:57:25 by mabaghda         ###   ########.fr       */
+/*   Updated: 2025/11/27 15:47:30 by mabaghda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,23 @@ int	close_window(t_game *game)
 	exit(0);
 }
 
+void	draw_wall_line(t_game *game, int x, int start, int end)
+{
+	int	y;
+
+	y = 0;
+	while (y < HEIGHT)
+	{
+		if (y >= start && y <= end)
+			put_pixels(&game->img, x, y, 0xFFFFFF);
+		else if (y < start)
+			put_pixels(&game->img, x, y, 0x7F00FF);
+		else
+			put_pixels(&game->img, x, y, 0x00FF00);
+		y++;
+	}
+}
+
 void	put_pixels(t_img *img, int x, int y, int color)
 {
 	char	*dst;
@@ -39,36 +56,36 @@ void	put_pixels(t_img *img, int x, int y, int color)
 	*(unsigned int *)dst = color;
 }
 
-void	put_img_with_pixels(t_game *game)
-{
-	int	x;
-	int	y;
+// void	put_img_with_pixels(t_game *game)
+// {
+// 	int	x;
+// 	int	y;
 
-	y = 0;
-	while (y < HEIGHT / 2)
-	{
-		x = 0;
-		while (x < WIDTH)
-		{
-			put_pixels(&game->img, x, y, 0x7F00FF);
-			// stex piti lini mapi meji guyny
-			x++;
-		}
-		y++;
-	}
-	while (y < HEIGHT)
-	{
-		x = 0;
-		while (x < WIDTH)
-		{
-			put_pixels(&game->img, x, y, 0x00FF00);
-			// stex piti lini mapi meji guyny
-			x++;
-		}
-		y++;
-	}
-	// mlx_put_image_to_window(game->mlx, game->window, game->img.img, 0, 0);
-}
+// 	y = 0;
+// 	while (y < HEIGHT / 2)
+// 	{
+// 		x = 0;
+// 		while (x < WIDTH)
+// 		{
+// 			put_pixels(&game->img, x, y, 0x7F00FF);
+// 			// stex piti lini mapi meji guyny
+// 			x++;
+// 		}
+// 		y++;
+// 	}
+// 	while (y < HEIGHT)
+// 	{
+// 		x = 0;
+// 		while (x < WIDTH)
+// 		{
+// 			put_pixels(&game->img, x, y, 0x00FF00);
+// 			// stex piti lini mapi meji guyny
+// 			x++;
+// 		}
+// 		y++;
+// 	}
+// 	// mlx_put_image_to_window(game->mlx, game->window, game->img.img, 0, 0);
+// }
 
 void	pordznakan(t_game *game)
 {
@@ -77,8 +94,6 @@ void	pordznakan(t_game *game)
 	game->config.map.width = 7;
 	game->config.map.height = 5;
 }
-
-#include "cub3d.h"
 
 void	set_dir_plane(t_config *config, char p)
 {
@@ -139,10 +154,21 @@ void	init_player(t_config *config)
 	}
 }
 
+void	raycasting(t_game *game)
+{
+	int	x;
+
+	x = 0;
+	while (x < WIDTH)
+	{
+		draw_wall_line(game, x, HEIGHT / 4, 3 * HEIGHT / 4);
+		x++;
+	}
+}
+
 int	render(t_game *game)
 {
-	put_img_with_pixels(game);
-	// raycasting(game);   grelll
+	raycasting(game);
 	mlx_put_image_to_window(game->mlx, game->window, game->img.img, 0, 0);
 	return (0);
 }
@@ -150,7 +176,7 @@ int	render(t_game *game)
 void	start_game(t_game *game)
 {
 	pordznakan(game);
-	// init_player(game);
+	init_player(&game->config);
 	game->mlx = mlx_init();
 	game->window = mlx_new_window(game->mlx, WIDTH, HEIGHT, "Cub3D");
 	game->img.img = mlx_new_image(game->mlx, WIDTH, HEIGHT);

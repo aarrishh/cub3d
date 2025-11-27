@@ -6,7 +6,7 @@
 /*   By: mabaghda <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 20:15:12 by arina             #+#    #+#             */
-/*   Updated: 2025/11/23 21:02:16 by mabaghda         ###   ########.fr       */
+/*   Updated: 2025/11/27 15:43:18 by mabaghda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include "get_next_line/get_next_line.h"
 # include "minilibx-linux/mlx.h"
 # include <fcntl.h>
+# include <math.h>
 # include <stdlib.h>
 # include <unistd.h>
 
@@ -96,5 +97,6 @@ int				is_white_space(char c);
 
 void			start_game(t_game *game);
 int				close_window(t_game *game);
+void			put_pixels(t_img *img, int x, int y, int color);
 
 #endif
