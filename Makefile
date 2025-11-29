@@ -6,7 +6,7 @@
 #    By: mabaghda <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/09/30 20:26:46 by arina             #+#    #+#              #
-#    Updated: 2025/11/27 15:57:17 by mabaghda         ###   ########.fr        #
+#    Updated: 2025/11/29 17:58:11 by mabaghda         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,7 @@ MLX_FLAGS = -L$(MLX_DIR) -lmlx -lX11 -lXext -lGL -lGLU
 SRCS = \
 	main.c get_next_line/get_next_line.c ft_split.c \
 	get_next_line/get_next_line_utils.c functions.c \
-	functions_for_trim.c parse.c game.c
+	functions_for_trim.c parse.c game.c reycast.c
 
 OBJS = $(SRCS:.c=.o)
 

@@ -6,21 +6,69 @@
 /*   By: mabaghda <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/22 20:54:28 by mabaghda          #+#    #+#             */
-/*   Updated: 2025/11/27 15:47:30 by mabaghda         ###   ########.fr       */
+/*   Updated: 2025/11/29 19:57:37 by mabaghda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
+void	rotate_player(t_config *config, double angle)
+{
+	double	oldDirX;
+	double	oldPlaneX;
+
+	oldDirX = config->dir_x;
+	oldPlaneX = config->plane_x;
+	config->dir_x = config->dir_x * cos(angle) - config->dir_y * sin(angle);
+	config->dir_y = oldDirX * sin(angle) + config->dir_y * cos(angle);
+	config->plane_x = config->plane_x * cos(angle) - config->plane_y
+		* sin(angle);
+	config->plane_y = oldPlaneX * sin(angle) + config->plane_y * cos(angle);
+}
+
 int	key_handler(int keycode, t_game *game)
 {
+	double	move_speed;
+	double	rot_speed;
+
+	move_speed = 0.1;
+	rot_speed = 0.05;
 	if (keycode == KEY_ESC)
 		close_window(game);
+	else if (keycode == KEY_W)
+		move_player(game, game->config.dir_x * move_speed, game->config.dir_y
+			* move_speed);
+	else if (keycode == KEY_S)
+		move_player(game, -game->config.dir_x * move_speed, -game->config.dir_y
+			* move_speed);
+	else if (keycode == KEY_A)
+		move_player(game, -game->config.plane_x * move_speed,
+			-game->config.plane_y * move_speed);
+	else if (keycode == KEY_D)
+		move_player(game, game->config.plane_x * move_speed,
+			game->config.plane_y * move_speed);
+	else if (keycode == KEY_LEFT)
+		rotate_player(&game->config, -rot_speed);
+	else if (keycode == KEY_RIGHT)
+		rotate_player(&game->config, rot_speed);
 	return (0);
 }
 
 int	close_window(t_game *game)
 {
+	int	i;
+
+	if (game->config.map.grid)
+	{
+		i = 0;
+		while (game->config.map.grid[i])
+		{
+			free(game->config.map.grid[i]);
+			i++;
+		}
+		free(game->config.map.grid);
+		game->config.map.grid = NULL;
+	}
 	if (game->window)
 		mlx_destroy_window(game->mlx, game->window);
 	if (game->mlx)
@@ -31,69 +79,72 @@ int	close_window(t_game *game)
 	exit(0);
 }
 
-void	draw_wall_line(t_game *game, int x, int start, int end)
+void	move_player(t_game *game, double dx, double dy)
 {
-	int	y;
+	double	nx;
+	double	ny;
 
-	y = 0;
-	while (y < HEIGHT)
+	nx = game->config.player_x + dx;
+	ny = game->config.player_y + dy;
+	if (game->config.map.grid[(int)ny][(int)nx] != '1')
 	{
-		if (y >= start && y <= end)
-			put_pixels(&game->img, x, y, 0xFFFFFF);
-		else if (y < start)
-			put_pixels(&game->img, x, y, 0x7F00FF);
-		else
-			put_pixels(&game->img, x, y, 0x00FF00);
-		y++;
+		game->config.player_x = nx;
+		game->config.player_y = ny;
 	}
+}
+
+int	rgb_to_int(int r, int g, int b)
+{
+	return ((r << 16) | (g << 8) | b);
 }
 
 void	put_pixels(t_img *img, int x, int y, int color)
 {
 	char	*dst;
 
+	if (!img || !img->address)
+		return ;
+	if (x < 0 || x >= WIDTH || y < 0 || y >= HEIGHT)
+		return ;
 	dst = img->address + (y * img->line_length + x * (img->bits_per_pixel / 8));
-	*(unsigned int *)dst = color;
+	*(unsigned int *)dst = (unsigned int)color;
 }
 
-// void	put_img_with_pixels(t_game *game)
-// {
-// 	int	x;
-// 	int	y;
+// temporary
+#include <string.h>
 
-// 	y = 0;
-// 	while (y < HEIGHT / 2)
-// 	{
-// 		x = 0;
-// 		while (x < WIDTH)
-// 		{
-// 			put_pixels(&game->img, x, y, 0x7F00FF);
-// 			// stex piti lini mapi meji guyny
-// 			x++;
-// 		}
-// 		y++;
-// 	}
-// 	while (y < HEIGHT)
-// 	{
-// 		x = 0;
-// 		while (x < WIDTH)
-// 		{
-// 			put_pixels(&game->img, x, y, 0x00FF00);
-// 			// stex piti lini mapi meji guyny
-// 			x++;
-// 		}
-// 		y++;
-// 	}
-// 	// mlx_put_image_to_window(game->mlx, game->window, game->img.img, 0, 0);
-// }
+char	**dup_map_rows(const char *rows[], int count)
+{
+	char	**map;
+
+	map = malloc((count + 1) * sizeof(char *));
+	if (!map)
+		return (NULL);
+	for (int i = 0; i < count; ++i)
+	{
+		map[i] = strdup(rows[i]);
+		if (!map[i])
+		{
+			while (--i >= 0)
+				free(map[i]);
+			free(map);
+			return (NULL);
+		}
+	}
+	map[count] = NULL;
+	return (map);
+}
 
 void	pordznakan(t_game *game)
 {
-	game->config.map.grid = (char *[]){"1111111", "1000001", "100N001",
-		"1000001", "1111111", NULL};
+	const char	*rows[] = {"1111111", "1000001", "100E001", "1000001",
+			"1111111"};
+
+	game->config.map.grid = dup_map_rows(rows, 5);
 	game->config.map.width = 7;
 	game->config.map.height = 5;
 }
+// temporary
 
 void	set_dir_plane(t_config *config, char p)
 {
@@ -154,18 +205,6 @@ void	init_player(t_config *config)
 	}
 }
 
-void	raycasting(t_game *game)
-{
-	int	x;
-
-	x = 0;
-	while (x < WIDTH)
-	{
-		draw_wall_line(game, x, HEIGHT / 4, 3 * HEIGHT / 4);
-		x++;
-	}
-}
-
 int	render(t_game *game)
 {
 	raycasting(game);
@@ -177,12 +216,17 @@ void	start_game(t_game *game)
 {
 	pordznakan(game);
 	init_player(&game->config);
+	game->config.colors.floor_int = rgb_to_int(game->config.colors.floor[0],
+			game->config.colors.floor[1], game->config.colors.floor[2]);
+	game->config.colors.ceiling_int = rgb_to_int(game->config.colors.ceiling[0],
+			game->config.colors.ceiling[1], game->config.colors.ceiling[2]);
 	game->mlx = mlx_init();
 	game->window = mlx_new_window(game->mlx, WIDTH, HEIGHT, "Cub3D");
 	game->img.img = mlx_new_image(game->mlx, WIDTH, HEIGHT);
 	game->img.address = mlx_get_data_addr(game->img.img,
 			&game->img.bits_per_pixel, &game->img.line_length,
 			&game->img.endian);
+	mlx_key_hook(game->window, key_handler, game);
 	mlx_hook(game->window, 17, 1L << 0, close_window, game);
 	mlx_loop_hook(game->mlx, render, game);
 	mlx_loop(game->mlx);
