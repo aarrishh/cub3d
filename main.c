@@ -6,7 +6,7 @@
 /*   By: arina <arina@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 22:01:55 by arina             #+#    #+#             */
-/*   Updated: 2025/11/26 21:30:21 by arina            ###   ########.fr       */
+/*   Updated: 2025/11/29 19:46:38 by arina            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ int check_sequence(char **str)
 			flag.f_flag = 1;
 		else if (ft_strncmp(str[i], "C", 1) == 0 && check_tex_f(&flag) == 0)
 			flag.c_flag = 1;
-		else if (is_map_line(str[i]) == 1 && check_tex_f(&flag) == 1)
+		else if (is_map_line_second(str[i]) == 1 && check_tex_f(&flag) == 1)
 		{
 			flag.map_flag = 1;
 			break ;
@@ -122,29 +122,90 @@ int check_sequence(char **str)
 	return (0);
 }
 
-int check_map(char **splitted_map, char **sr)
+int matrix_len(char **m)
+{
+    int i = 0;
+    while (m[i])
+        i++;
+    return (i);
+}
+
+void	check_walls(char **str)
 {
 	int	i;
+	int	j;
 
-	i = 0;
-	while(sr[i])
+	i = 1;
+	j = 0;
+	while (str[0][j] != '\0')
 	{
-		if (is_map_line(sr[i]) == -1){
-			printf("stuc\n");
-			return (-1);
+		if (str[0][j] != '1' && !(is_white_space(str[0][j])))
+			print_error("Wall Error\n", str);
+		j++;
+	}
+	while (str[i] && str[i + 1])
+	{
+		if (str[i][0] != '1' || str[i][ft_strlen(str[i]) - 1] != '1')
+			print_error("Wall Error\n", str);
+		i++;
+	}
+	j = 0;
+	while (str[i] && str[i][j])
+	{
+		if (str[i][j] != '1' && !(is_white_space(str[i][j])))
+			print_error("Wall Error\n", str);
+		j++;
+	}
+}
+
+void copy_number_two_in_map(t_map **map)
+{
+	int i = 0;
+	int j  = 0;
+	char **mapik = (*map)->grid;
+	
+	while (mapik[i])
+	{
+		j = 0;
+		while (mapik[i][j])
+		{
+			if (is_white_space(mapik[i][j]) && mapik[i][j] != '1' 
+				&& mapik[i][j] != '0' && mapik[i][j] != 'N' 
+				&& mapik[i][j] != 'W' && mapik[i][j] != 'E'
+				&& mapik[i][j] != 'S')
+				mapik[i][j] = '2';
+			j++;
 		}
 		i++;
 	}
-	if (check_sequence(splitted_map) == -1)
+}
+
+int check_map(char **splitted_map, t_config *data, t_map **map)
+{
+	int	i;
+	t_colflag f;
+	int returned_found;
+
+	i = 0;
+	init_colflag(&f);
+	while(data->splited_map[i])
 	{
-			printf("aaystuc\n");
-		return (-1);
+		returned_found = is_map_line(data->splited_map[i], &f);
+		if (returned_found == -1)
+			return (-1);
+		i++;
 	}
-	
+	if (((f.no_flag + f.so_flag + f.we_flag + f.ea_flag) != 1))// && returned_found != 1
+		return (-1);
+	if (check_sequence(splitted_map) == -1)
+		return (-1);
+	check_walls(data->splited_map);
+	(*map)->grid = copy_map(data->splited_map, *map, 0);
+	copy_number_two_in_map(map);
 	return (0);
 }
 
-void find_index_after_colors(char *res, t_config *data)
+void find_index_after_colors(char *res, t_config **data)
 {
 	int i = 0;
 	int finish = 0;
@@ -153,26 +214,35 @@ void find_index_after_colors(char *res, t_config *data)
 		i++;
 	while (i >= 0 && res[i] != 'F' && res[i] != 'C')
 		i--;
-	while (i >=0 && res[i] && res[i] != '\n')
+	while (i >= 0 && res[i] && res[i] != '\n')
 		i++;
 	finish = i;
-	printf("finish...%d\n", finish);
-	while (i >=0 && res[finish])
+	while (i >= 0 && res[finish])
 		finish++;
-	data->hyusisharav = ft_substr(res, 0, i);
-	data->map_before_split = ft_substr(res, i + 1, finish);
-	printf("*****%s\n", data->hyusisharav);
-	printf("*****%s\n", data->map_before_split);
+	(*data)->hyusisharav = ft_substr(res, 0, i);
+	(*data)->map_before_split = ft_substr(res, i + 1, finish);
 }
 
+int is_there_nl_in_the_map(char *map)
+{
+	int i;
 
-char	**start_validation(char *file)
+	i = 0;
+	while (map[i])
+	{
+		if (map[i] && map[i + 1] && map[i] == '\n' && map[i + 1] == '\n')
+			return (-1);
+		i++;
+	}
+	return (0);
+}
+
+int start_validation(char *file, t_config *data, t_map *map)
 {
 	int			fd;
 	char		*line;
 	char		*res;
 	char		**split;
-	t_config	data;
 
 	fd = open(file, O_RDONLY);
 	if (fd == -1)
@@ -189,33 +259,40 @@ char	**start_validation(char *file)
 	close(fd);
 	res = ft_strtrim(res, "\n\t\v\r\f ");
 	find_index_after_colors(res, &data);
-	data.splited_hyusisharav = ft_split(data.hyusisharav, '\n', MAX_SPLIT_CNT);
+	data->splited_hyusisharav = ft_split(data->hyusisharav, '\n', MAX_SPLIT_CNT);
 	split = ft_split(res, '\n', MAX_SPLIT_CNT);
-	// print_matri/x(split);
 	free(res);
 	if (parse_elements(&data) == -1)
-		return(NULL);
-	//vrdoi mtacac checky anel
-	data.splited_map = ft_split(data.map_before_split, '\n', MAX_SPLIT_CNT);
-	if (check_map(split, data.splited_map) == -1)
-		return (NULL);
+		return(-1);
+	if (is_there_nl_in_the_map(data->map_before_split) == -1)
+		return (-1);
+	data->splited_map = ft_split(data->map_before_split, '\n', MAX_SPLIT_CNT);
+	if (check_map(split, data, &map) == -1)
+		return (-1);
 		// free_matrix(split);
 	// *split = NULL;
-	return (data.splited_map);//chshtel inch return anel
+	return (0);
 }
 
 
 int	main(int argc, char **argv)
 {
-	char		**res;
+	t_config		data;
+	t_map			map;
+	int				return_value;
 
-	res = NULL;
+	return_value = 1;
+	// res = NULL;
 	if (argc == 2)
 	{
 		check_file(argv[1]);
-		res = start_validation(argv[1]);
-		if (!res || !(*res))
-			print_error("Validation error\n", res);
+		return_value = start_validation(argv[1], &data, &map);
+		if (return_value < 0)
+			printf("Validation error!\n");
+		else
+			printf("Congratulations!\n");
+		print_matrix(map.grid);
+		
 		// check(res, &map);
 		// free_matrix(res);
 	}

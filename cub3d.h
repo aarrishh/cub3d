@@ -6,7 +6,7 @@
 /*   By: arina <arina@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 20:15:12 by arina             #+#    #+#             */
-/*   Updated: 2025/11/26 20:52:20 by arina            ###   ########.fr       */
+/*   Updated: 2025/11/29 17:53:16 by arina            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,13 +68,16 @@ char	**ft_split(char const *s, char c, int split_count);
 char	*ft_strdup(const char *s);
 char	*ft_strtrim(char const *s1, char const *set);
 void	print_error(char *error, char **str);
-int 	parse_elements(t_config *data);
+int 	parse_elements(t_config **data);
 int 	ft_strcmp(char *s1, char *s2);
 int	    ft_strncmp(const char *s1, const char *s2, size_t n);
 int 	is_white_space(char c);
 void	free_matrix(char **buffer);
-int	    is_map_line(char *str);
+int	    is_map_line(char *str, t_colflag *f);
 void    print_matrix(char **str);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
+void    init_colflag(t_colflag *flag);
+int	    is_map_line_second(char *str);
+char	**copy_map(char **str, t_map *map, int i);
 
 #endif

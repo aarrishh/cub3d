@@ -6,7 +6,7 @@
 /*   By: arina <arina@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/09 18:18:49 by arina             #+#    #+#             */
-/*   Updated: 2025/11/26 21:19:01 by arina            ###   ########.fr       */
+/*   Updated: 2025/11/29 17:04:31 by arina            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,10 @@
 
 int	parse_texture(t_config *data, char *line)
 {
-	int i;
+	int 	i;
 	char	**split;
 
 	i = 0;
-	
 	line = ft_strtrim(line, "\n\t\v\r\f ");
 	split = ft_split(line, ' ', MAX_SPLIT_CNT);
 	free(line);
@@ -58,18 +57,14 @@ int	color_value(char *s)
 int	parse_color(t_config *data, char *line)
 {
 	char	**split;
-	(void) data;
 	char	**rgb;
 
-	// if (!split || !split[0] || !split[1])
-		// print_error("Invalid color line\n", split);
 	split = ft_split(line,  ' ', 2);
 	if (split[1])
 		rgb = ft_split(split[1], ',', MAX_SPLIT_CNT);
 	else
 		return (-1);
 	free(split[1]);
-	// rgb = ft_split(split[1], ','); // split[1]
 	int i = 0;
 	while (rgb[i])
 	{		
@@ -101,20 +96,48 @@ int	parse_color(t_config *data, char *line)
 	// // free_matrix(rgb); ereviii
 	return (0);
 }
+void	change_flag_and_found_value(int *found, int *flag_plus_plus)
+{
+	(*found) = 2;
+	(*flag_plus_plus)++;
+}
 
-int	is_map_line(char *str)
+int	is_map_line_second(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (is_white_space(str[i]))
+		i++;
+	if (str[i] == '1' || str[i] == '0')
+		return (1);
+	return (0);
+}
+
+int	is_map_line(char *str, t_colflag *f)
 {
 	int	i;
 	int	found;
-
+	
 	i = 0;
 	found = 0;
-	while (is_white_space(str[i]))
-		i++;
 	while (str[i])
 	{
 		if (str[i] == '1' || str[i] == '0')
-			found = 1;
+		{
+			if (found == 2 || found == 3)
+				found = 3;
+			else
+				found = 1;
+		}
+		else if (str[i] == 'N')
+			change_flag_and_found_value(&found, &(*f).no_flag);
+		else if (str[i] == 'W')
+			change_flag_and_found_value(&found, &(*f).we_flag);
+		else if (str[i] == 'E')
+			change_flag_and_found_value(&found, &(*f).ea_flag);
+		else if (str[i] == 'S')
+			change_flag_and_found_value(&found, &(*f).so_flag);
 		else if (!is_white_space(str[i]))
 			return (-1);
 		i++;
@@ -123,12 +146,12 @@ int	is_map_line(char *str)
 }
 
 
-int	parse_elements(t_config *data)
+int	parse_elements(t_config **data)
 {
 	int	i;
 	char **file;
 
-	file = data->splited_hyusisharav;
+	file = (*data)->splited_hyusisharav;
 	i = -1;
 	while (file[++i])
 		file[i] = ft_strtrim(file[i], "\n\t\v\r\f ");
@@ -142,20 +165,13 @@ int	parse_elements(t_config *data)
 		}
 		if (ft_strncmp(file[i], "NO", 2) == 0 || ft_strncmp(file[i], "SO", 2) == 0 || ft_strncmp(file[i], "WE", 2) == 0 || ft_strncmp(file[i], "EA", 2) == 0)
 		{
-			printf("----%s\n", file[i]);
-			if (parse_texture(data, file[i]) == -1)
+			if (parse_texture(*data, file[i]) == -1)
 				return (-1);
 		}
 		else if (ft_strncmp(file[i], "F", 1) == 0 || ft_strncmp(file[i], "C", 1) == 0)
-		{
-			printf("++++%s\n", file[i]);
-			parse_color(data, file[i]);
-		}
+			parse_color(*data, file[i]);
 		else
-		{
-			printf("***%s\n", file[i]);
 			print_error("Invalid line in configuratio\n", file);
-		}
 		i++;
 	}
 	// data->map.grid = &file[i];
