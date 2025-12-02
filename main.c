@@ -6,7 +6,7 @@
 /*   By: arina <arina@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 22:01:55 by arina             #+#    #+#             */
-/*   Updated: 2025/11/29 19:46:38 by arina            ###   ########.fr       */
+/*   Updated: 2025/11/30 18:00:15 by arina            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -291,7 +291,8 @@ int	main(int argc, char **argv)
 			printf("Validation error!\n");
 		else
 			printf("Congratulations!\n");
-		print_matrix(map.grid);
+		flood_fill(&map);
+		// print_matrix(map.grid);
 		
 		// check(res, &map);
 		// free_matrix(res);

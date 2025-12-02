@@ -6,7 +6,7 @@
 /*   By: arina <arina@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 20:15:12 by arina             #+#    #+#             */
-/*   Updated: 2025/11/29 17:53:16 by arina            ###   ########.fr       */
+/*   Updated: 2025/11/30 17:28:03 by arina            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,5 +79,6 @@ char	*ft_substr(char const *s, unsigned int start, size_t len);
 void    init_colflag(t_colflag *flag);
 int	    is_map_line_second(char *str);
 char	**copy_map(char **str, t_map *map, int i);
+void    flood_fill(t_map *map);
 
 #endif
