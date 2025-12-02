@@ -6,11 +6,11 @@
 /*   By: arina <arina@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 19:57:56 by arimanuk          #+#    #+#             */
-/*   Updated: 2025/11/12 21:40:29 by arina            ###   ########.fr       */
+/*   Updated: 2025/12/02 20:35:05 by arina            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "includes/cub3d.h"
 
 void	free_matrix(char **buffer)
 {
@@ -25,15 +25,6 @@ void	free_matrix(char **buffer)
 		buffer = NULL;
 	}
 	*buffer = NULL;
-}
-
-void	print_error(char *error, char **str)
-{
-	(void)str;
-	// free_matrix(str);
-	// write(1, "Error\n", 6);
-	write(1, error, ft_strlen(error));
-	exit(1);
 }
 
 static int	check(char const *s1, char const *set, int i)

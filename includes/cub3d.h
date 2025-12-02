@@ -6,7 +6,7 @@
 /*   By: arina <arina@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 20:15:12 by arina             #+#    #+#             */
-/*   Updated: 2025/11/30 17:28:03 by arina            ###   ########.fr       */
+/*   Updated: 2025/12/02 21:16:20 by arina            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <fcntl.h>
-#include "get_next_line/get_next_line.h"
+#include "../get_next_line/get_next_line.h"
 
 typedef struct s_texture
 {
@@ -28,8 +28,8 @@ typedef struct s_texture
 
 typedef struct s_color
 {
-    int     floor[3];   //(RGB)
-    int     ceiling[3]; //(RGB)
+    int     floor[3];
+    int     ceiling[3];
 }   t_color;
 
 typedef struct s_map
@@ -80,5 +80,9 @@ void    init_colflag(t_colflag *flag);
 int	    is_map_line_second(char *str);
 char	**copy_map(char **str, t_map *map, int i);
 void    flood_fill(t_map *map);
+int     is_there_nl_in_the_map(char *map);
+int 	check_map(char **splitted_map, t_config *data, t_map **map);
+void	check_file(char *file);
+void 	copy_number_two_in_map(t_map **map);
 
 #endif

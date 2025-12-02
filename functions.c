@@ -6,11 +6,11 @@
 /*   By: arina <arina@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 20:41:46 by arina             #+#    #+#             */
-/*   Updated: 2025/11/26 20:17:10 by arina            ###   ########.fr       */
+/*   Updated: 2025/12/02 21:06:35 by arina            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "includes/cub3d.h"
 
 char	*ft_strjoin_(char *s1, char *s2)
 {
@@ -76,5 +76,28 @@ void print_matrix(char **str)
 {
 	for(int i = 0; str[i]; i++)
 		printf("%s\n", str[i]);
+} // pti jnjvi
+
+void	print_error(char *error, char **str)
+{
+	(void)str;
+	// free_matrix(str);
+	// write(1, "Error\n", 6);
+	write(1, error, ft_strlen(error));
+	exit(1);
 }
 
+int	ft_strcmp(char *s1, char *s2)
+{
+	int	i;
+
+	i = 0;
+	while (s1[i] || s2[i])
+	{
+		if (s1[i] == s2[i])
+			i++;
+		else
+			return (s1[i] - s2[i]);
+	}
+	return (s1[i] - s2[i]);
+}

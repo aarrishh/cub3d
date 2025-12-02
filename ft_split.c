@@ -6,11 +6,11 @@
 /*   By: arina <arina@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 20:33:09 by arina             #+#    #+#             */
-/*   Updated: 2025/11/26 18:47:31 by arina            ###   ########.fr       */
+/*   Updated: 2025/12/02 20:34:13 by arina            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "includes/cub3d.h"
 
 char	*my_strncpy(char *dest, const char *src, unsigned int n)
 {

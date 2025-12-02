@@ -6,15 +6,15 @@
 /*   By: arina <arina@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/09 18:18:49 by arina             #+#    #+#             */
-/*   Updated: 2025/11/29 17:04:31 by arina            ###   ########.fr       */
+/*   Updated: 2025/12/02 21:39:39 by arina            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "includes/cub3d.h"
 
 int	parse_texture(t_config *data, char *line)
 {
-	int 	i;
+	int		i;
 	char	**split;
 
 	i = 0;
@@ -85,17 +85,11 @@ int	parse_color(t_config *data, char *line)
 		data->colors.ceiling[1] = color_value(rgb[1]);
 		data->colors.ceiling[2] = color_value(rgb[2]);
 	}
-	// printf("fff_____%d\n", data->colors.floor[0]);
-	// printf("fff_____%d\n", data->colors.floor[1]);
-	// printf("fff_____%d\n", data->colors.floor[2]);
-	// printf("ccc_____%d\n", data->colors.ceiling[0]);
-	// printf("ccc_____%d\n", data->colors.ceiling[1]);
-	// printf("ccc_____%d\n", data->colors.ceiling[2]);
-
-	// // free_matrix(split); ereviii
-	// // free_matrix(rgb); ereviii
+	// free_matrix(split); ereviii
+	// free_matrix(rgb); ereviii
 	return (0);
 }
+
 void	change_flag_and_found_value(int *found, int *flag_plus_plus)
 {
 	(*found) = 2;
@@ -118,7 +112,7 @@ int	is_map_line(char *str, t_colflag *f)
 {
 	int	i;
 	int	found;
-	
+
 	i = 0;
 	found = 0;
 	while (str[i])
@@ -145,11 +139,10 @@ int	is_map_line(char *str, t_colflag *f)
 	return (found);
 }
 
-
 int	parse_elements(t_config **data)
 {
-	int	i;
-	char **file;
+	int		i;
+	char	**file;
 
 	file = (*data)->splited_hyusisharav;
 	i = -1;
@@ -174,18 +167,5 @@ int	parse_elements(t_config **data)
 			print_error("Invalid line in configuratio\n", file);
 		i++;
 	}
-	// data->map.grid = &file[i];
-	// printf("%s\n", data->textures.no);
-	// printf("%s\n", data->textures.ea);
-	// printf("%s\n", data->textures.so);
-	// printf("%s\n\n", data->textures.we);
-	// printf("%d,%d,%d\n", data->colors.floor[0], data->colors.floor[1], data->colors.floor[2]);
-	// printf("%d,%d,%d\n\n", data->colors.ceiling[0], data->colors.ceiling[1], data->colors.ceiling[2]);
-
-	// i = 0;
-	// while (data->map.grid[i])
-	// 	printf("%s\n", data->map.grid[i++]);
 	return (0);
 }
-
-

@@ -6,11 +6,11 @@
 /*   By: arina <arina@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 17:52:21 by arina             #+#    #+#             */
-/*   Updated: 2025/11/29 19:46:59 by arina            ###   ########.fr       */
+/*   Updated: 2025/12/02 21:38:35 by arina            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "includes/cub3d.h"
 
 void	free_array(char **buffer)
 {
@@ -25,8 +25,8 @@ void	free_array(char **buffer)
 void	copy_map_part_2(char *str, char *buffer, int width)
 {
 	int	i;
-	int rest;
-	
+	int	rest;
+
 	i = 0;
 	while (str[i])
 	{
