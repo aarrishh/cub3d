@@ -6,7 +6,7 @@
 /*   By: arina <arina@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/09 18:18:49 by arina             #+#    #+#             */
-/*   Updated: 2025/12/02 21:39:39 by arina            ###   ########.fr       */
+/*   Updated: 2025/12/04 20:40:56 by arina            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,10 @@ int	parse_texture(t_config *data, char *line)
 		data->textures.ea = ft_strdup(split[1]);
 	else
 		print_error("Unknown texture identifier\n", split);
+	// printf("%s\n", data->textures.ea);
+	// printf("%s\n", data->textures.so);
+	// printf("%s\n", data->textures.we);
+	// printf("%s\n", data->textures.no);
     //free_matrix petqa anenq voncvor???
 	return (0);
 }
@@ -45,10 +49,10 @@ int	color_value(char *s)
 {
 	int	value;
 
-	value = atoi(s);
+	value = ft_atoi(s);
 	if (value < 0 || value > 255)
 	{
-		write(2, "Error\nInvalid RGB value\n", 25);
+		write(2, "RGB value out of range (0-255)\n", 32);
 		exit(1);
 	}
 	return (value);
@@ -167,5 +171,6 @@ int	parse_elements(t_config **data)
 			print_error("Invalid line in configuratio\n", file);
 		i++;
 	}
+	check_textures((*data)->textures);
 	return (0);
 }

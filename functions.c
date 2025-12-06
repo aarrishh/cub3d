@@ -6,7 +6,7 @@
 /*   By: arina <arina@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 20:41:46 by arina             #+#    #+#             */
-/*   Updated: 2025/12/02 21:06:35 by arina            ###   ########.fr       */
+/*   Updated: 2025/12/04 20:37:06 by arina            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,3 +101,53 @@ int	ft_strcmp(char *s1, char *s2)
 	}
 	return (s1[i] - s2[i]);
 }
+
+void	check_digits(const char *s)
+{
+	int	i;
+
+	i = 0;
+	while ((s[i] >= 9 && s[i] <= 13) || s[i] == 32)
+		i++;
+	if (s[i] == '-' || s[i] == '+')
+		i++;
+	if (s[i] < '0' || s[i] > '9')
+	{
+		printf("RGB must contain only digits\n");
+		exit(1);
+	}	
+	while (s[i])
+	{
+		if (s[i] < '0' || s[i] > '9')
+			exit(1);
+		i++;
+	}
+}
+
+int	ft_atoi(const char *s)
+{
+	int	i;
+	int	sign;
+	int	r;
+
+	check_digits(s);
+	i = 0;
+	sign = 1;
+	r = 0;
+	while ((s[i] >= 9 && s[i] <= 13) || s[i] == 32)
+		i++;
+	if (s[i] == '-')
+	{
+		sign = -1;
+		i++;
+	}
+	else if (s[i] == '+')
+		i++;
+	while (s[i] >= '0' && s[i] <= '9')
+	{
+		r = r * 10 + (s[i] - '0');
+		i++;
+	}
+	return (sign * r);
+}
+

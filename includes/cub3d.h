@@ -6,7 +6,7 @@
 /*   By: arina <arina@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 20:15:12 by arina             #+#    #+#             */
-/*   Updated: 2025/12/02 21:16:20 by arina            ###   ########.fr       */
+/*   Updated: 2025/12/04 20:21:57 by arina            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,5 +84,7 @@ int     is_there_nl_in_the_map(char *map);
 int 	check_map(char **splitted_map, t_config *data, t_map **map);
 void	check_file(char *file);
 void 	copy_number_two_in_map(t_map **map);
+void    check_textures(t_texture texture);
+int	    ft_atoi(const char *str);
 
 #endif
