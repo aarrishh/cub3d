@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   flood_fill.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: arina <arina@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mabaghda <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 17:14:13 by arina             #+#    #+#             */
-/*   Updated: 2025/12/02 21:36:21 by arina            ###   ########.fr       */
+/*   Updated: 2025/12/14 18:15:18 by mabaghda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/cub3d.h"
 
-void get_player_pos(t_map *map, int *px, int *py)
+void	get_player_pos(t_map *map, int *px, int *py)
 {
 	int	y;
 	int	x;
@@ -28,7 +28,7 @@ void get_player_pos(t_map *map, int *px, int *py)
 			{
 				*py = y;
 				*px = x;
-				return;
+				return ;
 			}
 			x++;
 		}
@@ -36,13 +36,15 @@ void get_player_pos(t_map *map, int *px, int *py)
 	}
 }
 
-void flood_fill_start(char **map, int y, int x, t_map *m)
+void	flood_fill_start(char **map, int y, int x, t_map *m)
 {
+	char	c;
+
 	if (y < 0 || x < 0 || y >= m->height || x >= m->width)
 		print_error("Map is not closed\n", map);
-	char c = map[y][x];
-	if (c == '1' || c == 'F') 
-		return;
+	c = map[y][x];
+	if (c == '1' || c == 'F')
+		return ;
 	if (c == '\0' || c == ' ')
 		print_error("Map is not closed\n", map);
 	map[y][x] = 'F';
@@ -51,12 +53,43 @@ void flood_fill_start(char **map, int y, int x, t_map *m)
 	flood_fill_start(map, y, x + 1, m);
 	flood_fill_start(map, y, x - 1, m);
 }
-
-void flood_fill(t_map *map)
+char	**copy_map_for_flood_fill(char **map)
 {
-	int	px;
-	int	py;
+	char	**copy;
+	int		i;
+
+	if (!map)
+		return (NULL);
+	i = 0;
+	while (map[i])
+		i++;
+	copy = malloc(sizeof(char *) * (i + 1));
+	if (!copy)
+		return (NULL);
+	i = 0;
+	while (map[i])
+	{
+		copy[i] = ft_strdup(map[i]);
+		if (!copy[i])
+		{
+			while (i > 0)
+				free(copy[--i]);
+			free(copy);
+			return (NULL);
+		}
+		i++;
+	}
+	copy[i] = NULL;
+	return (copy);
+}
+
+void	flood_fill(t_map *map)
+{
+	int		px;
+	int		py;
+	char	**map_copy;
 
 	get_player_pos(map, &px, &py);
-	flood_fill_start(map->grid, py, px, map);
+	map_copy = copy_map_for_flood_fill(map->grid);
+	flood_fill_start(map_copy, py, px, map);
 }
