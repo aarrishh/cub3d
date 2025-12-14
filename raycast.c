@@ -1,41 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   reycast.c                                          :+:      :+:    :+:   */
+/*   raycast.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mabaghda <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 17:52:02 by mabaghda          #+#    #+#             */
-/*   Updated: 2025/11/29 18:33:01 by mabaghda         ###   ########.fr       */
+/*   Updated: 2025/12/14 16:08:02 by mabaghda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
-
-// void	init_ray(t_game *game, int x, t_ray *ray)
-// {
-// 	ray->cameraX = 2 * x / (double)WIDTH - 1;
-// 	ray->rayDirX = game->config.dir_x + game->config.plane_x * ray->cameraX;
-// 	ray->rayDirY = game->config.dir_y + game->config.plane_y * ray->cameraX;
-// 	ray->mapX = (int)game->config.player_x;
-// 	ray->mapY = (int)game->config.player_y;
-// 	ray->deltaDistX = fabs(1 / ray->rayDirX);
-// 	ray->deltaDistY = fabs(1 / ray->rayDirY);
-// 	ray->hit = 0;
-// 	ray->side = 0;
-// }
+#include "includes/cub3d.h"
 
 void	init_ray(t_game *game, int x, t_ray *ray)
 {
 	ray->cameraX = 2 * x / (double)WIDTH - 1;
-	ray->rayDirX = game->config.dir_x + game->config.plane_x * ray->cameraX;
-	ray->rayDirY = game->config.dir_y + game->config.plane_y * ray->cameraX;
-	ray->mapX = (int)game->config.player_x;
-	ray->mapY = (int)game->config.player_y;
+	ray->rayDirX = game->config.player.dir_x + game->config.player.plane_x * ray->cameraX;
+	ray->rayDirY = game->config.player.dir_y + game->config.player.plane_y * ray->cameraX;
+	ray->mapX = (int)game->config.player.x;
+	ray->mapY = (int)game->config.player.y;
 	ray->hit = 0;
 	ray->side = 0;
 	if (ray->rayDirX == 0.0)
-		ray->deltaDistX = 1e30; // effectively infinity
+		ray->deltaDistX = 1e30;
 	else
 		ray->deltaDistX = fabs(1.0 / ray->rayDirX);
 	if (ray->rayDirY == 0.0)
@@ -49,23 +36,23 @@ void	calc_step_and_side(t_game *game, t_ray *ray)
 	if (ray->rayDirX < 0)
 	{
 		ray->stepX = -1;
-		ray->sideDistX = (game->config.player_x - ray->mapX) * ray->deltaDistX;
+		ray->sideDistX = (game->config.player.x - ray->mapX) * ray->deltaDistX;
 	}
 	else
 	{
 		ray->stepX = 1;
-		ray->sideDistX = (ray->mapX + 1.0 - game->config.player_x)
+		ray->sideDistX = (ray->mapX + 1.0 - game->config.player.x)
 			* ray->deltaDistX;
 	}
 	if (ray->rayDirY < 0)
 	{
 		ray->stepY = -1;
-		ray->sideDistY = (game->config.player_y - ray->mapY) * ray->deltaDistY;
+		ray->sideDistY = (game->config.player.y - ray->mapY) * ray->deltaDistY;
 	}
 	else
 	{
 		ray->stepY = 1;
-		ray->sideDistY = (ray->mapY + 1.0 - game->config.player_y)
+		ray->sideDistY = (ray->mapY + 1.0 - game->config.player.y)
 			* ray->deltaDistY;
 	}
 }
@@ -88,6 +75,9 @@ void	perform_dda(t_game *game, t_ray *ray)
 		}
 		if (game->config.map.grid[ray->mapY][ray->mapX] == '1')
 			ray->hit = 1;
+		if (ray->mapY < 0 || ray->mapX < 0 || !game->config.map.grid[ray->mapY]
+			|| !game->config.map.grid[ray->mapY][ray->mapX])
+			break ;
 	}
 }
 
@@ -114,11 +104,11 @@ void	draw_wall_line(t_game *game, int x, int start, int end)
 	while (y < HEIGHT)
 	{
 		if (y >= start && y <= end)
-			put_pixels(&game->img, x, y, 0x000000);
-		else if (y < start)
-			put_pixels(&game->img, x, y, 0x6b3497);
-		else
 			put_pixels(&game->img, x, y, 0xf891a5);
+		else if (y < start)
+			put_pixels(&game->img, x, y, game->config.colors.ceiling_int);
+		else
+			put_pixels(&game->img, x, y, game->config.colors.floor_int);
 		y++;
 	}
 }

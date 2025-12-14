@@ -6,15 +6,15 @@
 /*   By: mabaghda <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 20:15:12 by arina             #+#    #+#             */
-/*   Updated: 2025/11/29 19:54:18 by mabaghda         ###   ########.fr       */
+/*   Updated: 2025/12/14 16:06:07 by mabaghda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
 
-# include "get_next_line/get_next_line.h"
-# include "minilibx-linux/mlx.h"
+# include "../get_next_line/get_next_line.h"
+# include "../minilibx-linux/mlx.h"
 # include <fcntl.h>
 # include <math.h>
 # include <stdlib.h>
@@ -58,17 +58,26 @@ typedef struct s_map
 	int			height;
 }				t_map;
 
+typedef struct s_player
+{
+	double		x;
+	double		y;
+	double		dir_x;
+	double		dir_y;
+	double		plane_x;
+	double		plane_y;
+}				t_player;
+
 typedef struct s_config
 {
 	t_texture	textures;
 	t_color		colors;
 	t_map		map;
-	double		player_x;
-	double		player_y;
-	double		dir_x;
-	double		dir_y;
-	double		plane_x;
-	double		plane_y;
+	t_player	player;
+	char		*hyusisharav;
+	char		*map_before_split;
+	char		**splited_hyusisharav;
+	char		**splited_map;
 }				t_config;
 
 typedef struct s_ray
@@ -126,12 +135,24 @@ char			**ft_split(char const *s, char c, int split_count);
 char			*ft_strdup(const char *s);
 char			*ft_strtrim(char const *s1, char const *set);
 void			print_error(char *error, char **str);
-int				parse_elements(t_config *data, char **file);
+int				parse_elements(t_config **data);
 int				ft_strcmp(char *s1, char *s2);
 int				ft_strncmp(const char *s1, const char *s2, size_t n);
 int				is_white_space(char c);
 void			free_matrix(char **buffer);
-int				is_map_line(char *str);
+int				is_map_line(char *str, t_colflag *f);
+void			print_matrix(char **str);
+char			*ft_substr(char const *s, unsigned int start, size_t len);
+void			init_colflag(t_colflag *flag);
+int				is_map_line_second(char *str);
+char			**copy_map(char **str, t_map *map, int i);
+void			flood_fill(t_map *map);
+int				is_there_nl_in_the_map(char *map);
+int				check_map(char **splitted_map, t_config *data, t_map **map);
+void			check_file(char *file);
+void			copy_number_two_in_map(t_map **map);
+void			check_textures(t_texture texture);
+int				ft_atoi(const char *str);
 
 void			start_game(t_game *game);
 int				close_window(t_game *game);
@@ -141,7 +162,6 @@ void			draw_wall_line(t_game *game, int x, int start, int end);
 void			raycasting(t_game *game);
 int				render(t_game *game);
 
-void			pordznakan(t_game *game);
 void			set_dir_plane(t_config *config, char p);
 void			init_player(t_config *config);
 void			move_player(t_game *game, double dx, double dy);

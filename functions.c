@@ -6,11 +6,11 @@
 /*   By: arina <arina@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 20:41:46 by arina             #+#    #+#             */
-/*   Updated: 2025/11/09 18:43:33 by arina            ###   ########.fr       */
+/*   Updated: 2025/12/04 20:37:06 by arina            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "includes/cub3d.h"
 
 char	*ft_strjoin_(char *s1, char *s2)
 {
@@ -71,3 +71,83 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 		i++;
 	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
 }
+
+void print_matrix(char **str)
+{
+	for(int i = 0; str[i]; i++)
+		printf("%s\n", str[i]);
+} // pti jnjvi
+
+void	print_error(char *error, char **str)
+{
+	(void)str;
+	// free_matrix(str);
+	// write(1, "Error\n", 6);
+	write(1, error, ft_strlen(error));
+	exit(1);
+}
+
+int	ft_strcmp(char *s1, char *s2)
+{
+	int	i;
+
+	i = 0;
+	while (s1[i] || s2[i])
+	{
+		if (s1[i] == s2[i])
+			i++;
+		else
+			return (s1[i] - s2[i]);
+	}
+	return (s1[i] - s2[i]);
+}
+
+void	check_digits(const char *s)
+{
+	int	i;
+
+	i = 0;
+	while ((s[i] >= 9 && s[i] <= 13) || s[i] == 32)
+		i++;
+	if (s[i] == '-' || s[i] == '+')
+		i++;
+	if (s[i] < '0' || s[i] > '9')
+	{
+		printf("RGB must contain only digits\n");
+		exit(1);
+	}	
+	while (s[i])
+	{
+		if (s[i] < '0' || s[i] > '9')
+			exit(1);
+		i++;
+	}
+}
+
+int	ft_atoi(const char *s)
+{
+	int	i;
+	int	sign;
+	int	r;
+
+	check_digits(s);
+	i = 0;
+	sign = 1;
+	r = 0;
+	while ((s[i] >= 9 && s[i] <= 13) || s[i] == 32)
+		i++;
+	if (s[i] == '-')
+	{
+		sign = -1;
+		i++;
+	}
+	else if (s[i] == '+')
+		i++;
+	while (s[i] >= '0' && s[i] <= '9')
+	{
+		r = r * 10 + (s[i] - '0');
+		i++;
+	}
+	return (sign * r);
+}
+

@@ -6,138 +6,63 @@
 /*   By: mabaghda <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 22:01:55 by arina             #+#    #+#             */
-/*   Updated: 2025/11/27 16:03:49 by mabaghda         ###   ########.fr       */
+/*   Updated: 2025/12/14 15:44:17 by mabaghda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "includes/cub3d.h"
 
-int	is_white_space(char c)
+void	copy_number_two_in_map(t_map **map)
 {
-	if ((c >= 9 && c <= 13) || (c == 32))
-		return (1);
-	return (0);
-}
+	int		i;
+	int		j;
+	char	**mapik;
 
-int	ft_strcmp(char *s1, char *s2)
-{
-	int	i;
-
+	j = 0;
 	i = 0;
-	while (s1[i] || s2[i])
+	mapik = (*map)->grid;
+	while (mapik[i])
 	{
-		if (s1[i] == s2[i])
-			i++;
-		else
-			return (s1[i] - s2[i]);
-	}
-	return (s1[i] - s2[i]);
-}
-
-void	check_file(char *file)
-{
-	int	i;
-	int	res;
-
-	i = 0;
-	while (file[i])
-	{
-		while (file[i] != '.' && file[i])
-			i++;
-		res = ft_strcmp((file + i), ".cub");
-		if (res != 0)
+		j = 0;
+		while (mapik[i][j])
 		{
-			write(1, "Invalid map's name!\n", 20);
-			exit(1);
+			if (is_white_space(mapik[i][j]) && mapik[i][j] != '1'
+				&& mapik[i][j] != '0' && mapik[i][j] != 'N'
+				&& mapik[i][j] != 'W' && mapik[i][j] != 'E'
+				&& mapik[i][j] != 'S')
+				mapik[i][j] = '2';
+			j++;
 		}
-		else
-			break ;
-	}
-}
-
-void	init_colflag(t_colflag *flag)
-{
-	flag->ea_flag = 0;
-	flag->we_flag = 0;
-	flag->so_flag = 0;
-	flag->no_flag = 0;
-	flag->f_flag = 0;
-	flag->c_flag = 0;
-	flag->map_flag = 0;
-}
-
-int	check_tex_f(t_colflag *flag)
-{
-	if (flag->ea_flag == 1 && flag->no_flag == 1 && flag->so_flag == 1
-		&& flag->we_flag == 1 && flag->c_flag == 1 && flag->f_flag == 1
-		&& flag->map_flag == 1)
-		return (2);
-	if (flag->ea_flag == 1 && flag->no_flag == 1 && flag->so_flag == 1
-		&& flag->we_flag == 1 && flag->c_flag == 1 && flag->f_flag == 1)
-		return (1);
-	if (flag->ea_flag == 1 && flag->no_flag == 1 && flag->so_flag == 1
-		&& flag->we_flag == 1)
-		return (0);
-	return (-1);
-}
-
-int	check_sequence(char **str)
-{
-	int			i;
-	t_colflag	flag;
-
-	i = 0;
-	init_colflag(&flag);
-	while (str[i])
-	{
-		if (flag.c_flag != 1 && flag.f_flag != 1)
-			str[i] = ft_strtrim(str[i], "\n\t\v\r\f ");
-		if (ft_strncmp(str[i], "NO", 2) == 0)
-			flag.no_flag = 1;
-		else if (ft_strncmp(str[i], "SO", 2) == 0)
-			flag.so_flag = 1;
-		else if (ft_strncmp(str[i], "WE", 2) == 0)
-			flag.we_flag = 1;
-		else if (ft_strncmp(str[i], "EA", 2) == 0)
-			flag.ea_flag = 1;
-		else if (ft_strncmp(str[i], "F", 1) == 0 && check_tex_f(&flag) == 0)
-			flag.f_flag = 1;
-		else if (ft_strncmp(str[i], "C", 1) == 0 && check_tex_f(&flag) == 0)
-			flag.c_flag = 1;
-		else if (is_map_line(str[i]) == 1 && check_tex_f(&flag) == 1)
-		{
-			flag.map_flag = 1;
-			break ;
-		}
-		else
-			print_error("Invalid line in configuration\n", str);
 		i++;
 	}
-	if (check_tex_f(&flag) != 2)
-		return (-1);
-	return (0);
 }
 
-int	check_map(char **str, t_config *data)
+void	find_index_after_colors(char *res, t_config **data)
 {
-	int	aaa;
+	int	i;
+	int	finish;
 
-	(void)data;
-	aaa = 0;
-	aaa = check_sequence(str);
-	printf("tiv>>> %d\n", aaa);
-	if (aaa == -1)
-		return (-1);
-	return (0);
+	i = 0;
+	finish = 0;
+	while (res[i])
+		i++;
+	while (i >= 0 && res[i] != 'F' && res[i] != 'C')
+		i--;
+	while (i >= 0 && res[i] && res[i] != '\n')
+		i++;
+	finish = i;
+	while (i >= 0 && res[finish])
+		finish++;
+	(*data)->hyusisharav = ft_substr(res, 0, i);
+	(*data)->map_before_split = ft_substr(res, i + 1, finish);
 }
 
-char	**start_validation(char *file)
+int	start_validation(char *file, t_config *data, t_map *map)
 {
-	int			fd;
-	char		*line;
-	char		*res;
-	char		**split;
-	t_config	data;
+	int		fd;
+	char	*line;
+	char	*res;
+	char	**split;
 
 	fd = open(file, O_RDONLY);
 	if (fd == -1)
@@ -153,34 +78,48 @@ char	**start_validation(char *file)
 	free(line);
 	close(fd);
 	res = ft_strtrim(res, "\n\t\v\r\f ");
+	find_index_after_colors(res, &data);
+	data->splited_hyusisharav = ft_split(data->hyusisharav, '\n',
+			MAX_SPLIT_CNT);
 	split = ft_split(res, '\n', MAX_SPLIT_CNT);
 	free(res);
-	if (parse_elements(&data, split) == -1)
-		return (NULL);
-	if (check_map(split, &data) == -1)
-		return (NULL);
+	if (parse_elements(&data) == -1)
+		return (-1);
+	if (is_there_nl_in_the_map(data->map_before_split) == -1)
+		return (-1);
+	data->splited_map = ft_split(data->map_before_split, '\n', MAX_SPLIT_CNT);
+	if (check_map(split, data, &map) == -1)
+		return (-1);
 	// free_matrix(split);
-	// *split = NULL;
-	return (split);
+	return (0);
 }
 
 int	main(int argc, char **argv)
 {
-	char	**res;
-	t_game	game;
+	t_game		game;
+	t_config	data;
+	t_map		map;
+	int			return_value;
 
-	res = NULL;
+	return_value = 1;
 	if (argc == 2)
 	{
 		check_file(argv[1]);
-		res = start_validation(argv[1]);
-		if (!res || !(*res))
-			print_error("Validation error\n", res);
-		// check(res, &map);
+		return_value = start_validation(argv[1], &data, &map);
+		if (return_value < 0)
+		{
+			printf("Validation error!\n");
+			exit(1);
+		}
+		else
+			printf("Congratulations!\n");
+		flood_fill(&map);
 		// free_matrix(res);
 	}
 	else
 		return (write(2, "Error\n", 6), 1);
+	game.config = data;
+	game.config.map = map;
 	start_game(&game);
 	return (0);
 }

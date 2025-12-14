@@ -6,24 +6,24 @@
 /*   By: mabaghda <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/22 20:54:28 by mabaghda          #+#    #+#             */
-/*   Updated: 2025/11/29 19:57:37 by mabaghda         ###   ########.fr       */
+/*   Updated: 2025/12/14 16:11:26 by mabaghda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "includes/cub3d.h"
 
 void	rotate_player(t_config *config, double angle)
 {
 	double	oldDirX;
 	double	oldPlaneX;
 
-	oldDirX = config->dir_x;
-	oldPlaneX = config->plane_x;
-	config->dir_x = config->dir_x * cos(angle) - config->dir_y * sin(angle);
-	config->dir_y = oldDirX * sin(angle) + config->dir_y * cos(angle);
-	config->plane_x = config->plane_x * cos(angle) - config->plane_y
+	oldDirX = config->player.dir_x;
+	oldPlaneX = config->player.plane_x;
+	config->player.dir_x = config->player.dir_x * cos(angle) - config->player.dir_y * sin(angle);
+	config->player.dir_y = oldDirX * sin(angle) + config->player.dir_y * cos(angle);
+	config->player.plane_x = config->player.plane_x * cos(angle) - config->player.plane_y
 		* sin(angle);
-	config->plane_y = oldPlaneX * sin(angle) + config->plane_y * cos(angle);
+	config->player.plane_y = oldPlaneX * sin(angle) + config->player.plane_y * cos(angle);
 }
 
 int	key_handler(int keycode, t_game *game)
@@ -36,17 +36,17 @@ int	key_handler(int keycode, t_game *game)
 	if (keycode == KEY_ESC)
 		close_window(game);
 	else if (keycode == KEY_W)
-		move_player(game, game->config.dir_x * move_speed, game->config.dir_y
+		move_player(game, game->config.player.dir_x * move_speed, game->config.player.dir_y
 			* move_speed);
 	else if (keycode == KEY_S)
-		move_player(game, -game->config.dir_x * move_speed, -game->config.dir_y
+		move_player(game, -game->config.player.dir_x * move_speed, -game->config.player.dir_y
 			* move_speed);
 	else if (keycode == KEY_A)
-		move_player(game, -game->config.plane_x * move_speed,
-			-game->config.plane_y * move_speed);
+		move_player(game, -game->config.player.plane_x * move_speed,
+			-game->config.player.plane_y * move_speed);
 	else if (keycode == KEY_D)
-		move_player(game, game->config.plane_x * move_speed,
-			game->config.plane_y * move_speed);
+		move_player(game, game->config.player.plane_x * move_speed,
+			game->config.player.plane_y * move_speed);
 	else if (keycode == KEY_LEFT)
 		rotate_player(&game->config, -rot_speed);
 	else if (keycode == KEY_RIGHT)
@@ -84,12 +84,12 @@ void	move_player(t_game *game, double dx, double dy)
 	double	nx;
 	double	ny;
 
-	nx = game->config.player_x + dx;
-	ny = game->config.player_y + dy;
+	nx = game->config.player.x + dx;
+	ny = game->config.player.y + dy;
 	if (game->config.map.grid[(int)ny][(int)nx] != '1')
 	{
-		game->config.player_x = nx;
-		game->config.player_y = ny;
+		game->config.player.x = nx;
+		game->config.player.y = ny;
 	}
 }
 
@@ -110,71 +110,35 @@ void	put_pixels(t_img *img, int x, int y, int color)
 	*(unsigned int *)dst = (unsigned int)color;
 }
 
-// temporary
-#include <string.h>
-
-char	**dup_map_rows(const char *rows[], int count)
-{
-	char	**map;
-
-	map = malloc((count + 1) * sizeof(char *));
-	if (!map)
-		return (NULL);
-	for (int i = 0; i < count; ++i)
-	{
-		map[i] = strdup(rows[i]);
-		if (!map[i])
-		{
-			while (--i >= 0)
-				free(map[i]);
-			free(map);
-			return (NULL);
-		}
-	}
-	map[count] = NULL;
-	return (map);
-}
-
-void	pordznakan(t_game *game)
-{
-	const char	*rows[] = {"1111111", "1000001", "100E001", "1000001",
-			"1111111"};
-
-	game->config.map.grid = dup_map_rows(rows, 5);
-	game->config.map.width = 7;
-	game->config.map.height = 5;
-}
-// temporary
-
 void	set_dir_plane(t_config *config, char p)
 {
 	if (p == 'N')
 	{
-		config->dir_x = 0;
-		config->dir_y = -1;
-		config->plane_x = 0.66;
-		config->plane_y = 0;
+		config->player.dir_x = 0;
+		config->player.dir_y = -1;
+		config->player.plane_x = 0.66;
+		config->player.plane_y = 0;
 	}
 	else if (p == 'S')
 	{
-		config->dir_x = 0;
-		config->dir_y = 1;
-		config->plane_x = -0.66;
-		config->plane_y = 0;
+		config->player.dir_x = 0;
+		config->player.dir_y = 1;
+		config->player.plane_x = -0.66;
+		config->player.plane_y = 0;
 	}
 	else if (p == 'E')
 	{
-		config->dir_x = 1;
-		config->dir_y = 0;
-		config->plane_x = 0;
-		config->plane_y = 0.66;
+		config->player.dir_x = 1;
+		config->player.dir_y = 0;
+		config->player.plane_x = 0;
+		config->player.plane_y = 0.66;
 	}
 	else if (p == 'W')
 	{
-		config->dir_x = -1;
-		config->dir_y = 0;
-		config->plane_x = 0;
-		config->plane_y = -0.66;
+		config->player.dir_x = -1;
+		config->player.dir_y = 0;
+		config->player.plane_x = 0;
+		config->player.plane_y = -0.66;
 	}
 }
 
@@ -193,8 +157,8 @@ void	init_player(t_config *config)
 			p = config->map.grid[y][x];
 			if (p == 'N' || p == 'S' || p == 'E' || p == 'W')
 			{
-				config->player_x = x + 0.5;
-				config->player_y = y + 0.5;
+				config->player.x = x + 0.5;
+				config->player.y = y + 0.5;
 				set_dir_plane(config, p);
 				config->map.grid[y][x] = '0';
 				return ;
@@ -214,7 +178,6 @@ int	render(t_game *game)
 
 void	start_game(t_game *game)
 {
-	pordznakan(game);
 	init_player(&game->config);
 	game->config.colors.floor_int = rgb_to_int(game->config.colors.floor[0],
 			game->config.colors.floor[1], game->config.colors.floor[2]);
