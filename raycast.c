@@ -6,7 +6,7 @@
 /*   By: mabaghda <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 17:52:02 by mabaghda          #+#    #+#             */
-/*   Updated: 2025/12/14 16:08:02 by mabaghda         ###   ########.fr       */
+/*   Updated: 2025/12/14 17:26:31 by mabaghda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,10 @@
 void	init_ray(t_game *game, int x, t_ray *ray)
 {
 	ray->cameraX = 2 * x / (double)WIDTH - 1;
-	ray->rayDirX = game->config.player.dir_x + game->config.player.plane_x * ray->cameraX;
-	ray->rayDirY = game->config.player.dir_y + game->config.player.plane_y * ray->cameraX;
+	ray->rayDirX = game->config.player.dir_x + game->config.player.plane_x
+		* ray->cameraX;
+	ray->rayDirY = game->config.player.dir_y + game->config.player.plane_y
+		* ray->cameraX;
 	ray->mapX = (int)game->config.player.x;
 	ray->mapY = (int)game->config.player.y;
 	ray->hit = 0;
@@ -73,11 +75,12 @@ void	perform_dda(t_game *game, t_ray *ray)
 			ray->mapY += ray->stepY;
 			ray->side = 1;
 		}
-		if (game->config.map.grid[ray->mapY][ray->mapX] == '1')
-			ray->hit = 1;
 		if (ray->mapY < 0 || ray->mapX < 0 || !game->config.map.grid[ray->mapY]
 			|| !game->config.map.grid[ray->mapY][ray->mapX])
 			break ;
+		if (game->config.map.grid[ray->mapY][ray->mapX] == '1'
+			|| game->config.map.grid[ray->mapY][ray->mapX] == '2')
+			ray->hit = 1;
 	}
 }
 
@@ -104,7 +107,7 @@ void	draw_wall_line(t_game *game, int x, int start, int end)
 	while (y < HEIGHT)
 	{
 		if (y >= start && y <= end)
-			put_pixels(&game->img, x, y, 0xf891a5);
+			put_pixels(&game->img, x, y, 0x7f00ff);
 		else if (y < start)
 			put_pixels(&game->img, x, y, game->config.colors.ceiling_int);
 		else
@@ -124,6 +127,11 @@ void	raycasting(t_game *game)
 		init_ray(game, x, &ray);
 		calc_step_and_side(game, &ray);
 		perform_dda(game, &ray);
+		if (!ray.hit)
+		{
+			x++;
+			continue ;
+		}
 		calc_wall_height(&ray);
 		draw_wall_line(game, x, ray.drawStart, ray.drawEnd);
 		x++;

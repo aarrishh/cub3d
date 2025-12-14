@@ -6,7 +6,7 @@
 /*   By: mabaghda <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 22:01:55 by arina             #+#    #+#             */
-/*   Updated: 2025/12/14 15:44:17 by mabaghda         ###   ########.fr       */
+/*   Updated: 2025/12/14 17:14:11 by mabaghda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,18 +94,57 @@ int	start_validation(char *file, t_config *data, t_map *map)
 	return (0);
 }
 
+void	init_all(t_game *game)
+{
+	int	i;
+
+	game->mlx = NULL;
+	game->window = NULL;
+	game->img.img = NULL;
+	game->img.address = NULL;
+	game->img.bits_per_pixel = 0;
+	game->img.line_length = 0;
+	game->img.endian = 0;
+	game->config.textures.no = NULL;
+	game->config.textures.so = NULL;
+	game->config.textures.we = NULL;
+	game->config.textures.ea = NULL;
+	i = 0;
+	while (i < 3)
+	{
+		game->config.colors.floor[i] = 0;
+		game->config.colors.ceiling[i] = 0;
+		i++;
+	}
+	game->config.colors.floor_int = 0;
+	game->config.colors.ceiling_int = 0;
+	game->config.map.grid = NULL;
+	game->config.map.width = 0;
+	game->config.map.height = 0;
+	game->config.player.x = 0.0;
+	game->config.player.y = 0.0;
+	game->config.player.dir_x = 0.0;
+	game->config.player.dir_y = 0.0;
+	game->config.player.plane_x = 0.0;
+	game->config.player.plane_y = 0.0;
+	game->config.hyusisharav = NULL;
+	game->config.map_before_split = NULL;
+	game->config.splited_hyusisharav = NULL;
+	game->config.splited_map = NULL;
+}
+
 int	main(int argc, char **argv)
 {
-	t_game		game;
-	t_config	data;
-	t_map		map;
-	int			return_value;
+	t_game	game;
+	int		return_value;
 
 	return_value = 1;
 	if (argc == 2)
 	{
+		init_all(&game);
 		check_file(argv[1]);
-		return_value = start_validation(argv[1], &data, &map);
+		return_value = start_validation(argv[1], &game.config,
+				&game.config.map);
 		if (return_value < 0)
 		{
 			printf("Validation error!\n");
@@ -113,13 +152,11 @@ int	main(int argc, char **argv)
 		}
 		else
 			printf("Congratulations!\n");
-		flood_fill(&map);
+		flood_fill(&game.config.map);
 		// free_matrix(res);
 	}
 	else
 		return (write(2, "Error\n", 6), 1);
-	game.config = data;
-	game.config.map = map;
 	start_game(&game);
 	return (0);
 }

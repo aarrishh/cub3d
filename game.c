@@ -6,7 +6,7 @@
 /*   By: mabaghda <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/22 20:54:28 by mabaghda          #+#    #+#             */
-/*   Updated: 2025/12/14 16:11:26 by mabaghda         ###   ########.fr       */
+/*   Updated: 2025/12/14 17:12:25 by mabaghda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,14 @@ void	rotate_player(t_config *config, double angle)
 
 	oldDirX = config->player.dir_x;
 	oldPlaneX = config->player.plane_x;
-	config->player.dir_x = config->player.dir_x * cos(angle) - config->player.dir_y * sin(angle);
-	config->player.dir_y = oldDirX * sin(angle) + config->player.dir_y * cos(angle);
-	config->player.plane_x = config->player.plane_x * cos(angle) - config->player.plane_y
-		* sin(angle);
-	config->player.plane_y = oldPlaneX * sin(angle) + config->player.plane_y * cos(angle);
+	config->player.dir_x = config->player.dir_x * cos(angle)
+		- config->player.dir_y * sin(angle);
+	config->player.dir_y = oldDirX * sin(angle) + config->player.dir_y
+		* cos(angle);
+	config->player.plane_x = config->player.plane_x * cos(angle)
+		- config->player.plane_y * sin(angle);
+	config->player.plane_y = oldPlaneX * sin(angle) + config->player.plane_y
+		* cos(angle);
 }
 
 int	key_handler(int keycode, t_game *game)
@@ -36,11 +39,11 @@ int	key_handler(int keycode, t_game *game)
 	if (keycode == KEY_ESC)
 		close_window(game);
 	else if (keycode == KEY_W)
-		move_player(game, game->config.player.dir_x * move_speed, game->config.player.dir_y
-			* move_speed);
+		move_player(game, game->config.player.dir_x * move_speed,
+			game->config.player.dir_y * move_speed);
 	else if (keycode == KEY_S)
-		move_player(game, -game->config.player.dir_x * move_speed, -game->config.player.dir_y
-			* move_speed);
+		move_player(game, -game->config.player.dir_x * move_speed,
+			-game->config.player.dir_y * move_speed);
 	else if (keycode == KEY_A)
 		move_player(game, -game->config.player.plane_x * move_speed,
 			-game->config.player.plane_y * move_speed);
