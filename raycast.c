@@ -6,7 +6,7 @@
 /*   By: mabaghda <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 17:52:02 by mabaghda          #+#    #+#             */
-/*   Updated: 2025/12/14 20:21:16 by mabaghda         ###   ########.fr       */
+/*   Updated: 2025/12/16 17:56:38 by mabaghda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,19 +99,20 @@ void	calc_wall_height(t_ray *ray)
 		ray->drawEnd = HEIGHT - 1;
 }
 
-void	draw_wall_line(t_game *game, int x, int start, int end)
+void	draw_ceiling_floor(t_game *game, int x, int drawStart, int drawEnd)
 {
 	int	y;
 
 	y = 0;
+	while (y < drawStart)
+	{
+		put_pixels(&game->img, x, y, game->config.colors.ceiling_int);
+		y++;
+	}
+	y = drawEnd + 1;
 	while (y < HEIGHT)
 	{
-		if (y >= start && y <= end)
-			put_pixels(&game->img, x, y, 0x7f00ff);
-		else if (y < start)
-			put_pixels(&game->img, x, y, game->config.colors.ceiling_int);
-		else
-			put_pixels(&game->img, x, y, game->config.colors.floor_int);
+		put_pixels(&game->img, x, y, game->config.colors.floor_int);
 		y++;
 	}
 }
@@ -127,13 +128,12 @@ void	raycasting(t_game *game)
 		init_ray(game, x, &ray);
 		calc_step_and_side(game, &ray);
 		perform_dda(game, &ray);
-		if (!ray.hit)
+		if (ray.hit)
 		{
-			x++;
-			continue ;
+			calc_wall_height(&ray);
+			draw_ceiling_floor(game, x, ray.drawStart, ray.drawEnd);
+			draw_textured_wall(game, &ray, x);
 		}
-		calc_wall_height(&ray);
-		draw_wall_line(game, x, ray.drawStart, ray.drawEnd);
 		x++;
 	}
 }

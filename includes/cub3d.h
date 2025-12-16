@@ -6,7 +6,7 @@
 /*   By: mabaghda <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 20:15:12 by arina             #+#    #+#             */
-/*   Updated: 2025/12/14 17:26:49 by mabaghda         ###   ########.fr       */
+/*   Updated: 2025/12/16 17:48:29 by mabaghda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,7 @@ typedef struct s_ray
 	int			lineHeight;
 	int			drawStart;
 	int			drawEnd;
+	int			texX;
 
 }				t_ray;
 
@@ -111,12 +112,27 @@ typedef struct s_img
 	int			endian;
 }				t_img;
 
+typedef struct s_teximg
+{
+	void		*img;
+	char		*addr;
+	int			width;
+	int			height;
+	int			bpp;
+	int			line_len;
+	int			endian;
+}				t_teximg;
+
 typedef struct s_game
 {
 	t_config	config;
 	void		*mlx;
 	void		*window;
 	t_img		img;
+	t_teximg	north;
+	t_teximg	south;
+	t_teximg	east;
+	t_teximg	west;
 }				t_game;
 
 typedef struct s_colflag
@@ -158,7 +174,6 @@ void			start_game(t_game *game);
 int				close_window(t_game *game);
 int				key_handler(int keycode, t_game *game);
 void			put_pixels(t_img *img, int x, int y, int color);
-void			draw_wall_line(t_game *game, int x, int start, int end);
 void			raycasting(t_game *game);
 int				render(t_game *game);
 
@@ -170,5 +185,10 @@ void			init_ray(t_game *game, int x, t_ray *ray);
 void			calc_step_and_side(t_game *game, t_ray *ray);
 void			perform_dda(t_game *game, t_ray *ray);
 void			calc_wall_height(t_ray *ray);
+
+void			load_texture(void *mlx, t_teximg *tex, char *path);
+t_teximg		*select_texture(t_game *game, t_ray *ray);
+void			calc_texture_x(t_game *game, t_ray *ray, t_teximg *tex);
+void			draw_textured_wall(t_game *game, t_ray *ray, int x);
 
 #endif

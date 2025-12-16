@@ -6,7 +6,7 @@
 #    By: mabaghda <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/09/30 20:26:46 by arina             #+#    #+#              #
-#    Updated: 2025/12/14 17:45:44 by mabaghda         ###   ########.fr        #
+#    Updated: 2025/12/16 17:49:36 by mabaghda         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,8 @@ SRCS = main.c get_next_line/get_next_line.c \
 	get_next_line/get_next_line_utils.c \
 	ft_split.c functions.c functions_for_trim.c \
 	parse.c game.c raycast.c map_operations.c \
-	flood_fill.c check_functions.c mini_functions.c
+	flood_fill.c check_functions.c mini_functions.c \
+	textures.c
 
 
 YELLOW = \033[0;33m
