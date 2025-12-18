@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: arina <arina@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mabaghda <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/09 18:18:49 by arina             #+#    #+#             */
-/*   Updated: 2025/12/04 20:40:56 by arina            ###   ########.fr       */
+/*   Updated: 2025/12/18 15:55:13 by mabaghda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,7 +168,7 @@ int	parse_elements(t_config **data)
 		else if (ft_strncmp(file[i], "F", 1) == 0 || ft_strncmp(file[i], "C", 1) == 0)
 			parse_color(*data, file[i]);
 		else
-			print_error("Invalid line in configuratio\n", file);
+			print_error("Invalid line in configuration\n", file);
 		i++;
 	}
 	check_textures((*data)->textures);

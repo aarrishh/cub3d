@@ -6,7 +6,7 @@
 /*   By: mabaghda <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 20:15:12 by arina             #+#    #+#             */
-/*   Updated: 2025/12/16 17:48:29 by mabaghda         ###   ########.fr       */
+/*   Updated: 2025/12/18 13:44:17 by mabaghda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,7 +187,7 @@ void			perform_dda(t_game *game, t_ray *ray);
 void			calc_wall_height(t_ray *ray);
 
 void			load_texture(void *mlx, t_teximg *tex, char *path);
-t_teximg		*select_texture(t_game *game, t_ray *ray);
+t_teximg		*pick_texture(t_game *game, t_ray *ray);
 void			calc_texture_x(t_game *game, t_ray *ray, t_teximg *tex);
 void			draw_textured_wall(t_game *game, t_ray *ray, int x);
 

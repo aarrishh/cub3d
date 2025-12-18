@@ -6,7 +6,7 @@
 /*   By: mabaghda <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 17:36:15 by mabaghda          #+#    #+#             */
-/*   Updated: 2025/12/16 17:56:10 by mabaghda         ###   ########.fr       */
+/*   Updated: 2025/12/18 13:44:17 by mabaghda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	load_texture(void *mlx, t_teximg *tex, char *path)
 			&tex->endian);
 }
 
-t_teximg	*select_texture(t_game *game, t_ray *ray)
+t_teximg	*pick_texture(t_game *game, t_ray *ray)
 {
 	if (ray->side == 0)
 	{
@@ -62,7 +62,7 @@ void	draw_textured_wall(t_game *game, t_ray *ray, int x)
 	int			texY;
 	int			color;
 
-	tex = select_texture(game, ray);
+	tex = pick_texture(game, ray);
 	calc_texture_x(game, ray, tex);
 	step = (double)tex->height / ray->lineHeight;
 	texPos = (ray->drawStart - HEIGHT / 2 + ray->lineHeight / 2) * step;

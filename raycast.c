@@ -6,7 +6,7 @@
 /*   By: mabaghda <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 17:52:02 by mabaghda          #+#    #+#             */
-/*   Updated: 2025/12/16 17:56:38 by mabaghda         ###   ########.fr       */
+/*   Updated: 2025/12/18 13:42:49 by mabaghda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,7 @@ void	raycasting(t_game *game)
 		init_ray(game, x, &ray);
 		calc_step_and_side(game, &ray);
 		perform_dda(game, &ray);
-		if (ray.hit)
+		if (ray.hit == 1)
 		{
 			calc_wall_height(&ray);
 			draw_ceiling_floor(game, x, ray.drawStart, ray.drawEnd);

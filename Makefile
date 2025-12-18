@@ -6,11 +6,12 @@
 #    By: mabaghda <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/09/30 20:26:46 by arina             #+#    #+#              #
-#    Updated: 2025/12/16 17:49:36 by mabaghda         ###   ########.fr        #
+#    Updated: 2025/12/18 19:37:44 by mabaghda         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = cub3d
+
+NAME = cub3D
 
 CC = cc
 CFLAGS = -Wall -Wextra -Werror #-g3 -fsanitize=address
