@@ -6,7 +6,7 @@
 /*   By: mabaghda <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 17:52:02 by mabaghda          #+#    #+#             */
-/*   Updated: 2026/01/10 19:41:52 by mabaghda         ###   ########.fr       */
+/*   Updated: 2026/01/10 19:48:47 by mabaghda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,24 +100,6 @@ void	calc_wall_height(t_ray *ray)
 	ray->draw_end = ray->line_height / 2 + HEIGHT / 2;
 	if (ray->draw_end >= HEIGHT)
 		ray->draw_end = HEIGHT - 1;
-}
-
-void	draw_ceiling_floor(t_game *game, int x, int draw_start, int draw_end)
-{
-	int	y;
-
-	y = 0;
-	while (y < draw_start)
-	{
-		put_pixels(&game->img, x, y, game->config.colors.ceiling_int);
-		y++;
-	}
-	y = draw_end + 1;
-	while (y < HEIGHT)
-	{
-		put_pixels(&game->img, x, y, game->config.colors.floor_int);
-		y++;
-	}
 }
 
 void	raycasting(t_game *game)

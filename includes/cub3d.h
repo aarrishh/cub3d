@@ -6,7 +6,7 @@
 /*   By: mabaghda <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 20:15:12 by arina             #+#    #+#             */
-/*   Updated: 2026/01/10 19:40:03 by mabaghda         ###   ########.fr       */
+/*   Updated: 2026/01/10 20:01:34 by mabaghda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,12 +180,16 @@ int				render(t_game *game);
 void			set_dir_plane(t_config *config, char p);
 void			init_player(t_config *config);
 void			move_player(t_game *game, double dx, double dy);
+void			rotate_player(t_config *config, double angle);
 
 void			init_ray(t_game *game, int x, t_ray *ray);
 void			calc_step_and_side(t_game *game, t_ray *ray);
 void			perform_dda(t_game *game, t_ray *ray);
 void			calc_wall_height(t_ray *ray);
 
+int				rgb_to_int(int r, int g, int b);
+void			draw_ceiling_floor(t_game *game, int x, int draw_start,
+					int draw_end);
 void			load_texture(void *mlx, t_teximg *tex, char *path);
 t_teximg		*pick_texture(t_game *game, t_ray *ray);
 void			calc_texture_x(t_game *game, t_ray *ray, t_teximg *tex);

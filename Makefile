@@ -6,7 +6,7 @@
 #    By: mabaghda <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/09/30 20:26:46 by arina             #+#    #+#              #
-#    Updated: 2026/01/10 19:28:34 by mabaghda         ###   ########.fr        #
+#    Updated: 2026/01/10 20:01:46 by mabaghda         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,8 @@ SRCS = src/main.c get_next_line/get_next_line.c \
 	src/validation/parse.c src/raycast/game.c \
 	src/raycast/raycast.c src/validation/map_operations.c \
 	src/validation/flood_fill.c src/validation/check_functions.c \
-	src/validation/mini_functions.c src/raycast/textures.c
+	src/validation/mini_functions.c src/raycast/textures.c \
+	src/raycast/draw.c src/raycast/player.c
 
 
 YELLOW = \033[0;33m

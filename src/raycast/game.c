@@ -6,28 +6,11 @@
 /*   By: mabaghda <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/22 20:54:28 by mabaghda          #+#    #+#             */
-/*   Updated: 2026/01/10 19:11:22 by mabaghda         ###   ########.fr       */
+/*   Updated: 2026/01/10 19:55:48 by mabaghda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
-
-void	rotate_player(t_config *config, double angle)
-{
-	double	old_dir_x;
-	double	old_plane_x;
-
-	old_dir_x = config->player.dir_x;
-	old_plane_x = config->player.plane_x;
-	config->player.dir_x = config->player.dir_x * cos(angle)
-		- config->player.dir_y * sin(angle);
-	config->player.dir_y = old_dir_x * sin(angle) + config->player.dir_y
-		* cos(angle);
-	config->player.plane_x = config->player.plane_x * cos(angle)
-		- config->player.plane_y * sin(angle);
-	config->player.plane_y = old_plane_x * sin(angle) + config->player.plane_y
-		* cos(angle);
-}
 
 int	key_handler(int keycode, t_game *game)
 {
@@ -82,37 +65,6 @@ int	close_window(t_game *game)
 	exit(0);
 }
 
-void	move_player(t_game *game, double dx, double dy)
-{
-	double	nx;
-	double	ny;
-
-	nx = game->config.player.x + dx;
-	ny = game->config.player.y + dy;
-	if (game->config.map.grid[(int)ny][(int)nx] != '1')
-	{
-		game->config.player.x = nx;
-		game->config.player.y = ny;
-	}
-}
-
-int	rgb_to_int(int r, int g, int b)
-{
-	return ((r << 16) | (g << 8) | b);
-}
-
-void	put_pixels(t_img *img, int x, int y, int color)
-{
-	char	*dst;
-
-	if (!img || !img->address)
-		return ;
-	if (x < 0 || x >= WIDTH || y < 0 || y >= HEIGHT)
-		return ;
-	dst = img->address + (y * img->line_length + x * (img->bits_per_pixel / 8));
-	*(unsigned int *)dst = (unsigned int)color;
-}
-
 void	set_dir_plane(t_config *config, char p)
 {
 	if (p == 'N')
@@ -142,33 +94,6 @@ void	set_dir_plane(t_config *config, char p)
 		config->player.dir_y = 0;
 		config->player.plane_x = 0;
 		config->player.plane_y = -0.66;
-	}
-}
-
-void	init_player(t_config *config)
-{
-	char	p;
-	int		x;
-	int		y;
-
-	y = 0;
-	while (config->map.grid[y])
-	{
-		x = 0;
-		while (config->map.grid[y][x])
-		{
-			p = config->map.grid[y][x];
-			if (p == 'N' || p == 'S' || p == 'E' || p == 'W')
-			{
-				config->player.x = x + 0.5;
-				config->player.y = y + 0.5;
-				set_dir_plane(config, p);
-				config->map.grid[y][x] = '0';
-				return ;
-			}
-			x++;
-		}
-		y++;
 	}
 }
 
