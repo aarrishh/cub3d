@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   functions.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: arina <arina@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mabaghda <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 20:41:46 by arina             #+#    #+#             */
-/*   Updated: 2025/12/04 20:37:06 by arina            ###   ########.fr       */
+/*   Updated: 2026/01/10 18:28:01 by mabaghda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ char	*ft_strjoin_(char *s1, char *s2)
 	}
 	a[i + j] = '\0';
 	if (s1)
-		free (s1);
+		free(s1);
 	return (a);
 }
 
@@ -59,7 +59,6 @@ char	*ft_strdup(const char *s)
 	return (buffer);
 }
 
-
 int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {
 	size_t	i;
@@ -72,11 +71,12 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
 }
 
-void print_matrix(char **str)
+void	print_matrix(char **str)
 {
-	for(int i = 0; str[i]; i++)
+	for (int i = 0; str[i]; i++)
 		printf("%s\n", str[i]);
-} // pti jnjvi
+}
+// pti jnjvi
 
 void	print_error(char *error, char **str)
 {
@@ -115,7 +115,7 @@ void	check_digits(const char *s)
 	{
 		printf("RGB must contain only digits\n");
 		exit(1);
-	}	
+	}
 	while (s[i])
 	{
 		if (s[i] < '0' || s[i] > '9')
@@ -150,4 +150,3 @@ int	ft_atoi(const char *s)
 	}
 	return (sign * r);
 }
-

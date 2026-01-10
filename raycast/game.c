@@ -6,7 +6,7 @@
 /*   By: mabaghda <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/22 20:54:28 by mabaghda          #+#    #+#             */
-/*   Updated: 2025/12/18 13:52:34 by mabaghda         ###   ########.fr       */
+/*   Updated: 2026/01/10 18:17:01 by mabaghda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,18 @@
 
 void	rotate_player(t_config *config, double angle)
 {
-	double	oldDirX;
-	double	oldPlaneX;
+	double	old_dir_x;
+	double	old_plane_x;
 
-	oldDirX = config->player.dir_x;
-	oldPlaneX = config->player.plane_x;
+	old_dir_x = config->player.dir_x;
+	old_plane_x = config->player.plane_x;
 	config->player.dir_x = config->player.dir_x * cos(angle)
 		- config->player.dir_y * sin(angle);
-	config->player.dir_y = oldDirX * sin(angle) + config->player.dir_y
+	config->player.dir_y = old_dir_x * sin(angle) + config->player.dir_y
 		* cos(angle);
 	config->player.plane_x = config->player.plane_x * cos(angle)
 		- config->player.plane_y * sin(angle);
-	config->player.plane_y = oldPlaneX * sin(angle) + config->player.plane_y
+	config->player.plane_y = old_plane_x * sin(angle) + config->player.plane_y
 		* cos(angle);
 }
 

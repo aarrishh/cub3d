@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_functions.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: arina <arina@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mabaghda <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 21:07:05 by arina             #+#    #+#             */
-/*   Updated: 2025/12/02 21:35:15 by arina            ###   ########.fr       */
+/*   Updated: 2026/01/10 18:10:04 by mabaghda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	check_file(char *file)
 		res = ft_strcmp((file + i), ".cub");
 		if (res != 0)
 		{
-			write (1, "Invalid map's name!\n", 20);
+			write(1, "Invalid map's name!\n", 20);
 			exit(1);
 		}
 		else
@@ -33,24 +33,22 @@ void	check_file(char *file)
 	}
 }
 
-int check_tex_f(t_colflag *flag)
+int	check_tex_f(t_colflag *flag)
 {
-	if (flag->ea_flag == 1 && flag->no_flag == 1
-		&& flag->so_flag == 1 && flag->we_flag == 1
-		&& flag->c_flag == 1 && flag->f_flag == 1 
+	if (flag->ea_flag == 1 && flag->no_flag == 1 && flag->so_flag == 1
+		&& flag->we_flag == 1 && flag->c_flag == 1 && flag->f_flag == 1
 		&& flag->map_flag == 1)
 		return (2);
-	if (flag->ea_flag == 1 && flag->no_flag == 1
-		&& flag->so_flag == 1 && flag->we_flag == 1
-		&& flag->c_flag == 1 && flag->f_flag == 1)
+	if (flag->ea_flag == 1 && flag->no_flag == 1 && flag->so_flag == 1
+		&& flag->we_flag == 1 && flag->c_flag == 1 && flag->f_flag == 1)
 		return (1);
-	if (flag->ea_flag == 1 && flag->no_flag == 1
-		&& flag->so_flag == 1 && flag->we_flag == 1)
+	if (flag->ea_flag == 1 && flag->no_flag == 1 && flag->so_flag == 1
+		&& flag->we_flag == 1)
 		return (0);
 	return (-1);
 }
 
-int check_sequence(char **str)
+int	check_sequence(char **str)
 {
 	int			i;
 	t_colflag	flag;
@@ -115,7 +113,7 @@ void	check_walls(char **str)
 	}
 }
 
-int check_map(char **splitted_map, t_config *data, t_map **map)
+int	check_map(char **splitted_map, t_config *data, t_map **map)
 {
 	t_colflag	f;
 	int			i;
@@ -123,14 +121,15 @@ int check_map(char **splitted_map, t_config *data, t_map **map)
 
 	i = 0;
 	init_colflag(&f);
-	while(data->splited_map[i])
+	while (data->splited_map[i])
 	{
 		returned_found = is_map_line(data->splited_map[i], &f);
 		if (returned_found == -1)
 			return (-1);
 		i++;
 	}
-	if (((f.no_flag + f.so_flag + f.we_flag + f.ea_flag) != 1))// && returned_found != 1
+	if (((f.no_flag + f.so_flag + f.we_flag + f.ea_flag) != 1)) //
+		&& returned_found != 1
 		return (-1);
 	if (check_sequence(splitted_map) == -1)
 		return (-1);

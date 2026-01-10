@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   functions_for_trim.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: arina <arina@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mabaghda <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 19:57:56 by arimanuk          #+#    #+#             */
-/*   Updated: 2025/12/02 20:35:05 by arina            ###   ########.fr       */
+/*   Updated: 2026/01/10 18:26:43 by mabaghda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,10 +70,10 @@ static int	cal_end(const char *s1, const char *set, int end, int i)
 
 char	*ft_strtrim(char const *s1, char const *set)
 {
-	int		i;
-	char	*a;
-	int		end;
-	int		malloc_i;
+	int i;
+	char *a;
+	int end;
+	int malloc_i;
 
 	if (!s1 || !set)
 		return (NULL);

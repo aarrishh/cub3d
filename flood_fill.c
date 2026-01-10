@@ -6,7 +6,7 @@
 /*   By: mabaghda <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 17:14:13 by arina             #+#    #+#             */
-/*   Updated: 2025/12/14 18:15:18 by mabaghda         ###   ########.fr       */
+/*   Updated: 2026/01/10 18:27:01 by mabaghda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ void	flood_fill_start(char **map, int y, int x, t_map *m)
 	flood_fill_start(map, y, x + 1, m);
 	flood_fill_start(map, y, x - 1, m);
 }
+
 char	**copy_map_for_flood_fill(char **map)
 {
 	char	**copy;

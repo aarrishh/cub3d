@@ -6,7 +6,7 @@
 /*   By: mabaghda <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 20:15:12 by arina             #+#    #+#             */
-/*   Updated: 2025/12/18 13:44:17 by mabaghda         ###   ########.fr       */
+/*   Updated: 2026/01/10 18:22:30 by mabaghda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,24 +82,24 @@ typedef struct s_config
 
 typedef struct s_ray
 {
-	double		cameraX;
-	double		rayDirX;
-	double		rayDirY;
-	int			mapX;
-	int			mapY;
-	double		deltaDistX;
-	double		deltaDistY;
-	double		sideDistX;
-	double		sideDistY;
-	int			stepX;
-	int			stepY;
+	double		camera_x;
+	double		ray_dir_x;
+	double		ray_dir_y;
+	int			map_x;
+	int			map_y;
+	double		delta_dist_x;
+	double		delta_dist_y;
+	double		side_dist_x;
+	double		side_dist_y;
+	int			step_x;
+	int			step_y;
 	int			hit;
 	int			side;
-	double		perpWallDist;
-	int			lineHeight;
-	int			drawStart;
-	int			drawEnd;
-	int			texX;
+	double		perp_wall_dist;
+	int			line_height;
+	int			draw_start;
+	int			draw_end;
+	int			texture_x;
 
 }				t_ray;
 
