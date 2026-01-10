@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   map_operations.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: arina <arina@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mabaghda <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 17:52:21 by arina             #+#    #+#             */
-/*   Updated: 2025/12/02 21:38:35 by arina            ###   ########.fr       */
+/*   Updated: 2026/01/10 19:20:40 by mabaghda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/cub3d.h"
+#include "../../includes/cub3d.h"
 
 void	free_array(char **buffer)
 {

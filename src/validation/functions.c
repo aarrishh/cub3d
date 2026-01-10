@@ -6,11 +6,11 @@
 /*   By: mabaghda <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 20:41:46 by arina             #+#    #+#             */
-/*   Updated: 2026/01/10 18:28:01 by mabaghda         ###   ########.fr       */
+/*   Updated: 2026/01/10 19:09:00 by mabaghda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/cub3d.h"
+#include "../../includes/cub3d.h"
 
 char	*ft_strjoin_(char *s1, char *s2)
 {

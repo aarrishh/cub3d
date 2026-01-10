@@ -6,11 +6,11 @@
 /*   By: mabaghda <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 21:07:05 by arina             #+#    #+#             */
-/*   Updated: 2026/01/10 18:10:04 by mabaghda         ###   ########.fr       */
+/*   Updated: 2026/01/10 19:23:50 by mabaghda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/cub3d.h"
+#include "../../includes/cub3d.h"
 
 void	check_file(char *file)
 {
@@ -128,8 +128,7 @@ int	check_map(char **splitted_map, t_config *data, t_map **map)
 			return (-1);
 		i++;
 	}
-	if (((f.no_flag + f.so_flag + f.we_flag + f.ea_flag) != 1)) //
-		&& returned_found != 1
+	if (((f.no_flag + f.so_flag + f.we_flag + f.ea_flag) != 1)) // && returned_found != 1
 		return (-1);
 	if (check_sequence(splitted_map) == -1)
 		return (-1);

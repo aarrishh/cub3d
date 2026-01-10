@@ -6,11 +6,11 @@
 /*   By: mabaghda <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 17:14:13 by arina             #+#    #+#             */
-/*   Updated: 2026/01/10 18:27:01 by mabaghda         ###   ########.fr       */
+/*   Updated: 2026/01/10 19:20:53 by mabaghda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/cub3d.h"
+#include "../../includes/cub3d.h"
 
 void	get_player_pos(t_map *map, int *px, int *py)
 {

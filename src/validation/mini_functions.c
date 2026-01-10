@@ -6,11 +6,11 @@
 /*   By: mabaghda <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 21:10:28 by arina             #+#    #+#             */
-/*   Updated: 2026/01/10 18:25:55 by mabaghda         ###   ########.fr       */
+/*   Updated: 2026/01/10 19:24:04 by mabaghda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/cub3d.h"
+#include "../../includes/cub3d.h"
 
 int	is_white_space(char c)
 {

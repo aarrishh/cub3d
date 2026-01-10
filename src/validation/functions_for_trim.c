@@ -6,11 +6,11 @@
 /*   By: mabaghda <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 19:57:56 by arimanuk          #+#    #+#             */
-/*   Updated: 2026/01/10 18:26:43 by mabaghda         ###   ########.fr       */
+/*   Updated: 2026/01/10 19:09:11 by mabaghda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/cub3d.h"
+#include "../../includes/cub3d.h"
 
 void	free_matrix(char **buffer)
 {

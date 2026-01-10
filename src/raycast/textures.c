@@ -6,11 +6,11 @@
 /*   By: mabaghda <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 17:36:15 by mabaghda          #+#    #+#             */
-/*   Updated: 2026/01/10 18:23:34 by mabaghda         ###   ########.fr       */
+/*   Updated: 2026/01/10 19:27:09 by mabaghda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/cub3d.h"
+#include "../../includes/cub3d.h"
 
 void	load_texture(void *mlx, t_teximg *tex, char *path)
 {
@@ -25,13 +25,13 @@ t_teximg	*pick_texture(t_game *game, t_ray *ray)
 {
 	if (ray->side == 0)
 	{
-		if (ray->rayDirX > 0)
+		if (ray->ray_dir_x > 0)
 			return (&game->west);
 		return (&game->east);
 	}
 	else
 	{
-		if (ray->rayDirY > 0)
+		if (ray->ray_dir_y > 0)
 			return (&game->north);
 		return (&game->south);
 	}
@@ -42,15 +42,15 @@ void	calc_texture_x(t_game *game, t_ray *ray, t_teximg *tex)
 	double	wall_x;
 
 	if (ray->side == 0)
-		wall_x = game->config.player.y + ray->perpWallDist * ray->rayDirY;
+		wall_x = game->config.player.y + ray->perp_wall_dist * ray->ray_dir_y;
 	else
-		wall_x = game->config.player.x + ray->perpWallDist * ray->rayDirX;
+		wall_x = game->config.player.x + ray->perp_wall_dist * ray->ray_dir_x;
 	wall_x -= floor(wall_x);
-	ray->texX = (int)(wall_x * tex->width);
-	if (ray->side == 0 && ray->rayDirX > 0)
-		ray->texX = tex->width - ray->texX - 1;
-	if (ray->side == 1 && ray->rayDirY < 0)
-		ray->texX = tex->width - ray->texX - 1;
+	ray->texture_x = (int)(wall_x * tex->width);
+	if (ray->side == 0 && ray->ray_dir_x > 0)
+		ray->texture_x = tex->width - ray->texture_x - 1;
+	if (ray->side == 1 && ray->ray_dir_y < 0)
+		ray->texture_x = tex->width - ray->texture_x - 1;
 }
 
 void	draw_textured_wall(t_game *game, t_ray *ray, int x)
@@ -64,10 +64,10 @@ void	draw_textured_wall(t_game *game, t_ray *ray, int x)
 
 	tex = pick_texture(game, ray);
 	calc_texture_x(game, ray, tex);
-	step = (double)tex->height / ray->lineHeight;
-	tex_pos = (ray->drawStart - HEIGHT / 2 + ray->lineHeight / 2) * step;
-	y = ray->drawStart;
-	while (y <= ray->drawEnd)
+	step = (double)tex->height / ray->line_height;
+	tex_pos = (ray->draw_start - HEIGHT / 2 + ray->line_height / 2) * step;
+	y = ray->draw_start;
+	while (y <= ray->draw_end)
 	{
 		tex_y = (int)tex_pos;
 		if (tex_y < 0)
@@ -75,7 +75,7 @@ void	draw_textured_wall(t_game *game, t_ray *ray, int x)
 		if (tex_y >= tex->height)
 			tex_y = tex->height - 1;
 		tex_pos += step;
-		color = *(int *)(tex->addr + tex_y * tex->line_len + ray->texX
+		color = *(int *)(tex->addr + tex_y * tex->line_len + ray->texture_x
 				* (tex->bpp / 8));
 		put_pixels(&game->img, x, y, color);
 		y++;

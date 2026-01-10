@@ -6,7 +6,7 @@
 #    By: mabaghda <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/09/30 20:26:46 by arina             #+#    #+#              #
-#    Updated: 2025/12/18 19:37:44 by mabaghda         ###   ########.fr        #
+#    Updated: 2026/01/10 19:28:34 by mabaghda         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,12 +22,14 @@ MLX_FLAGS = -L$(MLX_DIR) -lmlx -lX11 -lXext -lGL -lGLU
 OBJ_DIR = objects
 OBJS = $(SRCS:%.c=$(OBJ_DIR)/%.o)
 
-SRCS = main.c get_next_line/get_next_line.c \
+SRCS = src/main.c get_next_line/get_next_line.c \
 	get_next_line/get_next_line_utils.c \
-	ft_split.c functions.c functions_for_trim.c \
-	parse.c game.c raycast.c map_operations.c \
-	flood_fill.c check_functions.c mini_functions.c \
-	textures.c
+	src/validation/ft_split.c src/validation/functions.c \
+	src/validation/functions_for_trim.c \
+	src/validation/parse.c src/raycast/game.c \
+	src/raycast/raycast.c src/validation/map_operations.c \
+	src/validation/flood_fill.c src/validation/check_functions.c \
+	src/validation/mini_functions.c src/raycast/textures.c
 
 
 YELLOW = \033[0;33m
