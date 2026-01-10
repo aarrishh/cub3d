@@ -6,7 +6,7 @@
 /*   By: mabaghda <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 17:36:15 by mabaghda          #+#    #+#             */
-/*   Updated: 2026/01/10 19:27:09 by mabaghda         ###   ########.fr       */
+/*   Updated: 2026/01/10 19:39:15 by mabaghda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,14 +53,13 @@ void	calc_texture_x(t_game *game, t_ray *ray, t_teximg *tex)
 		ray->texture_x = tex->width - ray->texture_x - 1;
 }
 
-void	draw_textured_wall(t_game *game, t_ray *ray, int x)
+void	draw_textured_wall(t_game *game, t_ray *ray, t_teximg *tex, int x)
 {
-	t_teximg	*tex;
-	double		step;
-	double		tex_pos;
-	int			y;
-	int			tex_y;
-	int			color;
+	double	step;
+	double	tex_pos;
+	int		y;
+	int		tex_y;
+	int		color;
 
 	tex = pick_texture(game, ray);
 	calc_texture_x(game, ray, tex);

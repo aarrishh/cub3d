@@ -6,7 +6,7 @@
 /*   By: mabaghda <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 17:52:02 by mabaghda          #+#    #+#             */
-/*   Updated: 2026/01/10 19:20:16 by mabaghda         ###   ########.fr       */
+/*   Updated: 2026/01/10 19:41:52 by mabaghda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	init_ray(t_game *game, int x, t_ray *ray)
 {
 	ray->camera_x = 2 * x / (double)WIDTH - 1;
-	ray->ray_dir_x= game->config.player.dir_x + game->config.player.plane_x
+	ray->ray_dir_x = game->config.player.dir_x + game->config.player.plane_x
 		* ray->camera_x;
 	ray->ray_dir_y = game->config.player.dir_y + game->config.player.plane_y
 		* ray->camera_x;
@@ -23,7 +23,7 @@ void	init_ray(t_game *game, int x, t_ray *ray)
 	ray->map_y = (int)game->config.player.y;
 	ray->hit = 0;
 	ray->side = 0;
-	if (ray->ray_dir_x== 0.0)
+	if (ray->ray_dir_x == 0.0)
 		ray->delta_dist_x = 1e30;
 	else
 		ray->delta_dist_x = fabs(1.0 / ray->ray_dir_x);
@@ -35,10 +35,11 @@ void	init_ray(t_game *game, int x, t_ray *ray)
 
 void	calc_step_and_side(t_game *game, t_ray *ray)
 {
-	if (ray->ray_dir_x< 0)
+	if (ray->ray_dir_x < 0)
 	{
 		ray->step_x = -1;
-		ray->side_dist_x = (game->config.player.x - ray->map_x) * ray->delta_dist_x;
+		ray->side_dist_x = (game->config.player.x - ray->map_x)
+			* ray->delta_dist_x;
 	}
 	else
 	{
@@ -49,7 +50,8 @@ void	calc_step_and_side(t_game *game, t_ray *ray)
 	if (ray->ray_dir_y < 0)
 	{
 		ray->step_y = -1;
-		ray->side_dist_y = (game->config.player.y - ray->map_y) * ray->delta_dist_y;
+		ray->side_dist_y = (game->config.player.y - ray->map_y)
+			* ray->delta_dist_y;
 	}
 	else
 	{
@@ -75,7 +77,8 @@ void	perform_dda(t_game *game, t_ray *ray)
 			ray->map_y += ray->step_y;
 			ray->side = 1;
 		}
-		if (ray->map_y < 0 || ray->map_x < 0 || !game->config.map.grid[ray->map_y]
+		if (ray->map_y < 0 || ray->map_x < 0
+			|| !game->config.map.grid[ray->map_y]
 			|| !game->config.map.grid[ray->map_y][ray->map_x])
 			break ;
 		if (game->config.map.grid[ray->map_y][ray->map_x] == '1'
@@ -119,8 +122,9 @@ void	draw_ceiling_floor(t_game *game, int x, int draw_start, int draw_end)
 
 void	raycasting(t_game *game)
 {
-	int		x;
-	t_ray	ray;
+	int			x;
+	t_ray		ray;
+	t_teximg	tex;
 
 	x = 0;
 	while (x < WIDTH)
@@ -132,7 +136,7 @@ void	raycasting(t_game *game)
 		{
 			calc_wall_height(&ray);
 			draw_ceiling_floor(game, x, ray.draw_start, ray.draw_end);
-			draw_textured_wall(game, &ray, x);
+			draw_textured_wall(game, &ray, &tex, x);
 		}
 		x++;
 	}
