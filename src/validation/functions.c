@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   functions.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabaghda <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: arina <arina@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 20:41:46 by arina             #+#    #+#             */
-/*   Updated: 2026/01/10 19:09:00 by mabaghda         ###   ########.fr       */
+/*   Updated: 2026/01/18 14:47:43 by arina            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,8 @@ void	print_matrix(char **str)
 void	print_error(char *error, char **str)
 {
 	(void)str;
-	// free_matrix(str);
+	// if (str)
+		free_matrix(str);
 	// write(1, "Error\n", 6);
 	write(1, error, ft_strlen(error));
 	exit(1);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabaghda <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: arina <arina@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/09 18:18:49 by arina             #+#    #+#             */
-/*   Updated: 2026/01/10 19:10:14 by mabaghda         ###   ########.fr       */
+/*   Updated: 2026/01/18 15:07:59 by arina            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,7 @@ int	parse_texture(t_config *data, char *line)
 		data->textures.ea = ft_strdup(split[1]);
 	else
 		print_error("Unknown texture identifier\n", split);
-	// printf("%s\n", data->textures.ea);
-	// printf("%s\n", data->textures.so);
-	// printf("%s\n", data->textures.we);
-	// printf("%s\n", data->textures.no);
-    //free_matrix petqa anenq voncvor???
+    free_matrix(split);
 	return (0);
 }
 
@@ -58,39 +54,100 @@ int	color_value(char *s)
 	return (value);
 }
 
-int	parse_color(t_config *data, char *line)
+// int	parse_color(t_config *data, char *line)
+// {
+// 	char	**split;
+// 	char	**rgb;
+
+// 	split = ft_split(line,  ' ', 2);
+// 	if (split[1])
+// 		rgb = ft_split(split[1], ',', MAX_SPLIT_CNT);
+// 	else
+// 		return (-1);
+// 	free(split[1]);
+// 	int i = 0;
+// 	while (rgb[i])
+// 	{		
+// 		rgb[i] = ft_strtrim(rgb[i], "\n\t\v\r\f ");
+// 		i++;
+// 	}
+// 	if (!rgb[0] || !rgb[1] || !rgb[2])
+// 		print_error("Invalid RGB format\n", rgb);
+// 	if (ft_strcmp(split[0], "F") == 0)
+// 	{
+// 		data->colors.floor[0] = color_value(rgb[0]);
+// 		data->colors.floor[1] = color_value(rgb[1]);
+// 		data->colors.floor[2] = color_value(rgb[2]);
+// 	}
+// 	else if (ft_strcmp(split[0], "C") == 0)
+// 	{
+// 		data->colors.ceiling[0] = color_value(rgb[0]);
+// 		data->colors.ceiling[1] = color_value(rgb[1]);
+// 		data->colors.ceiling[2] = color_value(rgb[2]);
+// 	}
+// 	// free_matrix(split); ereviii
+// 	// free_matrix(rgb); ereviii
+// 	return (0);
+// }
+
+
+char	**split_color_line(char *line)
 {
 	char	**split;
-	char	**rgb;
 
-	split = ft_split(line,  ' ', 2);
-	if (split[1])
-		rgb = ft_split(split[1], ',', MAX_SPLIT_CNT);
-	else
-		return (-1);
-	free(split[1]);
-	int i = 0;
+	split = ft_split(line, ' ', 2);
+	if (!split || !split[1])
+		print_error("Invalid color line\n", split);
+	return (split);
+}
+
+char	**split_rgb_values(char **split)
+{
+	char	**rgb;
+	int		i;
+
+	rgb = ft_split(split[1], ',', MAX_SPLIT_CNT);
+	if (!rgb)
+		print_error("Invalid RGB format\n", split);
+	i = 0;
 	while (rgb[i])
-	{		
+	{
 		rgb[i] = ft_strtrim(rgb[i], "\n\t\v\r\f ");
 		i++;
 	}
 	if (!rgb[0] || !rgb[1] || !rgb[2])
 		print_error("Invalid RGB format\n", rgb);
-	if (ft_strcmp(split[0], "F") == 0)
+	return (rgb);
+}
+
+void	assign_color_values(t_config *data, char *id, char **rgb)
+{
+	if (ft_strcmp(id, "F") == 0)
 	{
 		data->colors.floor[0] = color_value(rgb[0]);
 		data->colors.floor[1] = color_value(rgb[1]);
 		data->colors.floor[2] = color_value(rgb[2]);
 	}
-	else if (ft_strcmp(split[0], "C") == 0)
+	else if (ft_strcmp(id, "C") == 0)
 	{
 		data->colors.ceiling[0] = color_value(rgb[0]);
 		data->colors.ceiling[1] = color_value(rgb[1]);
 		data->colors.ceiling[2] = color_value(rgb[2]);
 	}
-	// free_matrix(split); ereviii
-	// free_matrix(rgb); ereviii
+	else
+		print_error("Unknown color identifier\n", NULL);
+}
+
+int	parse_color(t_config *data, char *line)
+{
+	char	**split;
+	char	**rgb;
+
+	split = split_color_line(line);
+	rgb = split_rgb_values(split);
+	assign_color_values(data, split[0], rgb);
+	free_matrix(rgb);
+	free_matrix(split);
 	return (0);
 }
 

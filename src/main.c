@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabaghda <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: arina <arina@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 22:01:55 by arina             #+#    #+#             */
-/*   Updated: 2026/01/10 19:07:59 by mabaghda         ###   ########.fr       */
+/*   Updated: 2026/01/18 15:04:54 by arina            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,8 +89,10 @@ int	start_validation(char *file, t_config *data, t_map *map)
 		return (-1);
 	data->splited_map = ft_split(data->map_before_split, '\n', MAX_SPLIT_CNT);
 	if (check_map(split, data, &map) == -1)
+	{
+		free_matrix(split);
 		return (-1);
-	// free_matrix(split);
+	}
 	return (0);
 }
 

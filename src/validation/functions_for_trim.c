@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   functions_for_trim.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabaghda <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: arina <arina@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 19:57:56 by arimanuk          #+#    #+#             */
-/*   Updated: 2026/01/10 19:09:11 by mabaghda         ###   ########.fr       */
+/*   Updated: 2026/01/18 14:51:55 by arina            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,17 @@
 
 void	free_matrix(char **buffer)
 {
-	int	ind;
+	int i;
 
-	ind = 0;
-	if (buffer)
-	{
-		while (buffer[ind])
-			free(buffer[ind++]);
-		free(buffer);
-		buffer = NULL;
-	}
-	*buffer = NULL;
+	if (!buffer)
+		return;
+
+	i = 0;
+	while (buffer[i])
+		free(buffer[i++]);
+	free(buffer);
 }
+
 
 static int	check(char const *s1, char const *set, int i)
 {

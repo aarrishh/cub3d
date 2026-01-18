@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   flood_fill.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabaghda <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: arina <arina@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 17:14:13 by arina             #+#    #+#             */
-/*   Updated: 2026/01/10 19:20:53 by mabaghda         ###   ########.fr       */
+/*   Updated: 2026/01/18 14:53:06 by arina            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ char	**copy_map_for_flood_fill(char **map)
 	return (copy);
 }
 
-void	flood_fill(t_map *map)
+void flood_fill(t_map *map)
 {
 	int		px;
 	int		py;
@@ -93,4 +93,5 @@ void	flood_fill(t_map *map)
 	get_player_pos(map, &px, &py);
 	map_copy = copy_map_for_flood_fill(map->grid);
 	flood_fill_start(map_copy, py, px, map);
+	free_matrix(map_copy);
 }
