@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabaghda <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: arimanuk <arimanuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 20:15:12 by arina             #+#    #+#             */
-/*   Updated: 2026/01/10 20:01:34 by mabaghda         ###   ########.fr       */
+/*   Updated: 2026/01/18 19:36:09 by arimanuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,6 +150,7 @@ char			*ft_strjoin_(char *s1, char *s2);
 char			**ft_split(char const *s, char c, int split_count);
 char			*ft_strdup(const char *s);
 char			*ft_strtrim(char const *s1, char const *set);
+char			*ft_strtrim_helper(char const *s1, char const *set);
 void			print_error(char *error, char **str);
 int				parse_elements(t_config **data);
 int				ft_strcmp(char *s1, char *s2);

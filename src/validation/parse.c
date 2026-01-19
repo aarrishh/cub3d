@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: arina <arina@student.42.fr>                +#+  +:+       +#+        */
+/*   By: arimanuk <arimanuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/09 18:18:49 by arina             #+#    #+#             */
-/*   Updated: 2026/01/18 15:07:59 by arina            ###   ########.fr       */
+/*   Updated: 2026/01/19 21:04:12 by arimanuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,28 +16,48 @@ int	parse_texture(t_config *data, char *line)
 {
 	int		i;
 	char	**split;
-
+	
 	i = 0;
-	line = ft_strtrim(line, "\n\t\v\r\f ");
+	line = ft_strtrim_helper(line, "\n\t\v\r\f ");
 	split = ft_split(line, ' ', MAX_SPLIT_CNT);
 	free(line);
 	if (!split || !split[0] || !split[1])
-		print_error("Invalid texture line\n", split);
+		return (print_error("Invalid texture line\n", NULL), -1);
 	while (split[i])
 		i++;
 	if (i > 2)
+	{
+		free_matrix(split);
 		return (-1);
+	}
+	(void)data;
 	if (ft_strcmp(split[0], "NO") == 0)
+	{
 		data->textures.no = ft_strdup(split[1]);
+		// free(data->textures.no);
+	}
 	else if (ft_strcmp(split[0], "SO") == 0)
+	{
 		data->textures.so = ft_strdup(split[1]);
+		// free(data->textures.so);
+	}
 	else if (ft_strcmp(split[0], "WE") == 0)
+	{
 		data->textures.we = ft_strdup(split[1]);
+		// free(data->textures.we);
+	}
 	else if (ft_strcmp(split[0], "EA") == 0)
+	{
 		data->textures.ea = ft_strdup(split[1]);
+		// free(data->textures.ea);	
+	}
 	else
-		print_error("Unknown texture identifier\n", split);
-    free_matrix(split);
+		print_error("Unknown texture identifier\n", NULL);
+	// if (data->textures.no)free(data->textures.no);
+	// if (data->textures.so)free(data->textures.so);
+	// if (data->textures.we)free(data->textures.we);
+	// if (data->textures.ea)free(data->textures.ea);
+	free_matrix(split);
 	return (0);
 }
 
@@ -203,31 +223,39 @@ int	is_map_line(char *str, t_colflag *f)
 int	parse_elements(t_config **data)
 {
 	int		i;
-	char	**file;
+	// char	**file;
 
-	file = (*data)->splited_hyusisharav;
+	// file = (*data)->splited_hyusisharav;
 	i = -1;
-	while (file[++i])
-		file[i] = ft_strtrim(file[i], "\n\t\v\r\f ");
+	while ((*data)->splited_hyusisharav[++i])
+		(*data)->splited_hyusisharav[i] = ft_strtrim((*data)->splited_hyusisharav[i], "\n\t\v\r\f ");
 	i = 0;
-	while (file[i])
+	while ((*data)->splited_hyusisharav[i])
 	{
-		if (!file[i][0] || !file[i])
+		if (!(*data)->splited_hyusisharav[i][0] || !(*data)->splited_hyusisharav[i])
 		{
 			i++;
 			continue ;
 		}
-		if (ft_strncmp(file[i], "NO", 2) == 0 || ft_strncmp(file[i], "SO", 2) == 0 || ft_strncmp(file[i], "WE", 2) == 0 || ft_strncmp(file[i], "EA", 2) == 0)
+		if (ft_strncmp((*data)->splited_hyusisharav[i], "NO", 2) == 0 || ft_strncmp((*data)->splited_hyusisharav[i], "SO", 2) == 0 || ft_strncmp((*data)->splited_hyusisharav[i], "WE", 2) == 0 || ft_strncmp((*data)->splited_hyusisharav[i], "EA", 2) == 0)
 		{
-			if (parse_texture(*data, file[i]) == -1)
+			if (parse_texture(*data, (*data)->splited_hyusisharav[i]) == -1)
 				return (-1);
 		}
-		else if (ft_strncmp(file[i], "F", 1) == 0 || ft_strncmp(file[i], "C", 1) == 0)
-			parse_color(*data, file[i]);
+		else if (ft_strncmp((*data)->splited_hyusisharav[i], "F", 1) == 0 || ft_strncmp((*data)->splited_hyusisharav[i], "C", 1) == 0)
+			parse_color(*data, (*data)->splited_hyusisharav[i]);
 		else
-			print_error("Invalid line in configuration\n", file);
+		{
+			print_error("Invalid line in configurationnn\n", (*data)->splited_hyusisharav);
+			return (-1);
+		}
 		i++;
 	}
 	check_textures((*data)->textures);
+	free((*data)->textures.no);
+	free((*data)->textures.so);
+	free((*data)->textures.we);
+	free((*data)->textures.ea);
+	
 	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   functions_for_trim.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: arina <arina@student.42.fr>                +#+  +:+       +#+        */
+/*   By: arimanuk <arimanuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 19:57:56 by arimanuk          #+#    #+#             */
-/*   Updated: 2026/01/18 14:51:55 by arina            ###   ########.fr       */
+/*   Updated: 2026/01/19 19:48:45 by arimanuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,12 @@ void	free_matrix(char **buffer)
 
 	if (!buffer)
 		return;
-
 	i = 0;
 	while (buffer[i])
 		free(buffer[i++]);
 	free(buffer);
+	buffer = NULL;
 }
-
 
 static int	check(char const *s1, char const *set, int i)
 {
@@ -68,6 +67,30 @@ static int	cal_end(const char *s1, const char *set, int end, int i)
 }
 
 char	*ft_strtrim(char const *s1, char const *set)
+{
+	int i;
+	char *a;
+	int end;
+	int malloc_i;
+
+	if (!s1 || !set)
+		return (NULL);
+	i = cal_ind(s1, set);
+	end = ft_strlen(s1) - 1;
+	end = cal_end(s1, set, end, i);
+	malloc_i = 0;
+	a = (char *)malloc((end - i + 2) * sizeof(char));
+	if (a == NULL)
+		return (NULL);
+	while (i < end + 1)
+		a[malloc_i++] = s1[i++];
+	a[malloc_i] = '\0';
+	if (s1)
+		free((char *)s1);
+	return (a);
+}
+
+char	*ft_strtrim_helper(char const *s1, char const *set)
 {
 	int i;
 	char *a;

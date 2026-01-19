@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabaghda <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: arimanuk <arimanuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 20:33:09 by arina             #+#    #+#             */
-/*   Updated: 2026/01/10 19:08:47 by mabaghda         ###   ########.fr       */
+/*   Updated: 2026/01/19 19:45:10 by arimanuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,7 @@ int	check(char **arr, const char *s, char c, int count)
 		{
 			while (i >= 0)
 				free(arr[i--]);
-			free(arr);
-			return (1);
+			return (free(arr), 1);
 		}
 		my_strncpy(arr[i], s, len_word);
 		arr[i][len_word] = '\0';

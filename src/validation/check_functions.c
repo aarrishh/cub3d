@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_functions.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabaghda <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: arimanuk <arimanuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 21:07:05 by arina             #+#    #+#             */
-/*   Updated: 2026/01/10 19:23:50 by mabaghda         ###   ########.fr       */
+/*   Updated: 2026/01/19 21:07:30 by arimanuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,9 @@ int	check_sequence(char **str)
 			break ;
 		}
 		else
-			print_error("Invalid line in configurationnn\n", str);
+		{
+			print_error("Invalid line in configuration\n", str);
+		}
 		i++;
 	}
 	if (check_tex_f(&flag) != 2)
@@ -85,7 +87,7 @@ int	check_sequence(char **str)
 	return (0);
 }
 
-void	check_walls(char **str)
+int	check_walls(char **str)
 {
 	int	i;
 	int	j;
@@ -95,22 +97,23 @@ void	check_walls(char **str)
 	while (str[0][j] != '\0')
 	{
 		if (str[0][j] != '1' && !(is_white_space(str[0][j])))
-			print_error("Wall Error\n", str);
+			return (print_error("Wall Error\n", str), -1);
 		j++;
 	}
 	while (str[i] && str[i + 1])
 	{
 		if (str[i][0] != '1' || str[i][ft_strlen(str[i]) - 1] != '1')
-			print_error("Wall Error\n", str);
+			return (print_error("Wall Error\n", str), -1);
 		i++;
 	}
 	j = 0;
 	while (str[i] && str[i][j])
 	{
 		if (str[i][j] != '1' && !(is_white_space(str[i][j])))
-			print_error("Wall Error\n", str);
+			return (print_error("Wall Error\n", str), -1);
 		j++;
 	}
+	return (0);
 }
 
 int	check_map(char **splitted_map, t_config *data, t_map **map)
@@ -125,15 +128,29 @@ int	check_map(char **splitted_map, t_config *data, t_map **map)
 	{
 		returned_found = is_map_line(data->splited_map[i], &f);
 		if (returned_found == -1)
+		{
+			free_matrix(splitted_map);
 			return (-1);
+		}	
 		i++;
 	}
 	if (((f.no_flag + f.so_flag + f.we_flag + f.ea_flag) != 1)) // && returned_found != 1
+	{
+		free_matrix(splitted_map);
 		return (-1);
+	}
 	if (check_sequence(splitted_map) == -1)
+	{
+		free_matrix(splitted_map);
 		return (-1);
-	check_walls(data->splited_map);
+	}
+	if (check_walls(data->splited_map) == -1)
+	{
+		free_matrix(splitted_map);
+		return (-1);
+	}
 	(*map)->grid = copy_map(data->splited_map, *map, 0);
 	copy_number_two_in_map(map);
+	free_matrix(splitted_map);
 	return (0);
 }
