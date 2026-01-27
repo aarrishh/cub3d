@@ -6,7 +6,7 @@
 #    By: mabaghda <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/09/30 20:26:46 by arina             #+#    #+#              #
-#    Updated: 2026/01/27 18:15:35 by mabaghda         ###   ########.fr        #
+#    Updated: 2026/01/27 18:40:05 by mabaghda         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,6 +40,8 @@ RESET = \033[0m
 GREEN  := \033[1;38;2;80;200;120m
 
 all: $(NAME)
+
+bonus:
 
 $(NAME): $(OBJS)
 	@$(CC) $(CFLAGS) $(OBJS) $(MLX_FLAGS) -o $(NAME) -lm
