@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_functions.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: arimanuk <arimanuk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: arina <arina@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 21:07:05 by arina             #+#    #+#             */
-/*   Updated: 2026/01/27 21:53:42 by arimanuk         ###   ########.fr       */
+/*   Updated: 2026/01/27 23:55:25 by arina            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ int	check_sequence(char **str)
 		if (ret == 1)
 			break ;
 		if (ret == -1)
-			print_error("Invalid line in configuration\n", str);
+			return (print_error("Invalid line in configuration\n", str), -1);
 		i++;
 	}
 	if (check_tex_f(&flag) != 2)

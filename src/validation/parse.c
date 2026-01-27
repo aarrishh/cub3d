@@ -6,7 +6,7 @@
 /*   By: arina <arina@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/09 18:18:49 by arina             #+#    #+#             */
-/*   Updated: 2026/01/27 23:40:06 by arina            ###   ########.fr       */
+/*   Updated: 2026/01/28 00:04:40 by arina            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,24 +118,32 @@ char	**split_rgb_values(char **split)
 	return (rgb);
 }
 
+static int	assign_color(int *dest, char *value)
+{
+	int	v;
+
+	v = color_value(value);
+	if (v == -1)
+		return (-1);
+	*dest = v;
+	return (0);
+}
+
+
 int	assign_color_values(t_config *data, char *id, char **rgb)
 {
 	if (ft_strcmp(id, "F") == 0)
 	{
-		if ((data->colors.floor[0] = color_value(rgb[0])) == -1)
-			return (-1);
-		if ((data->colors.floor[1] = color_value(rgb[1])) == -1)
-			return (-1);
-		if ((data->colors.floor[2] = color_value(rgb[2])) == -1)
+		if (assign_color(&data->colors.floor[0], rgb[0]) == -1
+			|| assign_color(&data->colors.floor[1], rgb[1]) == -1
+			|| assign_color(&data->colors.floor[2], rgb[2]) == -1)
 			return (-1);
 	}
 	else if (ft_strcmp(id, "C") == 0)
 	{
-		if ((data->colors.ceiling[0] = color_value(rgb[0])) == -1)
-			return (-1);
-		if ((data->colors.ceiling[1] = color_value(rgb[1])) == -1)
-			return (-1);
-		if ((data->colors.ceiling[2] = color_value(rgb[2])) == -1)
+		if (assign_color(&data->colors.ceiling[0], rgb[0]) == -1
+			|| assign_color(&data->colors.ceiling[1], rgb[1]) == -1
+			|| assign_color(&data->colors.ceiling[2], rgb[2]) == -1)
 			return (-1);
 	}
 	else
@@ -238,42 +246,53 @@ void	free_textures(t_config **t)
 	(*t)->textures.ea = NULL;
 }
 
+static void	trim_lines(t_config *data)
+{
+	int	i;
+
+	i = 0;
+	while (data->splited_hyusisharav[i])
+	{
+		data->splited_hyusisharav[i] = ft_strtrim(
+				data->splited_hyusisharav[i], "\n\t\v\r\f ");
+		i++;
+	}
+}
+
+static int	parse_texture_or_color_line(t_config *data, char *line)
+{
+	if (!line || !line[0])
+		return (0);
+	if (!ft_strncmp(line, "NO", 2) || !ft_strncmp(line, "SO", 2)
+		|| !ft_strncmp(line, "WE", 2) || !ft_strncmp(line, "EA", 2))
+	{
+		if (parse_texture(data, line) == -1)
+			return (-1);
+	}
+	else if (!ft_strncmp(line, "F", 1) || !ft_strncmp(line, "C", 1))
+	{
+		if (parse_color(data, line) == -1)
+			return (free_textures(&data), -1);
+	}
+	else
+	{
+		print_error("Invalid line in configuration\n", NULL);
+		return (free_textures(&data), -1);
+	}
+	return (0);
+}
+
 int	parse_elements(t_config **data)
 {
 	int	i;
 
-	i = -1;
-	while ((*data)->splited_hyusisharav[++i])
-		(*data)->splited_hyusisharav[i] = ft_strtrim((*data)->splited_hyusisharav[i],
-				"\n\t\v\r\f ");
+	trim_lines(*data);
 	i = 0;
 	while ((*data)->splited_hyusisharav[i])
 	{
-		if (!(*data)->splited_hyusisharav[i][0]
-			|| !(*data)->splited_hyusisharav[i])
-		{
-			i++;
-			continue ;
-		}
-		if (ft_strncmp((*data)->splited_hyusisharav[i], "NO", 2) == 0
-			|| ft_strncmp((*data)->splited_hyusisharav[i], "SO", 2) == 0
-			|| ft_strncmp((*data)->splited_hyusisharav[i], "WE", 2) == 0
-			|| ft_strncmp((*data)->splited_hyusisharav[i], "EA", 2) == 0)
-		{
-			if (parse_texture(*data, (*data)->splited_hyusisharav[i]) == -1)
-				return (-1);
-		}
-		else if (ft_strncmp((*data)->splited_hyusisharav[i], "F", 1) == 0
-			|| ft_strncmp((*data)->splited_hyusisharav[i], "C", 1) == 0)
-		{
-			if (parse_color(*data, (*data)->splited_hyusisharav[i]) == -1)
-				return (free_textures(data), -1);
-		}
-			else
-			{
-				print_error("Invalid line in configurationnn\n", NULL);
-				return (free_textures(data), -1);
-			}
+		if (parse_texture_or_color_line(*data,
+				(*data)->splited_hyusisharav[i]) == -1)
+			return (-1);
 		i++;
 	}
 	if (check_textures((*data)->textures) == -1)
