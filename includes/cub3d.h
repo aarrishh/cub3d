@@ -6,7 +6,7 @@
 /*   By: arimanuk <arimanuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 20:15:12 by arina             #+#    #+#             */
-/*   Updated: 2026/01/21 20:29:49 by arimanuk         ###   ########.fr       */
+/*   Updated: 2026/01/27 17:24:12 by arimanuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,7 +176,7 @@ void			check_file(char *file);
 void			copy_number_two_in_map(t_map **map);
 void			check_textures(t_texture texture);
 int				ft_atoi(const char *str);
-
+void			free_textures_cw_case(t_config *t);
 void			start_game(t_game *game);
 int				close_window(t_game *game);
 int				key_handler(int keycode, t_game *game);
