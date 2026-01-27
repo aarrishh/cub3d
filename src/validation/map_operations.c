@@ -6,7 +6,7 @@
 /*   By: arimanuk <arimanuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 17:52:21 by arina             #+#    #+#             */
-/*   Updated: 2026/01/20 21:04:40 by arimanuk         ###   ########.fr       */
+/*   Updated: 2026/01/27 21:54:22 by arimanuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,5 @@ char	**copy_map(char **str, t_map *map, int i)
 		heigth--;
 	}
 	second_check(buffer);
-	// for (int i = 0; buffer[i]; i++)
-	// 	printf("%s\n", buffer[i]);
 	return (buffer);
 }

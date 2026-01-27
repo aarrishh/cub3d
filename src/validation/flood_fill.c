@@ -6,7 +6,7 @@
 /*   By: arimanuk <arimanuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 17:14:13 by arina             #+#    #+#             */
-/*   Updated: 2026/01/27 19:24:49 by arimanuk         ###   ########.fr       */
+/*   Updated: 2026/01/27 21:55:12 by arimanuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,8 +86,7 @@ char	**copy_map_for_flood_fill(char **map)
 		{
 			while (i > 0)
 				free(copy[--i]);
-			free(copy);
-			return (NULL);
+			return (free(copy), NULL);
 		}
 		i++;
 	}

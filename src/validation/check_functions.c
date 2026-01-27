@@ -6,7 +6,7 @@
 /*   By: arimanuk <arimanuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 21:07:05 by arina             #+#    #+#             */
-/*   Updated: 2026/01/27 19:34:03 by arimanuk         ###   ########.fr       */
+/*   Updated: 2026/01/27 21:53:42 by arimanuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,44 +102,6 @@ int	check_sequence(char **str)
 	return (0);
 }
 
-
-// int	check_sequence(char **str)
-// {
-// 	int			i;
-// 	t_colflag	flag;
-
-// 	i = 0;
-// 	init_colflag(&flag);
-// 	while (str[i])
-// 	{
-// 		if (flag.c_flag != 1 && flag.f_flag != 1)
-// 			str[i] = ft_strtrim(str[i], "\n\t\v\r\f ");
-// 		if (ft_strncmp(str[i], "NO", 2) == 0)
-// 			flag.no_flag = 1;
-// 		else if (ft_strncmp(str[i], "SO", 2) == 0)
-// 			flag.so_flag = 1;
-// 		else if (ft_strncmp(str[i], "WE", 2) == 0)
-// 			flag.we_flag = 1;
-// 		else if (ft_strncmp(str[i], "EA", 2) == 0)
-// 			flag.ea_flag = 1;
-// 		else if (ft_strncmp(str[i], "F", 1) == 0 && check_tex_f(&flag) == 0)
-// 			flag.f_flag = 1;
-// 		else if (ft_strncmp(str[i], "C", 1) == 0 && check_tex_f(&flag) == 0)
-// 			flag.c_flag = 1;
-// 		else if (is_map_line_second(str[i]) == 1 && check_tex_f(&flag) == 1)
-// 		{
-// 			flag.map_flag = 1;
-// 			break ;
-// 		}
-// 		else
-// 			print_error("Invalid line in configuration\n", str);
-// 		i++;
-// 	}
-// 	if (check_tex_f(&flag) != 2)
-// 		return (-1);
-// 	return (0);
-// }
-
 int	check_full_wall_line(char *line, char **map)
 {
 	int	j;
@@ -218,27 +180,15 @@ int	check_map(char **splitted_map, t_config *data, t_map **map)
 	{
 		returned_found = is_map_line(data->splited_map[i], &f);
 		if (returned_found == -1)
-		{
-			free_matrix(splitted_map);
-			return (-1);
-		}	
+			return (free_matrix(splitted_map), -1);
 		i++;
 	}
-	if (((f.no_flag + f.so_flag + f.we_flag + f.ea_flag) != 1)) // && returned_found != 1
-	{
-		free_matrix(splitted_map);
-		return (-1);
-	}
+	if (((f.no_flag + f.so_flag + f.we_flag + f.ea_flag) != 1))
+		return (free_matrix(splitted_map), -1);
 	if (check_sequence(splitted_map) == -1)
-	{
-		free_matrix(splitted_map);
-		return (-1);
-	}
+		return (free_matrix(splitted_map), -1);
 	if (check_walls(data->splited_map) == -1)
-	{
-		free_matrix(splitted_map);
-		return (-1);
-	}
+		return (free_matrix(splitted_map), -1);
 	(*map)->grid = copy_map(data->splited_map, *map, 0);
 	copy_number_two_in_map(map);
 	free_matrix(splitted_map);

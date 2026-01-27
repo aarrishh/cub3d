@@ -6,7 +6,7 @@
 /*   By: arimanuk <arimanuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/09 18:18:49 by arina             #+#    #+#             */
-/*   Updated: 2026/01/27 21:05:31 by arimanuk         ###   ########.fr       */
+/*   Updated: 2026/01/27 21:59:24 by arimanuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,39 +26,19 @@ int	parse_texture(t_config *data, char *line)
 	while (split[i])
 		i++;
 	if (i > 2)
-	{
-		free_matrix(split);
-		return (-1);
-	}
+		return (free_matrix(split), -1);
 	(void)data;
 	if (ft_strcmp(split[0], "NO") == 0)
-	{
 		data->textures.no = ft_strdup(split[1]);
-		// free(data->textures.no);
-	}
 	else if (ft_strcmp(split[0], "SO") == 0)
-	{
 		data->textures.so = ft_strdup(split[1]);
-		// free(data->textures.so);
-	}
 	else if (ft_strcmp(split[0], "WE") == 0)
-	{
 		data->textures.we = ft_strdup(split[1]);
-		// free(data->textures.we);
-	}
 	else if (ft_strcmp(split[0], "EA") == 0)
-	{
 		data->textures.ea = ft_strdup(split[1]);
-		// free(data->textures.ea);
-	}
 	else
 		print_error("Unknown texture identifier\n", NULL);
-	// if (data->textures.no)free(data->textures.no);
-	// if (data->textures.so)free(data->textures.so);
-	// if (data->textures.we)free(data->textures.we);
-	// if (data->textures.ea)free(data->textures.ea);
-	free_matrix(split);
-	return (0);
+	return (free_matrix(split), 0);
 }
 
 int	color_value(char *s)
@@ -73,42 +53,6 @@ int	color_value(char *s)
 	}
 	return (value);
 }
-
-// int	parse_color(t_config *data, char *line)
-// {
-// 	char	**split;
-// 	char	**rgb;
-
-// 	split = ft_split(line,  ' ', 2);
-// 	if (split[1])
-// 		rgb = ft_split(split[1], ',', MAX_SPLIT_CNT);
-// 	else
-// 		return (-1);
-// 	free(split[1]);
-// 	int i = 0;
-// 	while (rgb[i])
-// 	{
-// 		rgb[i] = ft_strtrim(rgb[i], "\n\t\v\r\f ");
-// 		i++;
-// 	}
-// 	if (!rgb[0] || !rgb[1] || !rgb[2])
-// 		print_error("Invalid RGB format\n", rgb);
-// 	if (ft_strcmp(split[0], "F") == 0)
-// 	{
-// 		data->colors.floor[0] = color_value(rgb[0]);
-// 		data->colors.floor[1] = color_value(rgb[1]);
-// 		data->colors.floor[2] = color_value(rgb[2]);
-// 	}
-// 	else if (ft_strcmp(split[0], "C") == 0)
-// 	{
-// 		data->colors.ceiling[0] = color_value(rgb[0]);
-// 		data->colors.ceiling[1] = color_value(rgb[1]);
-// 		data->colors.ceiling[2] = color_value(rgb[2]);
-// 	}
-// 	// free_matrix(split); ereviii
-// 	// free_matrix(rgb); ereviii
-// 	return (0);
-// }
 
 char	**split_color_line(char *line)
 {
@@ -289,8 +233,6 @@ int	parse_elements(t_config **data)
 {
 	int	i;
 
-	// char	**file;
-	// file = (*data)->splited_hyusisharav;
 	i = -1;
 	while ((*data)->splited_hyusisharav[++i])
 		(*data)->splited_hyusisharav[i] = ft_strtrim((*data)->splited_hyusisharav[i],
@@ -316,24 +258,16 @@ int	parse_elements(t_config **data)
 			|| ft_strncmp((*data)->splited_hyusisharav[i], "C", 1) == 0)
 		{
 			if (parse_color(*data, (*data)->splited_hyusisharav[i]) == -1)
-			
-			{
-				free_textures(data);
-				return (-1);
-			}
+				return (free_textures(data), -1);
 		}
 			else
 			{
 				print_error("Invalid line in configurationnn\n", NULL);
-				free_textures(data);
-				return (-1);
+				return (free_textures(data), -1);
 			}
 		i++;
 	}
 	if (check_textures((*data)->textures) == -1)
-	{
-		free_textures(data);
-		return (-1);
-	}
+		return (free_textures(data), -1);
 	return (0);
 }

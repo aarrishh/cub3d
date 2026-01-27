@@ -4,7 +4,7 @@ WE ./textures/wall_west.xpm
 EA ./textures/wall_east.xpm
 
 F 150,150,150                
-C  90  ,60 ,90
+C  90  ,60 ,91
 
 111111111111111111111
     11111111111110001
