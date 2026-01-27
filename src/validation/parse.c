@@ -6,7 +6,7 @@
 /*   By: arimanuk <arimanuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/09 18:18:49 by arina             #+#    #+#             */
-/*   Updated: 2026/01/19 21:04:12 by arimanuk         ###   ########.fr       */
+/*   Updated: 2026/01/27 16:07:35 by arimanuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -220,6 +220,19 @@ int	is_map_line(char *str, t_colflag *f)
 	return (found);
 }
 
+void	free_textures(t_config **t)
+{
+	free((*t)->textures.no);
+	free((*t)->textures.so);
+	free((*t)->textures.we);
+	free((*t)->textures.ea);
+	(*t)->textures.no = NULL;
+	(*t)->textures.so = NULL;
+	(*t)->textures.we = NULL;
+	(*t)->textures.ea = NULL;
+}
+
+
 int	parse_elements(t_config **data)
 {
 	int		i;
@@ -246,16 +259,13 @@ int	parse_elements(t_config **data)
 			parse_color(*data, (*data)->splited_hyusisharav[i]);
 		else
 		{
-			print_error("Invalid line in configurationnn\n", (*data)->splited_hyusisharav);
+			print_error("Invalid line in configurationnn\n", NULL);
+			free_textures(data);
 			return (-1);
 		}
 		i++;
 	}
 	check_textures((*data)->textures);
-	free((*data)->textures.no);
-	free((*data)->textures.so);
-	free((*data)->textures.we);
-	free((*data)->textures.ea);
-	
+	// free_textures(data);
 	return (0);
 }

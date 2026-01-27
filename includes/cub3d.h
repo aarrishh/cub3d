@@ -6,7 +6,7 @@
 /*   By: arimanuk <arimanuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 20:15:12 by arina             #+#    #+#             */
-/*   Updated: 2026/01/18 19:36:09 by arimanuk         ###   ########.fr       */
+/*   Updated: 2026/01/21 20:29:49 by arimanuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,19 @@ typedef struct s_texture
 	char		*ea;
 }				t_texture;
 
+typedef struct s_map
+{
+	char		**grid;
+	int			width;
+	int			height;
+}				t_map;
+
+typedef struct s_flag
+{
+	int	flag;
+	t_map *map;
+}				t_flag;
+
 typedef struct s_color
 {
 	int			floor[3];
@@ -50,13 +63,6 @@ typedef struct s_color
 	int			floor_int;
 	int			ceiling_int;
 }				t_color;
-
-typedef struct s_map
-{
-	char		**grid;
-	int			width;
-	int			height;
-}				t_map;
 
 typedef struct s_player
 {
@@ -163,7 +169,7 @@ char			*ft_substr(char const *s, unsigned int start, size_t len);
 void			init_colflag(t_colflag *flag);
 int				is_map_line_second(char *str);
 char			**copy_map(char **str, t_map *map, int i);
-void			flood_fill(t_map *map);
+int				flood_fill(t_map *map);
 int				is_there_nl_in_the_map(char *map);
 int				check_map(char **splitted_map, t_config *data, t_map **map);
 void			check_file(char *file);

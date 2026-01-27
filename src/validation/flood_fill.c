@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   flood_fill.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: arina <arina@student.42.fr>                +#+  +:+       +#+        */
+/*   By: arimanuk <arimanuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 17:14:13 by arina             #+#    #+#             */
-/*   Updated: 2026/01/18 14:53:06 by arina            ###   ########.fr       */
+/*   Updated: 2026/01/27 15:56:56 by arimanuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,22 +36,34 @@ void	get_player_pos(t_map *map, int *px, int *py)
 	}
 }
 
-void	flood_fill_start(char **map, int y, int x, t_map *m)
+
+int	flood_fill_start(char **map, int y, int x, t_flag *flag)
 {
+	t_map	*m;
 	char	c;
 
+	m = flag->map;
 	if (y < 0 || x < 0 || y >= m->height || x >= m->width)
-		print_error("Map is not closed\n", map);
+	{
+		flag->flag = -1;
+		return(print_error("Map is not closed\n", NULL), -1);
+	}
 	c = map[y][x];
 	if (c == '1' || c == 'F')
-		return ;
-	if (c == '\0' || c == ' ')
-		print_error("Map is not closed\n", map);
+		return (0);
+	if (c == '\0' || c == '2')
+	{
+		flag->flag = -1;
+		return(print_error("Map is not closed\n", NULL), -1);
+	}
 	map[y][x] = 'F';
-	flood_fill_start(map, y + 1, x, m);
-	flood_fill_start(map, y - 1, x, m);
-	flood_fill_start(map, y, x + 1, m);
-	flood_fill_start(map, y, x - 1, m);
+	flood_fill_start(map, y + 1, x, flag);
+	flood_fill_start(map, y - 1, x, flag);
+	flood_fill_start(map, y, x + 1, flag);
+	flood_fill_start(map, y, x - 1, flag);
+	if (flag->flag == -1)
+		return (-1);
+	return (0);
 }
 
 char	**copy_map_for_flood_fill(char **map)
@@ -84,14 +96,27 @@ char	**copy_map_for_flood_fill(char **map)
 	return (copy);
 }
 
-void flood_fill(t_map *map)
+
+int flood_fill(t_map *map)
 {
 	int		px;
 	int		py;
 	char	**map_copy;
+	t_flag	flag;
 
 	get_player_pos(map, &px, &py);
+	flag.map = map;
+	flag.flag = 0;
 	map_copy = copy_map_for_flood_fill(map->grid);
-	flood_fill_start(map_copy, py, px, map);
+	if (flood_fill_start(map_copy, py, px, &flag) == -1)
+	{
+		free_matrix(map->grid);
+		free_matrix(map_copy);
+		return (-1);
+	}
+	for (int i = 0; map_copy[i]; i++)
+		printf("%s\n", map_copy[i]);
 	free_matrix(map_copy);
+	// free_matrix(map->grid);
+	return (0);
 }
