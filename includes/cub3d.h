@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: arimanuk <arimanuk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mabaghda <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 20:15:12 by arina             #+#    #+#             */
-/*   Updated: 2026/01/27 17:24:12 by arimanuk         ###   ########.fr       */
+/*   Updated: 2026/01/27 18:18:00 by mabaghda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,7 +176,6 @@ void			check_file(char *file);
 void			copy_number_two_in_map(t_map **map);
 void			check_textures(t_texture texture);
 int				ft_atoi(const char *str);
-void			free_textures_cw_case(t_config *t);
 void			start_game(t_game *game);
 int				close_window(t_game *game);
 int				key_handler(int keycode, t_game *game);
@@ -202,4 +201,8 @@ t_teximg		*pick_texture(t_game *game, t_ray *ray);
 void			calc_texture_x(t_game *game, t_ray *ray, t_teximg *tex);
 void			draw_textured_wall(t_game *game, t_ray *ray, t_teximg *tex,
 					int x);
+void			init_all(t_game *game);
+void			dir_plane_vertical(t_config *confing, char p);
+void			dir_plane_horizontal(t_config *config, char p);
+
 #endif

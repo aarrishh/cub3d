@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: arimanuk <arimanuk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mabaghda <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/09 18:18:49 by arina             #+#    #+#             */
-/*   Updated: 2026/01/27 17:24:26 by arimanuk         ###   ########.fr       */
+/*   Updated: 2026/01/27 18:14:31 by mabaghda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	parse_texture(t_config *data, char *line)
 {
 	int		i;
 	char	**split;
-	
+
 	i = 0;
 	line = ft_strtrim_helper(line, "\n\t\v\r\f ");
 	split = ft_split(line, ' ', MAX_SPLIT_CNT);
@@ -49,7 +49,7 @@ int	parse_texture(t_config *data, char *line)
 	else if (ft_strcmp(split[0], "EA") == 0)
 	{
 		data->textures.ea = ft_strdup(split[1]);
-		// free(data->textures.ea);	
+		// free(data->textures.ea);
 	}
 	else
 		print_error("Unknown texture identifier\n", NULL);
@@ -87,7 +87,7 @@ int	color_value(char *s)
 // 	free(split[1]);
 // 	int i = 0;
 // 	while (rgb[i])
-// 	{		
+// 	{
 // 		rgb[i] = ft_strtrim(rgb[i], "\n\t\v\r\f ");
 // 		i++;
 // 	}
@@ -109,7 +109,6 @@ int	color_value(char *s)
 // 	// free_matrix(rgb); ereviii
 // 	return (0);
 // }
-
 
 char	**split_color_line(char *line)
 {
@@ -235,45 +234,36 @@ void	free_textures(t_config **t)
 	(*t)->textures.we = NULL;
 	(*t)->textures.ea = NULL;
 }
-void	free_textures_cw_case(t_config *t)
-{
-	if ((t->textures.no))
-		free(t->textures.no);
-	if ((t->textures.so))
-		free(t->textures.so);
-	if ((t->textures.we))
-		free(t->textures.we);
-	if ((t->textures.ea))
-		free(t->textures.ea);
-	t->textures.no = NULL;
-	t->textures.so = NULL;
-	t->textures.we = NULL;
-	t->textures.ea = NULL;
-}
 
 int	parse_elements(t_config **data)
 {
-	int		i;
-	// char	**file;
+	int	i;
 
+	// char	**file;
 	// file = (*data)->splited_hyusisharav;
 	i = -1;
 	while ((*data)->splited_hyusisharav[++i])
-		(*data)->splited_hyusisharav[i] = ft_strtrim((*data)->splited_hyusisharav[i], "\n\t\v\r\f ");
+		(*data)->splited_hyusisharav[i] = ft_strtrim((*data)->splited_hyusisharav[i],
+				"\n\t\v\r\f ");
 	i = 0;
 	while ((*data)->splited_hyusisharav[i])
 	{
-		if (!(*data)->splited_hyusisharav[i][0] || !(*data)->splited_hyusisharav[i])
+		if (!(*data)->splited_hyusisharav[i][0]
+			|| !(*data)->splited_hyusisharav[i])
 		{
 			i++;
 			continue ;
 		}
-		if (ft_strncmp((*data)->splited_hyusisharav[i], "NO", 2) == 0 || ft_strncmp((*data)->splited_hyusisharav[i], "SO", 2) == 0 || ft_strncmp((*data)->splited_hyusisharav[i], "WE", 2) == 0 || ft_strncmp((*data)->splited_hyusisharav[i], "EA", 2) == 0)
+		if (ft_strncmp((*data)->splited_hyusisharav[i], "NO", 2) == 0
+			|| ft_strncmp((*data)->splited_hyusisharav[i], "SO", 2) == 0
+			|| ft_strncmp((*data)->splited_hyusisharav[i], "WE", 2) == 0
+			|| ft_strncmp((*data)->splited_hyusisharav[i], "EA", 2) == 0)
 		{
 			if (parse_texture(*data, (*data)->splited_hyusisharav[i]) == -1)
 				return (-1);
 		}
-		else if (ft_strncmp((*data)->splited_hyusisharav[i], "F", 1) == 0 || ft_strncmp((*data)->splited_hyusisharav[i], "C", 1) == 0)
+		else if (ft_strncmp((*data)->splited_hyusisharav[i], "F", 1) == 0
+			|| ft_strncmp((*data)->splited_hyusisharav[i], "C", 1) == 0)
 			parse_color(*data, (*data)->splited_hyusisharav[i]);
 		else
 		{
