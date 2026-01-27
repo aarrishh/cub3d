@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_operations.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabaghda <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: arimanuk <arimanuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 17:52:21 by arina             #+#    #+#             */
-/*   Updated: 2026/01/10 19:20:40 by mabaghda         ###   ########.fr       */
+/*   Updated: 2026/01/20 21:04:40 by arimanuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,25 @@ int	width_map(char **map, t_map *map_s)
 	return (max);
 }
 
+void	second_check(char **map)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (map[i])
+	{
+		j = 0;
+		while (map[i][j])
+		{
+			if (is_white_space(map[i][j]))
+				map[i][j] = '2';
+			j++;
+		}
+		i++;
+	}
+}
+
 char	**copy_map(char **str, t_map *map, int i)
 {
 	int		width;
@@ -98,5 +117,8 @@ char	**copy_map(char **str, t_map *map, int i)
 		i++;
 		heigth--;
 	}
+	second_check(buffer);
+	// for (int i = 0; buffer[i]; i++)
+	// 	printf("%s\n", buffer[i]);
 	return (buffer);
 }

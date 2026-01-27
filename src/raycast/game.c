@@ -6,7 +6,7 @@
 /*   By: mabaghda <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/22 20:54:28 by mabaghda          #+#    #+#             */
-/*   Updated: 2026/01/27 17:34:38 by mabaghda         ###   ########.fr       */
+/*   Updated: 2026/01/27 17:52:35 by mabaghda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ int	close_window(t_game *game)
 		}
 		free(game->config.map.grid);
 		game->config.map.grid = NULL;
+		free_textures_cw_case(&game->config);
 	}
 	if (game->window)
 		mlx_destroy_window(game->mlx, game->window);

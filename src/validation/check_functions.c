@@ -6,7 +6,7 @@
 /*   By: arimanuk <arimanuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 21:07:05 by arina             #+#    #+#             */
-/*   Updated: 2026/01/19 21:07:30 by arimanuk         ###   ########.fr       */
+/*   Updated: 2026/01/21 21:28:47 by arimanuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,9 +77,7 @@ int	check_sequence(char **str)
 			break ;
 		}
 		else
-		{
 			print_error("Invalid line in configuration\n", str);
-		}
 		i++;
 	}
 	if (check_tex_f(&flag) != 2)
@@ -87,32 +85,69 @@ int	check_sequence(char **str)
 	return (0);
 }
 
+int	check_full_wall_line(char *line, char **map)
+{
+	int	j;
+
+	j = 0;
+	while (line[j])
+	{
+		if (line[j] != '1' && !is_white_space(line[j]))
+			return (print_error("Wall Error\n", map), -1);
+		j++;
+	}
+	return (0);
+}
+
+int	first_non_space(char *s)
+{
+	int	i;
+
+	i = 0;
+	while (s[i] && is_white_space(s[i]))
+		i++;
+	return (i);
+}
+
+int	last_non_space(char *s)
+{
+	int	i;
+
+	i = ft_strlen(s) - 1;
+	while (i >= 0 && is_white_space(s[i]))
+		i--;
+	return (i);
+}
+
+int	check_middle_wall_line(char *line, char **map)
+{
+	int	start;
+	int	end;
+
+	start = first_non_space(line);
+	end = last_non_space(line);
+	if (start > end)
+		return (print_error("Wall Error\n", map), -1);
+	if (line[start] != '1' || line[end] != '1')
+		return (print_error("Wall Error\n", map), -1);
+	return (0);
+}
+
 int	check_walls(char **str)
 {
 	int	i;
-	int	j;
 
+	if (check_full_wall_line(str[0], str) == -1)
+		return (-1);
 	i = 1;
-	j = 0;
-	while (str[0][j] != '\0')
-	{
-		if (str[0][j] != '1' && !(is_white_space(str[0][j])))
-			return (print_error("Wall Error\n", str), -1);
-		j++;
-	}
 	while (str[i] && str[i + 1])
 	{
-		if (str[i][0] != '1' || str[i][ft_strlen(str[i]) - 1] != '1')
-			return (print_error("Wall Error\n", str), -1);
+		if (check_middle_wall_line(str[i], str) == -1)
+			return (-1);
 		i++;
 	}
-	j = 0;
-	while (str[i] && str[i][j])
-	{
-		if (str[i][j] != '1' && !(is_white_space(str[i][j])))
-			return (print_error("Wall Error\n", str), -1);
-		j++;
-	}
+	if (check_full_wall_line(str[i], str) == -1)
+		return (-1);
 	return (0);
 }
 
