@@ -3,10 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
+<<<<<<< HEAD
 /*   By: mabaghda <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 22:01:55 by arina             #+#    #+#             */
 /*   Updated: 2026/01/27 16:56:02 by mabaghda         ###   ########.fr       */
+=======
+/*   By: arimanuk <arimanuk@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/09/29 22:01:55 by arina             #+#    #+#             */
+/*   Updated: 2026/01/19 20:50:08 by arimanuk         ###   ########.fr       */
+>>>>>>> origin/manan
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +88,7 @@ int	start_validation(char *file, t_config *data, t_map *map)
 	close(fd);
 	res = ft_strtrim(res, "\n\t\v\r\f ");
 	find_index_after_colors(res, &data);
-	//(*data)->map_before_split     (*data)->hyusisharav
+		//(*data)->map_before_split     (*data)->hyusisharav
 	data->splited_hyusisharav = ft_split(data->hyusisharav, '\n',
 			MAX_SPLIT_CNT);
 	free(data->hyusisharav);
