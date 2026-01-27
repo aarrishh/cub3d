@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_functions.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: arimanuk <arimanuk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: arina <arina@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 21:10:28 by arina             #+#    #+#             */
-/*   Updated: 2026/01/27 21:03:21 by arimanuk         ###   ########.fr       */
+/*   Updated: 2026/01/27 23:29:38 by arina            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,15 +90,13 @@ int	loop_for_check_textures(char *file)
 
 int	check_textures(t_texture texture)
 {
-	if (loop_for_check_textures(texture.ea) == -1)
-		return (-1);
-	if (loop_for_check_textures(texture.ea) == -1)
-		return (-1);
-	if (loop_for_check_textures(texture.we) == -1)
+	if (loop_for_check_textures(texture.no) == -1)
 		return (-1);
 	if (loop_for_check_textures(texture.so) == -1)
 		return (-1);
-	if (loop_for_check_textures(texture.no) == -1)
+	if (loop_for_check_textures(texture.we) == -1)
+		return (-1);
+	if (loop_for_check_textures(texture.ea) == -1)
 		return (-1);
 	return (0);
 }

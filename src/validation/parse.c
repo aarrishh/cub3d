@@ -3,14 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: arimanuk <arimanuk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: arina <arina@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/09 18:18:49 by arina             #+#    #+#             */
-/*   Updated: 2026/01/27 21:59:24 by arimanuk         ###   ########.fr       */
+/*   Updated: 2026/01/27 23:40:06 by arina            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
+
+static void	assign_texture(char **dest, char *src)
+{
+	if (*dest)
+		free(*dest);
+	*dest = ft_strdup(src);
+}
 
 int	parse_texture(t_config *data, char *line)
 {
@@ -27,15 +34,14 @@ int	parse_texture(t_config *data, char *line)
 		i++;
 	if (i > 2)
 		return (free_matrix(split), -1);
-	(void)data;
 	if (ft_strcmp(split[0], "NO") == 0)
-		data->textures.no = ft_strdup(split[1]);
+		assign_texture(&data->textures.no, split[1]);
 	else if (ft_strcmp(split[0], "SO") == 0)
-		data->textures.so = ft_strdup(split[1]);
+		assign_texture(&data->textures.so, split[1]);
 	else if (ft_strcmp(split[0], "WE") == 0)
-		data->textures.we = ft_strdup(split[1]);
+		assign_texture(&data->textures.we, split[1]);
 	else if (ft_strcmp(split[0], "EA") == 0)
-		data->textures.ea = ft_strdup(split[1]);
+		assign_texture(&data->textures.ea, split[1]);
 	else
 		print_error("Unknown texture identifier\n", NULL);
 	return (free_matrix(split), 0);
@@ -182,6 +188,14 @@ int	is_map_line_second(char *str)
 	return (0);
 }
 
+static void	update_found_for_digit(int *found)
+{
+	if (*found == 2 || *found == 3)
+		*found = 3;
+	else
+		*found = 1;
+}
+
 int	is_map_line(char *str, t_colflag *f)
 {
 	int	i;
@@ -192,20 +206,15 @@ int	is_map_line(char *str, t_colflag *f)
 	while (str[i])
 	{
 		if (str[i] == '1' || str[i] == '0')
-		{
-			if (found == 2 || found == 3)
-				found = 3;
-			else
-				found = 1;
-		}
+			update_found_for_digit(&found);
 		else if (str[i] == 'N')
-			change_flag_and_found_value(&found, &(*f).no_flag);
+			change_flag_and_found_value(&found, &f->no_flag);
 		else if (str[i] == 'W')
-			change_flag_and_found_value(&found, &(*f).we_flag);
+			change_flag_and_found_value(&found, &f->we_flag);
 		else if (str[i] == 'E')
-			change_flag_and_found_value(&found, &(*f).ea_flag);
+			change_flag_and_found_value(&found, &f->ea_flag);
 		else if (str[i] == 'S')
-			change_flag_and_found_value(&found, &(*f).so_flag);
+			change_flag_and_found_value(&found, &f->so_flag);
 		else if (!is_white_space(str[i]))
 			return (-1);
 		i++;
