@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   functions.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabaghda <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: arimanuk <arimanuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 20:41:46 by arina             #+#    #+#             */
-/*   Updated: 2026/01/27 18:02:33 by mabaghda         ###   ########.fr       */
+/*   Updated: 2026/01/27 19:23:54 by arimanuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,6 @@ void	print_error(char *error, char **str)
 {
 	(void)str;
 	write(1, error, ft_strlen(error));
-	// exit(1);
 }
 
 int	ft_strcmp(char *s1, char *s2)

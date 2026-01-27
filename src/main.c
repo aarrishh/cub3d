@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabaghda <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: arimanuk <arimanuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 22:01:55 by arina             #+#    #+#             */
-/*   Updated: 2026/01/27 18:05:34 by mabaghda         ###   ########.fr       */
+/*   Updated: 2026/01/27 21:18:16 by arimanuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,8 @@ int	start_validation(char *file, t_config *data, t_map *map)
 	if (fd == -1)
 		print_error("Cannot open file\n", NULL);
 	line = get_next_line(fd);
+	if (!line)
+		return (print_error("Empty file\n", NULL), -1);
 	res = ft_strdup("");
 	while (line != NULL)
 	{
@@ -82,7 +84,7 @@ int	start_validation(char *file, t_config *data, t_map *map)
 	res = ft_strtrim(res, "\n\v\t\r\f ");
 	find_index_after_colors(res, &data);
 	data->splited_hyusisharav = ft_split(data->hyusisharav, '\n',
-			MAX_SPLIT_CNT);
+		MAX_SPLIT_CNT);
 	free(data->hyusisharav);
 	split = ft_split(res, '\n', MAX_SPLIT_CNT);
 	free(res);
@@ -95,6 +97,7 @@ int	start_validation(char *file, t_config *data, t_map *map)
 	}
 	if (is_there_nl_in_the_map(data->map_before_split) == -1)
 	{
+		free_textures(&data);
 		free_matrix(split);
 		free_matrix(data->splited_hyusisharav);
 		free(data->map_before_split);
@@ -106,6 +109,7 @@ int	start_validation(char *file, t_config *data, t_map *map)
 		free_matrix(data->splited_map);
 		free_matrix(data->splited_hyusisharav);
 		free(data->map_before_split);
+		free_textures(&data);
 		return (-1);
 	}
 	free_matrix(data->splited_map);
@@ -129,14 +133,11 @@ int	main(int argc, char **argv)
 		return_value = start_validation(argv[1], &game.config,
 				&game.config.map);
 		if (return_value < 0)
-		{
-			printf("Validation error!\n");
-			return (-1);
-		}
+			return (printf("Validation error!\n"), -1);
 		else
 		{
-			if ((flood_fill(&game.config.map)) == -1)
-				return (-1);
+			if ((flood_fill(&game.config.map, &game.config)) == -1)
+				return (print_error("Map is not closed\n", NULL), -1);
 			else
 				printf("Congratulations!\n");
 		}

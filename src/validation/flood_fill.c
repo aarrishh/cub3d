@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   flood_fill.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabaghda <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: arimanuk <arimanuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 17:14:13 by arina             #+#    #+#             */
-/*   Updated: 2026/01/27 18:04:31 by mabaghda         ###   ########.fr       */
+/*   Updated: 2026/01/27 19:24:49 by arimanuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	flood_fill_start(char **map, int y, int x, t_flag *flag)
 	if (y < 0 || x < 0 || y >= m->height || x >= m->width)
 	{
 		flag->flag = -1;
-		return (print_error("Map is not closed\n", NULL), -1);
+		return (-1);
 	}
 	c = map[y][x];
 	if (c == '1' || c == 'F')
@@ -53,7 +53,7 @@ int	flood_fill_start(char **map, int y, int x, t_flag *flag)
 	if (c == '\0' || c == '2')
 	{
 		flag->flag = -1;
-		return (print_error("Map is not closed\n", NULL), -1);
+		return (-1);
 	}
 	map[y][x] = 'F';
 	flood_fill_start(map, y + 1, x, flag);
@@ -95,7 +95,7 @@ char	**copy_map_for_flood_fill(char **map)
 	return (copy);
 }
 
-int	flood_fill(t_map *map)
+int	flood_fill(t_map *map, t_config *config)
 {
 	int		px;
 	int		py;
@@ -108,6 +108,7 @@ int	flood_fill(t_map *map)
 	map_copy = copy_map_for_flood_fill(map->grid);
 	if (flood_fill_start(map_copy, py, px, &flag) == -1)
 	{
+		free_textures(&config);
 		free_matrix(map->grid);
 		free_matrix(map_copy);
 		return (-1);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_functions.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabaghda <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: arimanuk <arimanuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 21:10:28 by arina             #+#    #+#             */
-/*   Updated: 2026/01/10 19:24:04 by mabaghda         ###   ########.fr       */
+/*   Updated: 2026/01/27 21:03:21 by arimanuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,19 +78,27 @@ int	ends_with_xpm(char *file)
 	return (1);
 }
 
-void	loop_for_check_textures(char *file)
+int	loop_for_check_textures(char *file)
 {
 	if (!ends_with_xpm(file))
 	{
 		write(1, "Invalid texture's name!\n", 25);
-		exit(1);
+		return (-1);
 	}
+	return (0);
 }
 
-void	check_textures(t_texture texture)
+int	check_textures(t_texture texture)
 {
-	loop_for_check_textures(texture.ea);
-	loop_for_check_textures(texture.we);
-	loop_for_check_textures(texture.so);
-	loop_for_check_textures(texture.no);
+	if (loop_for_check_textures(texture.ea) == -1)
+		return (-1);
+	if (loop_for_check_textures(texture.ea) == -1)
+		return (-1);
+	if (loop_for_check_textures(texture.we) == -1)
+		return (-1);
+	if (loop_for_check_textures(texture.so) == -1)
+		return (-1);
+	if (loop_for_check_textures(texture.no) == -1)
+		return (-1);
+	return (0);
 }

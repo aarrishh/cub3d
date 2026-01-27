@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabaghda <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: arimanuk <arimanuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 20:15:12 by arina             #+#    #+#             */
-/*   Updated: 2026/01/27 18:18:00 by mabaghda         ###   ########.fr       */
+/*   Updated: 2026/01/27 21:04:49 by arimanuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,17 +164,17 @@ int				ft_strncmp(const char *s1, const char *s2, size_t n);
 int				is_white_space(char c);
 void			free_matrix(char **buffer);
 int				is_map_line(char *str, t_colflag *f);
-void			print_matrix(char **str);
 char			*ft_substr(char const *s, unsigned int start, size_t len);
 void			init_colflag(t_colflag *flag);
 int				is_map_line_second(char *str);
 char			**copy_map(char **str, t_map *map, int i);
-int				flood_fill(t_map *map);
+int				flood_fill(t_map *map, t_config *config);
 int				is_there_nl_in_the_map(char *map);
 int				check_map(char **splitted_map, t_config *data, t_map **map);
 void			check_file(char *file);
+void			free_textures(t_config **t);
 void			copy_number_two_in_map(t_map **map);
-void			check_textures(t_texture texture);
+int				check_textures(t_texture texture);
 int				ft_atoi(const char *str);
 void			start_game(t_game *game);
 int				close_window(t_game *game);
@@ -182,8 +182,6 @@ int				key_handler(int keycode, t_game *game);
 void			put_pixels(t_img *img, int x, int y, int color);
 void			raycasting(t_game *game);
 int				render(t_game *game);
-
-void			set_dir_plane(t_config *config, char p);
 void			init_player(t_config *config);
 void			move_player(t_game *game, double dx, double dy);
 void			rotate_player(t_config *config, double angle);

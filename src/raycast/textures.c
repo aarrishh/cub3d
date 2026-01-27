@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   textures.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabaghda <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: arimanuk <arimanuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 17:36:15 by mabaghda          #+#    #+#             */
-/*   Updated: 2026/01/10 19:39:15 by mabaghda         ###   ########.fr       */
+/*   Updated: 2026/01/27 21:22:38 by arimanuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,11 @@ void	load_texture(void *mlx, t_teximg *tex, char *path)
 {
 	tex->img = mlx_xpm_file_to_image(mlx, path, &tex->width, &tex->height);
 	if (!tex->img)
+	{
 		print_error("Texture load failed", NULL);
+		// stex petqa texturanery free anel, data-n petqa poxancel
+		// mek el map-y free anel
+	}
 	tex->addr = mlx_get_data_addr(tex->img, &tex->bpp, &tex->line_len,
 			&tex->endian);
 }

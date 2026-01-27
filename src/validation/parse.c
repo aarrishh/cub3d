@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabaghda <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: arimanuk <arimanuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/09 18:18:49 by arina             #+#    #+#             */
-/*   Updated: 2026/01/27 18:14:31 by mabaghda         ###   ########.fr       */
+/*   Updated: 2026/01/27 21:05:31 by arimanuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int	color_value(char *s)
 	if (value < 0 || value > 255)
 	{
 		write(2, "RGB value out of range (0-255)\n", 32);
-		exit(1);
+		return (-1);
 	}
 	return (value);
 }
@@ -120,14 +120,40 @@ char	**split_color_line(char *line)
 	return (split);
 }
 
+int	comma_count(char *line)
+{
+	int	i;
+	int	count;
+
+	i = 0;
+	count = 0;
+	while (line[i])
+	{
+		if (line[i] == ',')
+			count++;
+		i++;
+	}
+	if (count != 2)
+	{
+		print_error("Invalid RGB format\n", NULL);
+		return (-1);
+	}
+	return (0);
+}
+
 char	**split_rgb_values(char **split)
 {
 	char	**rgb;
 	int		i;
 
 	rgb = ft_split(split[1], ',', MAX_SPLIT_CNT);
+	if ((comma_count(split[1])) == -1)
+	{
+		free_matrix(rgb);
+		return (NULL);
+	}
 	if (!rgb)
-		print_error("Invalid RGB format\n", split);
+		return (print_error("Invalid RGB format\n", split), NULL);
 	i = 0;
 	while (rgb[i])
 	{
@@ -135,26 +161,36 @@ char	**split_rgb_values(char **split)
 		i++;
 	}
 	if (!rgb[0] || !rgb[1] || !rgb[2])
-		print_error("Invalid RGB format\n", rgb);
+	{
+		free_matrix(rgb);
+		return (print_error("Invalid RGB format\n", rgb), NULL);
+	}
 	return (rgb);
 }
 
-void	assign_color_values(t_config *data, char *id, char **rgb)
+int	assign_color_values(t_config *data, char *id, char **rgb)
 {
 	if (ft_strcmp(id, "F") == 0)
 	{
-		data->colors.floor[0] = color_value(rgb[0]);
-		data->colors.floor[1] = color_value(rgb[1]);
-		data->colors.floor[2] = color_value(rgb[2]);
+		if ((data->colors.floor[0] = color_value(rgb[0])) == -1)
+			return (-1);
+		if ((data->colors.floor[1] = color_value(rgb[1])) == -1)
+			return (-1);
+		if ((data->colors.floor[2] = color_value(rgb[2])) == -1)
+			return (-1);
 	}
 	else if (ft_strcmp(id, "C") == 0)
 	{
-		data->colors.ceiling[0] = color_value(rgb[0]);
-		data->colors.ceiling[1] = color_value(rgb[1]);
-		data->colors.ceiling[2] = color_value(rgb[2]);
+		if ((data->colors.ceiling[0] = color_value(rgb[0])) == -1)
+			return (-1);
+		if ((data->colors.ceiling[1] = color_value(rgb[1])) == -1)
+			return (-1);
+		if ((data->colors.ceiling[2] = color_value(rgb[2])) == -1)
+			return (-1);
 	}
 	else
 		print_error("Unknown color identifier\n", NULL);
+	return (0);
 }
 
 int	parse_color(t_config *data, char *line)
@@ -164,10 +200,24 @@ int	parse_color(t_config *data, char *line)
 
 	split = split_color_line(line);
 	rgb = split_rgb_values(split);
-	assign_color_values(data, split[0], rgb);
-	free_matrix(rgb);
-	free_matrix(split);
-	return (0);
+	if (rgb)
+	{
+		if (assign_color_values(data, split[0], rgb) == -1)
+		{
+			free_matrix(rgb);
+			free_matrix(split);
+			return (-1);
+		}
+		free_matrix(rgb);
+		free_matrix(split);
+		return (0);
+	}
+	else
+	{
+		free_matrix(rgb);
+		free_matrix(split);
+		return (-1);
+	}
 }
 
 void	change_flag_and_found_value(int *found, int *flag_plus_plus)
@@ -264,16 +314,26 @@ int	parse_elements(t_config **data)
 		}
 		else if (ft_strncmp((*data)->splited_hyusisharav[i], "F", 1) == 0
 			|| ft_strncmp((*data)->splited_hyusisharav[i], "C", 1) == 0)
-			parse_color(*data, (*data)->splited_hyusisharav[i]);
-		else
 		{
-			print_error("Invalid line in configurationnn\n", NULL);
-			free_textures(data);
-			return (-1);
+			if (parse_color(*data, (*data)->splited_hyusisharav[i]) == -1)
+			
+			{
+				free_textures(data);
+				return (-1);
+			}
 		}
+			else
+			{
+				print_error("Invalid line in configurationnn\n", NULL);
+				free_textures(data);
+				return (-1);
+			}
 		i++;
 	}
-	check_textures((*data)->textures);
-	// free_textures(data);
+	if (check_textures((*data)->textures) == -1)
+	{
+		free_textures(data);
+		return (-1);
+	}
 	return (0);
 }

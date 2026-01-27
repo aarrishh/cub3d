@@ -6,7 +6,7 @@
 /*   By: arimanuk <arimanuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 21:07:05 by arina             #+#    #+#             */
-/*   Updated: 2026/01/21 21:28:47 by arimanuk         ###   ########.fr       */
+/*   Updated: 2026/01/27 19:34:03 by arimanuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,35 +48,52 @@ int	check_tex_f(t_colflag *flag)
 	return (-1);
 }
 
+static int	handle_sequence_line(char *line, t_colflag *flag)
+{
+	if (ft_strncmp(line, "NO", 2) == 0)
+		flag->no_flag = 1;
+	else if (ft_strncmp(line, "SO", 2) == 0)
+		flag->so_flag = 1;
+	else if (ft_strncmp(line, "WE", 2) == 0)
+		flag->we_flag = 1;
+	else if (ft_strncmp(line, "EA", 2) == 0)
+		flag->ea_flag = 1;
+	else if (ft_strncmp(line, "F", 1) == 0 && check_tex_f(flag) == 0)
+		flag->f_flag = 1;
+	else if (ft_strncmp(line, "C", 1) == 0 && check_tex_f(flag) == 0)
+		flag->c_flag = 1;
+	else if (is_map_line_second(line) == 1 && check_tex_f(flag) == 1)
+	{
+		flag->map_flag = 1;
+		return (1); // map started → stop parsing headers
+	}
+	else
+		return (-1);
+	return (0);
+}
+
+
+void	trim_if_needed(char **line, t_colflag *flag)
+{
+	if (flag->c_flag != 1 && flag->f_flag != 1)
+		*line = ft_strtrim(*line, "\n\t\v\r\f ");
+}
+
 int	check_sequence(char **str)
 {
 	int			i;
+	int			ret;
 	t_colflag	flag;
 
 	i = 0;
 	init_colflag(&flag);
 	while (str[i])
 	{
-		if (flag.c_flag != 1 && flag.f_flag != 1)
-			str[i] = ft_strtrim(str[i], "\n\t\v\r\f ");
-		if (ft_strncmp(str[i], "NO", 2) == 0)
-			flag.no_flag = 1;
-		else if (ft_strncmp(str[i], "SO", 2) == 0)
-			flag.so_flag = 1;
-		else if (ft_strncmp(str[i], "WE", 2) == 0)
-			flag.we_flag = 1;
-		else if (ft_strncmp(str[i], "EA", 2) == 0)
-			flag.ea_flag = 1;
-		else if (ft_strncmp(str[i], "F", 1) == 0 && check_tex_f(&flag) == 0)
-			flag.f_flag = 1;
-		else if (ft_strncmp(str[i], "C", 1) == 0 && check_tex_f(&flag) == 0)
-			flag.c_flag = 1;
-		else if (is_map_line_second(str[i]) == 1 && check_tex_f(&flag) == 1)
-		{
-			flag.map_flag = 1;
+		trim_if_needed(&str[i], &flag);
+		ret = handle_sequence_line(str[i], &flag);
+		if (ret == 1)
 			break ;
-		}
-		else
+		if (ret == -1)
 			print_error("Invalid line in configuration\n", str);
 		i++;
 	}
@@ -84,6 +101,44 @@ int	check_sequence(char **str)
 		return (-1);
 	return (0);
 }
+
+
+// int	check_sequence(char **str)
+// {
+// 	int			i;
+// 	t_colflag	flag;
+
+// 	i = 0;
+// 	init_colflag(&flag);
+// 	while (str[i])
+// 	{
+// 		if (flag.c_flag != 1 && flag.f_flag != 1)
+// 			str[i] = ft_strtrim(str[i], "\n\t\v\r\f ");
+// 		if (ft_strncmp(str[i], "NO", 2) == 0)
+// 			flag.no_flag = 1;
+// 		else if (ft_strncmp(str[i], "SO", 2) == 0)
+// 			flag.so_flag = 1;
+// 		else if (ft_strncmp(str[i], "WE", 2) == 0)
+// 			flag.we_flag = 1;
+// 		else if (ft_strncmp(str[i], "EA", 2) == 0)
+// 			flag.ea_flag = 1;
+// 		else if (ft_strncmp(str[i], "F", 1) == 0 && check_tex_f(&flag) == 0)
+// 			flag.f_flag = 1;
+// 		else if (ft_strncmp(str[i], "C", 1) == 0 && check_tex_f(&flag) == 0)
+// 			flag.c_flag = 1;
+// 		else if (is_map_line_second(str[i]) == 1 && check_tex_f(&flag) == 1)
+// 		{
+// 			flag.map_flag = 1;
+// 			break ;
+// 		}
+// 		else
+// 			print_error("Invalid line in configuration\n", str);
+// 		i++;
+// 	}
+// 	if (check_tex_f(&flag) != 2)
+// 		return (-1);
+// 	return (0);
+// }
 
 int	check_full_wall_line(char *line, char **map)
 {
