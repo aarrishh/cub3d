@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   functions_for_trim.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: arimanuk <arimanuk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mabaghda <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 19:57:56 by arimanuk          #+#    #+#             */
-/*   Updated: 2026/01/19 19:48:45 by arimanuk         ###   ########.fr       */
+/*   Updated: 2026/01/27 17:57:36 by mabaghda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 void	free_matrix(char **buffer)
 {
-	int i;
+	int	i;
 
 	if (!buffer)
-		return;
+		return ;
 	i = 0;
 	while (buffer[i])
 		free(buffer[i++]);
@@ -68,10 +68,10 @@ static int	cal_end(const char *s1, const char *set, int end, int i)
 
 char	*ft_strtrim(char const *s1, char const *set)
 {
-	int i;
-	char *a;
-	int end;
-	int malloc_i;
+	int		i;
+	char	*a;
+	int		end;
+	int		malloc_i;
 
 	if (!s1 || !set)
 		return (NULL);

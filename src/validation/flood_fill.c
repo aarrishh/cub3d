@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   flood_fill.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: arimanuk <arimanuk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mabaghda <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 17:14:13 by arina             #+#    #+#             */
-/*   Updated: 2026/01/27 15:56:56 by arimanuk         ###   ########.fr       */
+/*   Updated: 2026/01/27 18:04:31 by mabaghda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ void	get_player_pos(t_map *map, int *px, int *py)
 	}
 }
 
-
 int	flood_fill_start(char **map, int y, int x, t_flag *flag)
 {
 	t_map	*m;
@@ -46,7 +45,7 @@ int	flood_fill_start(char **map, int y, int x, t_flag *flag)
 	if (y < 0 || x < 0 || y >= m->height || x >= m->width)
 	{
 		flag->flag = -1;
-		return(print_error("Map is not closed\n", NULL), -1);
+		return (print_error("Map is not closed\n", NULL), -1);
 	}
 	c = map[y][x];
 	if (c == '1' || c == 'F')
@@ -54,7 +53,7 @@ int	flood_fill_start(char **map, int y, int x, t_flag *flag)
 	if (c == '\0' || c == '2')
 	{
 		flag->flag = -1;
-		return(print_error("Map is not closed\n", NULL), -1);
+		return (print_error("Map is not closed\n", NULL), -1);
 	}
 	map[y][x] = 'F';
 	flood_fill_start(map, y + 1, x, flag);
@@ -96,8 +95,7 @@ char	**copy_map_for_flood_fill(char **map)
 	return (copy);
 }
 
-
-int flood_fill(t_map *map)
+int	flood_fill(t_map *map)
 {
 	int		px;
 	int		py;
@@ -114,9 +112,6 @@ int flood_fill(t_map *map)
 		free_matrix(map_copy);
 		return (-1);
 	}
-	for (int i = 0; map_copy[i]; i++)
-		printf("%s\n", map_copy[i]);
 	free_matrix(map_copy);
-	// free_matrix(map->grid);
 	return (0);
 }

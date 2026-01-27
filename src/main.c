@@ -6,7 +6,7 @@
 /*   By: mabaghda <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 22:01:55 by arina             #+#    #+#             */
-/*   Updated: 2026/01/27 17:51:44 by mabaghda         ###   ########.fr       */
+/*   Updated: 2026/01/27 18:05:34 by mabaghda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,12 +64,11 @@ int	start_validation(char *file, t_config *data, t_map *map)
 	char	*res;
 	char	**split;
 
-		
 	(void)map;
 	(void)data;
 	fd = open(file, O_RDONLY);
 	if (fd == -1)
-	print_error("Cannot open file\n", NULL);
+		print_error("Cannot open file\n", NULL);
 	line = get_next_line(fd);
 	res = ft_strdup("");
 	while (line != NULL)
@@ -81,7 +80,7 @@ int	start_validation(char *file, t_config *data, t_map *map)
 	free(line);
 	close(fd);
 	res = ft_strtrim(res, "\n\v\t\r\f ");
-	find_index_after_colors(res, &data);//(*data)->map_before_split     (*data)->hyusisharav
+	find_index_after_colors(res, &data);
 	data->splited_hyusisharav = ft_split(data->hyusisharav, '\n',
 			MAX_SPLIT_CNT);
 	free(data->hyusisharav);
@@ -108,7 +107,7 @@ int	start_validation(char *file, t_config *data, t_map *map)
 		free_matrix(data->splited_hyusisharav);
 		free(data->map_before_split);
 		return (-1);
-	} 
+	}
 	free_matrix(data->splited_map);
 	free_matrix(data->splited_hyusisharav);
 	free(data->map_before_split);
