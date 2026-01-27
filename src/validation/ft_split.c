@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: arina <arina@student.42.fr>                +#+  +:+       +#+        */
+/*   By: arimanuk <arimanuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 20:33:09 by arina             #+#    #+#             */
-/*   Updated: 2025/10/01 20:49:11 by arina            ###   ########.fr       */
+/*   Updated: 2026/01/19 19:45:10 by arimanuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "../../includes/cub3d.h"
 
 char	*my_strncpy(char *dest, const char *src, unsigned int n)
 {
@@ -62,14 +62,16 @@ int	check(char **arr, const char *s, char c, int count)
 	{
 		while (*s == c)
 			s++;
-		len_word = foo_sum_tar(s, c);
+		if (i == count - 1)
+			len_word = foo_sum_tar(s, '\0');
+		else
+			len_word = foo_sum_tar(s, c);
 		arr[i] = malloc(sizeof(char) * (len_word + 1));
 		if (!arr[i])
 		{
 			while (i >= 0)
 				free(arr[i--]);
-			free(arr);
-			return (1);
+			return (free(arr), 1);
 		}
 		my_strncpy(arr[i], s, len_word);
 		arr[i][len_word] = '\0';
@@ -105,14 +107,17 @@ int	func_count_word(const char *s, char c)
 	return (count);
 }
 
-char	**ft_split(char const *s, char c)
+char	**ft_split(char const *s, char c, int split_count)
 {
 	int		count_word;
 	char	**arr;
 
 	if (s == NULL)
 		return (NULL);
-	count_word = func_count_word(s, c);
+	if (split_count <= 0)
+		count_word = func_count_word(s, c);
+	else
+		count_word = split_count;
 	arr = malloc(sizeof(char *) * (count_word + 1));
 	if (!arr)
 		return (NULL);
