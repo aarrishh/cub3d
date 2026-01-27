@@ -6,7 +6,7 @@
 /*   By: mabaghda <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/09 18:18:49 by arina             #+#    #+#             */
-/*   Updated: 2026/01/27 18:00:07 by mabaghda         ###   ########.fr       */
+/*   Updated: 2026/01/27 18:14:31 by mabaghda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -233,21 +233,6 @@ void	free_textures(t_config **t)
 	(*t)->textures.so = NULL;
 	(*t)->textures.we = NULL;
 	(*t)->textures.ea = NULL;
-}
-void	free_textures_cw_case(t_config *t)
-{
-	if ((t->textures.no))
-		free(t->textures.no);
-	if ((t->textures.so))
-		free(t->textures.so);
-	if ((t->textures.we))
-		free(t->textures.we);
-	if ((t->textures.ea))
-		free(t->textures.ea);
-	t->textures.no = NULL;
-	t->textures.so = NULL;
-	t->textures.we = NULL;
-	t->textures.ea = NULL;
 }
 
 int	parse_elements(t_config **data)

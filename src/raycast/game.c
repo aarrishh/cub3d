@@ -6,37 +6,11 @@
 /*   By: mabaghda <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/22 20:54:28 by mabaghda          #+#    #+#             */
-/*   Updated: 2026/01/27 17:52:35 by mabaghda         ###   ########.fr       */
+/*   Updated: 2026/01/27 18:14:53 by mabaghda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
-
-int	close_window(t_game *game)
-{
-	int	i;
-
-	if (game->config.map.grid)
-	{
-		i = 0;
-		while (game->config.map.grid[i])
-		{
-			free(game->config.map.grid[i]);
-			i++;
-		}
-		free(game->config.map.grid);
-		game->config.map.grid = NULL;
-		free_textures_cw_case(&game->config);
-	}
-	if (game->window)
-		mlx_destroy_window(game->mlx, game->window);
-	if (game->mlx)
-	{
-		mlx_destroy_display(game->mlx);
-		free(game->mlx);
-	}
-	exit(0);
-}
 
 void	dir_plane_vertical(t_config *confing, char p)
 {
