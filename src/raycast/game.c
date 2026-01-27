@@ -6,39 +6,11 @@
 /*   By: mabaghda <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/22 20:54:28 by mabaghda          #+#    #+#             */
-/*   Updated: 2026/01/10 19:55:48 by mabaghda         ###   ########.fr       */
+/*   Updated: 2026/01/27 17:27:35 by mabaghda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
-
-int	key_handler(int keycode, t_game *game)
-{
-	double	move_speed;
-	double	rot_speed;
-
-	move_speed = 0.1;
-	rot_speed = 0.05;
-	if (keycode == KEY_ESC)
-		close_window(game);
-	else if (keycode == KEY_W)
-		move_player(game, game->config.player.dir_x * move_speed,
-			game->config.player.dir_y * move_speed);
-	else if (keycode == KEY_S)
-		move_player(game, -game->config.player.dir_x * move_speed,
-			-game->config.player.dir_y * move_speed);
-	else if (keycode == KEY_A)
-		move_player(game, -game->config.player.plane_x * move_speed,
-			-game->config.player.plane_y * move_speed);
-	else if (keycode == KEY_D)
-		move_player(game, game->config.player.plane_x * move_speed,
-			game->config.player.plane_y * move_speed);
-	else if (keycode == KEY_LEFT)
-		rotate_player(&game->config, -rot_speed);
-	else if (keycode == KEY_RIGHT)
-		rotate_player(&game->config, rot_speed);
-	return (0);
-}
 
 int	close_window(t_game *game)
 {
@@ -65,23 +37,27 @@ int	close_window(t_game *game)
 	exit(0);
 }
 
-void	set_dir_plane(t_config *config, char p)
+void	dir_plane_vertical(t_config *confing, char p)
 {
 	if (p == 'N')
 	{
-		config->player.dir_x = 0;
-		config->player.dir_y = -1;
-		config->player.plane_x = 0.66;
-		config->player.plane_y = 0;
+		confing->player.dir_x = 0;
+		confing->player.dir_y = -1;
+		confing->player.plane_x = 0.66;
+		confing->player.plane_y = 0;
 	}
 	else if (p == 'S')
 	{
-		config->player.dir_x = 0;
-		config->player.dir_y = 1;
-		config->player.plane_x = -0.66;
-		config->player.plane_y = 0;
+		confing->player.dir_x = 0;
+		confing->player.dir_y = 1;
+		confing->player.plane_x = -0.66;
+		confing->player.plane_y = 0;
 	}
-	else if (p == 'E')
+}
+
+void	dir_plane_horizontal(t_config *config, char p)
+{
+	if (p == 'E')
 	{
 		config->player.dir_x = 1;
 		config->player.dir_y = 0;
