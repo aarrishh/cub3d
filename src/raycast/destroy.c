@@ -6,7 +6,7 @@
 /*   By: arimanuk <arimanuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 18:14:41 by mabaghda          #+#    #+#             */
-/*   Updated: 2026/01/28 15:08:29 by arimanuk         ###   ########.fr       */
+/*   Updated: 2026/01/28 15:27:06 by arimanuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	destroy_textures(t_game *game)
 {
 	if (!game->mlx)
-		return;
+		return ;
 	if (game->north.img)
 		mlx_destroy_image(game->mlx, game->north.img);
 	if (game->south.img)

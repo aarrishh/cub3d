@@ -6,7 +6,7 @@
 /*   By: arimanuk <arimanuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 20:15:12 by arina             #+#    #+#             */
-/*   Updated: 2026/01/28 15:07:12 by arimanuk         ###   ########.fr       */
+/*   Updated: 2026/01/28 15:25:12 by arimanuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,8 @@ typedef struct s_map
 
 typedef struct s_flag
 {
-	int	flag;
-	t_map *map;
+	int			flag;
+	t_map		*map;
 }				t_flag;
 
 typedef struct s_color
@@ -154,64 +154,64 @@ typedef struct s_colflag
 
 int				color_value(char *s);
 int				render(t_game *game);
+void			init_all(t_game *game);
+char			*read_file(char *file);
 void			check_file(char *file);
 int				is_white_space(char c);
 int				comma_count(char *line);
+int				last_non_space(char *s);
 int				ft_atoi(const char *str);
 int				first_non_space(char *s);
 void			raycasting(t_game *game);
 void			start_game(t_game *game);
+int				ends_with_xpm(char *file);
 void			free_array(char **buffer);
 char			*ft_strdup(const char *s);
 void			free_matrix(char **buffer);
-int				close_window(t_game *game, int flag);
+int				check_sequence(char **str);
 void			free_textures(t_config **t);
 void			check_digits(const char *s);
+void			calc_wall_height(t_ray *ray);
 void			init_colflag(t_colflag *flag);
 int				is_map_line_second(char *str);
+void			ft_putstr_fd(char *s, int fd);
 int				ft_strcmp(char *s1, char *s2);
+void			init_player(t_config *config);
+int				rgb_to_int(int r, int g, int b);
 int				parse_elements(t_config **data);
 char			*ft_strjoin_(char *s1, char *s2);
 int				is_there_nl_in_the_map(char *map);
-void			init_player(t_config *config);
 int				check_textures(t_texture texture);
-int				is_map_line(char *str, t_colflag *f);
 void			copy_number_two_in_map(t_map **map);
+int				loop_for_check_textures(char *file);
+int				is_map_line(char *str, t_colflag *f);
+int				close_window(t_game *game, int flag);
+void			perform_dda(t_game *game, t_ray *ray);
 int				key_handler(int keycode, t_game *game);
+t_teximg		*pick_texture(t_game *game, t_ray *ray);
+int				parse_color(t_config *data, char *line);
 int				flood_fill(t_map *map, t_config *config);
 char			**copy_map(char **str, t_map *map, int i);
+int				parse_texture(t_config *data, char *line);
+void			init_ray(t_game *game, int x, t_ray *ray);
+void			dir_plane_vertical(t_config *config, char p);
 char			*ft_strtrim(char const *s1, char const *set);
+void			calc_step_and_side(t_game *game, t_ray *ray);
 void			rotate_player(t_config *config, double angle);
+void			dir_plane_horizontal(t_config *config, char p);
 void			put_pixels(t_img *img, int x, int y, int color);
 void			move_player(t_game *game, double dx, double dy);
 char			**ft_split(char const *s, char c, int split_count);
 char			*ft_strtrim_helper(char const *s1, char const *set);
+void			find_index_after_colors(char *res, t_config **data);
 int				ft_strncmp(const char *s1, const char *s2, size_t n);
+void			calc_texture_x(t_game *game, t_ray *ray, t_teximg *tex);
 char			*ft_substr(char const *s, unsigned int start, size_t len);
 int				check_map(char **splitted_map, t_config *data, t_map **map);
-void			find_index_after_colors(char *res, t_config **data);
-void			init_all(t_game *game);
-void			dir_plane_vertical(t_config *config, char p);
-void			dir_plane_horizontal(t_config *config, char p);
-void			ft_putstr_fd(char *s, int fd);
-char			*read_file(char *file);
-void			init_ray(t_game *game, int x, t_ray *ray);
-void			calc_step_and_side(t_game *game, t_ray *ray);
-void			perform_dda(t_game *game, t_ray *ray);
-void			calc_wall_height(t_ray *ray);
-int				rgb_to_int(int r, int g, int b);
-void			load_texture(t_game *game, void *mlx, t_teximg *tex, char *path);
-t_teximg		*pick_texture(t_game *game, t_ray *ray);
-void			calc_texture_x(t_game *game, t_ray *ray, t_teximg *tex);
-int				last_non_space(char *s);
-int				check_sequence(char **str);
-int				parse_texture(t_config *data, char *line);
-int				parse_color(t_config *data, char *line);
-int				loop_for_check_textures(char *file);
-int				ends_with_xpm(char *file);
+void			load_texture(t_game *game, void *mlx, t_teximg *tex,
+					char *path);
 void			draw_ceiling_floor(t_game *game, int x, int draw_start,
 					int draw_end);
 void			draw_textured_wall(t_game *game, t_ray *ray, t_teximg *tex,
 					int x);
-
 #endif
