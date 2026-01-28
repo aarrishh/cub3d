@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_color.c                                      :+:      :+:    :+:   */
+/*   color_parse.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: arimanuk <arimanuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 12:50:41 by arimanuk          #+#    #+#             */
-/*   Updated: 2026/01/28 12:54:57 by arimanuk         ###   ########.fr       */
+/*   Updated: 2026/01/28 17:09:55 by arimanuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,16 +61,18 @@ char	**split_rgb_values(char **split)
 
 	rgb = ft_split(split[1], ',', MAX_SPLIT_CNT);
 	if ((comma_count(split[1])) == -1)
-	{
-		free_matrix(rgb);
-		return (NULL);
-	}
+		return (free_matrix(rgb), NULL);
 	if (!rgb)
 		return (ft_putstr_fd("Invalid RGB format\n", 2), NULL);
 	i = 0;
 	while (rgb[i])
 	{
 		rgb[i] = ft_strtrim(rgb[i], "\n\t\v\r\f ");
+		if (check_valid_chars(rgb[i]) == -1)
+		{
+			free_matrix(rgb);
+			return (ft_putstr_fd("Invalid RGB format\n", 2), NULL);
+		}
 		i++;
 	}
 	if (!rgb[0] || !rgb[1] || !rgb[2])

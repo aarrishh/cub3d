@@ -6,7 +6,7 @@
 #    By: arimanuk <arimanuk@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/09/30 20:26:46 by arina             #+#    #+#              #
-#    Updated: 2026/01/28 14:35:38 by arimanuk         ###   ########.fr        #
+#    Updated: 2026/01/28 17:04:43 by arimanuk         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,7 +33,7 @@ SRCS = src/main.c get_next_line/get_next_line.c \
 	src/validation/map_num2.c src/validation/map_wall_check.c \
 	src/validation/mini_functions.c src/validation/texture_1parse.c \
 	src/validation/texture_2parse.c src/validation/texture_3parse.c \
-	src/validation/trim_functions.c
+	src/validation/trim_functions.c src/validation/utils.c
 
 YELLOW = \033[0;33m
 DEEP_PINK   := \033[1;38;2;255;20;147m

@@ -6,7 +6,7 @@
 /*   By: arimanuk <arimanuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 20:15:12 by arina             #+#    #+#             */
-/*   Updated: 2026/01/28 15:25:12 by arimanuk         ###   ########.fr       */
+/*   Updated: 2026/01/28 17:04:28 by arimanuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,6 +171,7 @@ void			free_matrix(char **buffer);
 int				check_sequence(char **str);
 void			free_textures(t_config **t);
 void			check_digits(const char *s);
+int				check_valid_chars(char *str);
 void			calc_wall_height(t_ray *ray);
 void			init_colflag(t_colflag *flag);
 int				is_map_line_second(char *str);

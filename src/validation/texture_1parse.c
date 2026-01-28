@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_texture.c                                    :+:      :+:    :+:   */
+/*   texture_1parse.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: arimanuk <arimanuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 12:46:12 by arimanuk          #+#    #+#             */
-/*   Updated: 2026/01/28 12:49:48 by arimanuk         ###   ########.fr       */
+/*   Updated: 2026/01/28 17:06:59 by arimanuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static int	parse_texture_or_color_line(t_config *data, char *line)
 		|| !ft_strncmp(line, "WE", 2) || !ft_strncmp(line, "EA", 2))
 	{
 		if (parse_texture(data, line) == -1)
-			return (-1);
+			return (free_textures(&data), -1);
 	}
 	else if (!ft_strncmp(line, "F", 1) || !ft_strncmp(line, "C", 1))
 	{
@@ -97,6 +97,6 @@ int	parse_texture(t_config *data, char *line)
 	else if (ft_strcmp(split[0], "EA") == 0)
 		assign_texture(&data->textures.ea, split[1]);
 	else
-		ft_putstr_fd("Unknown texture identifier\n", 2);
+		return (free_matrix(split), -1);
 	return (free_matrix(split), 0);
 }
