@@ -6,21 +6,21 @@
 /*   By: arimanuk <arimanuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 17:36:15 by mabaghda          #+#    #+#             */
-/*   Updated: 2026/01/27 21:22:38 by arimanuk         ###   ########.fr       */
+/*   Updated: 2026/01/28 15:07:22 by arimanuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
 
-void	load_texture(void *mlx, t_teximg *tex, char *path)
+void	load_texture(t_game *game, void *mlx, t_teximg *tex, char *path)
 {
 	tex->img = mlx_xpm_file_to_image(mlx, path, &tex->width, &tex->height);
 	if (!tex->img)
 	{
-		print_error("Texture load failed", NULL);
-		// stex petqa texturanery free anel, data-n petqa poxancel
-		// mek el map-y free anel
+		ft_putstr_fd("Texture load failed", 2);
+		close_window(game, -1);
 	}
+	if (tex->img != NULL)
 	tex->addr = mlx_get_data_addr(tex->img, &tex->bpp, &tex->line_len,
 			&tex->endian);
 }

@@ -3,32 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   mini_functions.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: arina <arina@student.42.fr>                +#+  +:+       +#+        */
+/*   By: arimanuk <arimanuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 21:10:28 by arina             #+#    #+#             */
-/*   Updated: 2026/01/27 23:29:38 by arina            ###   ########.fr       */
+/*   Updated: 2026/01/28 13:25:55 by arimanuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
-
-int	is_white_space(char c)
-{
-	if ((c >= 9 && c <= 13) || (c == 32))
-		return (1);
-	return (0);
-}
-
-void	init_colflag(t_colflag *flag)
-{
-	flag->ea_flag = 0;
-	flag->we_flag = 0;
-	flag->so_flag = 0;
-	flag->no_flag = 0;
-	flag->f_flag = 0;
-	flag->c_flag = 0;
-	flag->map_flag = 0;
-}
 
 int	matrix_len(char **m)
 {
@@ -78,25 +60,22 @@ int	ends_with_xpm(char *file)
 	return (1);
 }
 
-int	loop_for_check_textures(char *file)
+int	first_non_space(char *s)
 {
-	if (!ends_with_xpm(file))
-	{
-		write(1, "Invalid texture's name!\n", 25);
-		return (-1);
-	}
-	return (0);
+	int	i;
+
+	i = 0;
+	while (s[i] && is_white_space(s[i]))
+		i++;
+	return (i);
 }
 
-int	check_textures(t_texture texture)
+int	last_non_space(char *s)
 {
-	if (loop_for_check_textures(texture.no) == -1)
-		return (-1);
-	if (loop_for_check_textures(texture.so) == -1)
-		return (-1);
-	if (loop_for_check_textures(texture.we) == -1)
-		return (-1);
-	if (loop_for_check_textures(texture.ea) == -1)
-		return (-1);
-	return (0);
+	int	i;
+
+	i = ft_strlen(s) - 1;
+	while (i >= 0 && is_white_space(s[i]))
+		i--;
+	return (i);
 }

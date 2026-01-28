@@ -6,21 +6,11 @@
 /*   By: arimanuk <arimanuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 17:52:21 by arina             #+#    #+#             */
-/*   Updated: 2026/01/27 21:54:22 by arimanuk         ###   ########.fr       */
+/*   Updated: 2026/01/28 13:03:56 by arimanuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
-
-void	free_array(char **buffer)
-{
-	int	i;
-
-	i = 0;
-	while (buffer[i])
-		free (buffer[i++]);
-	free (buffer);
-}
 
 void	copy_map_part_2(char *str, char *buffer, int width)
 {

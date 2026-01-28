@@ -1,29 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   functions_for_trim.c                               :+:      :+:    :+:   */
+/*   trim_functions.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabaghda <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: arimanuk <arimanuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 19:57:56 by arimanuk          #+#    #+#             */
-/*   Updated: 2026/01/27 17:57:36 by mabaghda         ###   ########.fr       */
+/*   Updated: 2026/01/28 13:26:59 by arimanuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
-
-void	free_matrix(char **buffer)
-{
-	int	i;
-
-	if (!buffer)
-		return ;
-	i = 0;
-	while (buffer[i])
-		free(buffer[i++]);
-	free(buffer);
-	buffer = NULL;
-}
 
 static int	check(char const *s1, char const *set, int i)
 {
@@ -92,10 +79,10 @@ char	*ft_strtrim(char const *s1, char const *set)
 
 char	*ft_strtrim_helper(char const *s1, char const *set)
 {
-	int i;
-	char *a;
-	int end;
-	int malloc_i;
+	int		i;
+	char	*a;
+	int		end;
+	int		malloc_i;
 
 	if (!s1 || !set)
 		return (NULL);

@@ -6,7 +6,7 @@
 #    By: arimanuk <arimanuk@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/09/30 20:26:46 by arina             #+#    #+#              #
-#    Updated: 2026/01/27 19:13:04 by arimanuk         ###   ########.fr        #
+#    Updated: 2026/01/28 14:35:38 by arimanuk         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,16 +23,17 @@ OBJ_DIR = objects
 OBJS = $(SRCS:%.c=$(OBJ_DIR)/%.o)
 
 SRCS = src/main.c get_next_line/get_next_line.c \
-	get_next_line/get_next_line_utils.c \
-	src/validation/ft_split.c src/validation/functions.c \
-	src/validation/functions_for_trim.c \
-	src/validation/parse.c src/raycast/game.c \
-	src/raycast/raycast.c src/validation/map_operations.c \
-	src/validation/flood_fill.c src/validation/check_functions.c \
-	src/validation/mini_functions.c src/raycast/textures.c \
-	src/raycast/draw.c src/raycast/player.c src/raycast/init.c \
-	src/raycast/destroy.c
-
+	get_next_line/get_next_line_utils.c src/raycast/game.c \
+	src/raycast/raycast.c src/raycast/textures.c src/raycast/draw.c \
+	src/raycast/player.c src/raycast/init.c src/raycast/destroy.c \
+	src/validation/color_2parse.c src/validation/color_parse.c \
+	src/validation/file_check.c src/validation/flood_fill.c \
+	src/validation/free_print.c src/validation/ft_split.c \
+	src/validation/lib_functions.c src/validation/map_copy.c.c \
+	src/validation/map_num2.c src/validation/map_wall_check.c \
+	src/validation/mini_functions.c src/validation/texture_1parse.c \
+	src/validation/texture_2parse.c src/validation/texture_3parse.c \
+	src/validation/trim_functions.c
 
 YELLOW = \033[0;33m
 DEEP_PINK   := \033[1;38;2;255;20;147m

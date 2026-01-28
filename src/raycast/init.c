@@ -3,17 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabaghda <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: arimanuk <arimanuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 16:49:36 by mabaghda          #+#    #+#             */
-/*   Updated: 2026/01/27 16:58:31 by mabaghda         ###   ########.fr       */
+/*   Updated: 2026/01/28 15:03:51 by arimanuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
 
-void	init_game_rest(t_game *game)
+void	init_colflag(t_colflag *flag)
+{
+	flag->ea_flag = 0;
+	flag->we_flag = 0;
+	flag->so_flag = 0;
+	flag->no_flag = 0;
+	flag->f_flag = 0;
+	flag->c_flag = 0;
+	flag->map_flag = 0;
+}
 
+void	init_game_rest(t_game *game)
 {
 	game->config.colors.floor_int = 0;
 	game->config.colors.ceiling_int = 0;
@@ -30,6 +40,11 @@ void	init_game_rest(t_game *game)
 	game->config.map_before_split = NULL;
 	game->config.splited_hyusisharav = NULL;
 	game->config.splited_map = NULL;
+	game->north.img = NULL;
+	game->south.img = NULL;
+	game->west.img = NULL;
+	game->east.img = NULL;
+	game->img.img = NULL;
 }
 
 void	init_all(t_game *game)

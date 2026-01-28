@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   player.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabaghda <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: arimanuk <arimanuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/10 19:54:03 by mabaghda          #+#    #+#             */
-/*   Updated: 2026/01/27 17:35:22 by mabaghda         ###   ########.fr       */
+/*   Updated: 2026/01/28 15:07:38 by arimanuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int	key_handler(int keycode, t_game *game)
 	move_speed = 0.1;
 	rot_speed = 0.05;
 	if (keycode == KEY_ESC)
-		close_window(game);
+		close_window(game, 0);
 	else if (keycode == KEY_W)
 		move_player(game, game->config.player.dir_x * move_speed,
 			game->config.player.dir_y * move_speed);

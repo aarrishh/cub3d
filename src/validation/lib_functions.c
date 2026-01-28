@@ -6,7 +6,7 @@
 /*   By: arimanuk <arimanuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 20:41:46 by arina             #+#    #+#             */
-/*   Updated: 2026/01/27 19:23:54 by arimanuk         ###   ########.fr       */
+/*   Updated: 2026/01/28 13:13:57 by arimanuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,12 +71,6 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
 }
 
-void	print_error(char *error, char **str)
-{
-	(void)str;
-	write(1, error, ft_strlen(error));
-}
-
 int	ft_strcmp(char *s1, char *s2)
 {
 	int	i;
@@ -90,28 +84,6 @@ int	ft_strcmp(char *s1, char *s2)
 			return (s1[i] - s2[i]);
 	}
 	return (s1[i] - s2[i]);
-}
-
-void	check_digits(const char *s)
-{
-	int	i;
-
-	i = 0;
-	while ((s[i] >= 9 && s[i] <= 13) || s[i] == 32)
-		i++;
-	if (s[i] == '-' || s[i] == '+')
-		i++;
-	if (s[i] < '0' || s[i] > '9')
-	{
-		printf("RGB must contain only digits\n");
-		exit(1);
-	}
-	while (s[i])
-	{
-		if (s[i] < '0' || s[i] > '9')
-			exit(1);
-		i++;
-	}
 }
 
 int	ft_atoi(const char *s)

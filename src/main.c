@@ -6,80 +6,11 @@
 /*   By: arimanuk <arimanuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 22:01:55 by arina             #+#    #+#             */
-/*   Updated: 2026/01/27 21:50:53 by arimanuk         ###   ########.fr       */
+/*   Updated: 2026/01/28 15:09:12 by arimanuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
-
-void	copy_number_two_in_map(t_map **map)
-{
-	int		i;
-	int		j;
-	char	**mapik;
-
-	j = 0;
-	i = 0;
-	mapik = (*map)->grid;
-	while (mapik[i])
-	{
-		j = 0;
-		while (mapik[i][j])
-		{
-			if (is_white_space(mapik[i][j]) && mapik[i][j] != '1'
-				&& mapik[i][j] != '0' && mapik[i][j] != 'N'
-				&& mapik[i][j] != 'W' && mapik[i][j] != 'E'
-				&& mapik[i][j] != 'S')
-				mapik[i][j] = '2';
-			j++;
-		}
-		i++;
-	}
-}
-
-void	find_index_after_colors(char *res, t_config **data)
-{
-	int	i;
-	int	finish;
-
-	i = 0;
-	finish = 0;
-	while (res[i])
-		i++;
-	while (i >= 0 && res[i] != 'F' && res[i] != 'C')
-		i--;
-	while (i >= 0 && res[i] && res[i] != '\n')
-		i++;
-	finish = i;
-	while (i >= 0 && res[finish])
-		finish++;
-	(*data)->hyusisharav = ft_substr(res, 0, i);
-	(*data)->map_before_split = ft_substr(res, i + 1, finish);
-}
-
-static char	*read_file(char *file)
-{
-	int		fd;
-	char	*line;
-	char	*res;
-
-	fd = open(file, O_RDONLY);
-	if (fd == -1)
-		print_error("Cannot open file\n", NULL);
-	line = get_next_line(fd);
-	if (!line)
-		return (print_error("Empty file\n", NULL), NULL);
-	res = ft_strdup("");
-	while (line != NULL)
-	{
-		res = ft_strjoin_(res, line);
-		free(line);
-		line = get_next_line(fd);
-	}
-	free(line);
-	close(fd);
-	return (res);
-}
 
 static char	**prepare_splits(char *res, t_config *data)
 {
@@ -159,23 +90,20 @@ int	main(int argc, char **argv)
 	return_value = 1;
 	if (argc == 2)
 	{
-		(void)argv;
 		init_all(&game);
 		check_file(argv[1]);
 		return_value = start_validation(argv[1], &game.config,
 				&game.config.map);
 		if (return_value < 0)
-			return (printf("Validation error!\n"), -1);
+			return (ft_putstr_fd("Validation error!\n", 2), -1);
 		else
 		{
 			if ((flood_fill(&game.config.map, &game.config)) == -1)
-				return (print_error("Map is not closed\n", NULL), -1);
-			else
-				printf("Congratulations!\n");
+				return (ft_putstr_fd("Map is not closed\n", 2), -1);
 		}
 	}
 	else
-		return (write(2, "Error\n", 6), 1);
+		return (ft_putstr_fd("Error\n", 2), 1);
 	start_game(&game);
 	return (0);
 }

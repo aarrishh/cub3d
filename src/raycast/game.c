@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   game.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabaghda <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: arimanuk <arimanuk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/22 20:54:28 by mabaghda          #+#    #+#             */
-/*   Updated: 2026/01/27 18:14:53 by mabaghda         ###   ########.fr       */
+/*   Updated: 2026/01/28 14:22:17 by arimanuk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,10 +63,10 @@ void	start_game(t_game *game)
 	game->config.colors.ceiling_int = rgb_to_int(game->config.colors.ceiling[0],
 			game->config.colors.ceiling[1], game->config.colors.ceiling[2]);
 	game->mlx = mlx_init();
-	load_texture(game->mlx, &game->north, game->config.textures.no);
-	load_texture(game->mlx, &game->south, game->config.textures.so);
-	load_texture(game->mlx, &game->west, game->config.textures.we);
-	load_texture(game->mlx, &game->east, game->config.textures.ea);
+	load_texture(game, game->mlx, &game->north, game->config.textures.no);
+	load_texture(game, game->mlx, &game->south, game->config.textures.so);
+	load_texture(game, game->mlx, &game->west, game->config.textures.we);
+	load_texture(game, game->mlx, &game->east, game->config.textures.ea);
 	game->window = mlx_new_window(game->mlx, WIDTH, HEIGHT, "Cub3D");
 	game->img.img = mlx_new_image(game->mlx, WIDTH, HEIGHT);
 	game->img.address = mlx_get_data_addr(game->img.img,
